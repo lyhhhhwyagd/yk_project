@@ -1,0 +1,34 @@
+POST http://localhost:8080/user/update
+Content-Type: application/json
+
+{
+  "userId":2,
+"userName":"zpq222",
+  "userType": "学生"
+}
+
+###
+DELETE http://localhost:8080/user/delete
+Content-Type: application/json
+
+{
+"userId":2
+}
+###
+GET http://localhost:8080/user/1
+###
+GET http://localhost:8080/user/downloadUser
+Content-Type:application/vnd.ms-excel
+
+###
+
+POST http://localhost:8080/file/upload?courseId=1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="user.sql"
+Content-Type: text/plain
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###

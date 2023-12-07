@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件上传测试</title>
+</head>
+<body>
+<form id="uploadForm" action="/file/upload" method="post" enctype="multipart/form-data">
+    <label for="courseId">课程 ID:</label>
+    <input type="text" id="courseId" name="courseId" required>
+    <br>
+    <label for="file">选择文件:</label>
+    <input type="file" id="file" name="file" accept=".txt, .sql" required>
+    <br>
+    <button type="submit">上传文件</button>
+</form>
+</body>
+</html>
+<script>
+    document.getElementById("uploadForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const courseId = document.getElementById("courseId").value;
+        const fileInput = document.getElementById("file");
+        const file = fileInput.files[0];
+
+        const formData = new FormData();
+        formData.append("courseId", courseId);
+        formData.append("file", file);
+
+        fetch("/file/upload", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.text())
+            .then(result => {
+                console.log(result);
+                // 可以根据实际情况处理上传结果
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
+
+</script>
