@@ -22,10 +22,12 @@ import "./assets/css/nucleo-svg.css";
 import SoftUIDashboard from "./soft-ui-dashboard";
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import VueLuckyCanvas from '@lucky-canvas/vue'
 
 const appInstance = createApp(App);
 appInstance.use(store);
 appInstance.use(router);
 appInstance.use(SoftUIDashboard);
 appInstance.use(ElementPlus);
+appInstance.use(VueLuckyCanvas);
 appInstance.mount("#app");
