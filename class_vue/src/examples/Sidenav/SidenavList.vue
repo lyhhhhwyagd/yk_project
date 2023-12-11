@@ -5,6 +5,20 @@
   >
     <ul class="navbar-nav">
       <li class="nav-item">
+        <sidenav-collapse navText="论坛主页" :to="{ name: 'Posts' }">
+          <template #icon>
+            <shop />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="悬赏管理" :to="{ name: 'Rewards' }">
+          <template #icon>
+            <shop />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
         <sidenav-collapse navText="Dashboard" :to="{ name: 'Dashboard' }">
           <template #icon>
             <shop />

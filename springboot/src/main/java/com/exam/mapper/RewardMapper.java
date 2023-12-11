@@ -1,0 +1,32 @@
+package com.exam.mapper;
+
+import com.exam.Entity.Reward;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+
+@Mapper
+public interface RewardMapper {
+    //update/insert/delete默认返回语句影响的行数的一个整数。
+    @Select("select * from rewards")
+    List<Reward> selectAll();
+
+    @Select("select * from rewards where RewardsID = #{rewardsID}")
+    Reward selectById(String rewardsID);
+
+    @Update("update rewards set " +
+            "Title = #{reward.title}, Description = #{reward.description}, RewardAmount = #{reward.rewardAmount}, " +
+            "Status = #{reward.status}, DeadLine = #{reward.deadLine}, ReceiverID = #{reward.receiverID}, ReceiverName = #{reward.receiverName} " +
+            "where RewardsID = #{rewardsID}")
+    int update(String rewardsID,Reward reward);
+
+    @Options(useGeneratedKeys = true,keyProperty = "RewardsID")
+    @Insert("insert into rewards" +
+            "(RewardsID, Title, Description, PostedByUserID, PostedByUserName, RewardAmount, Status, PostedTime, DeadLine, ReceiverID, ReceiverName) " +
+            "values(#{rewardsID}, #{title}, #{description}, #{postedByUserID}, #{PostedByUserName}" +
+            ", #{rewardAmount}, #{status}, #{postedTime}, #{deadLine}, #{receiverID}, #{receiverName})")
+    int insert(Reward reward);
+
+    @Delete("delete from rewards where RewardsID = #{rewardsID}")
+    int deleteById(String RewardsID);
+}
