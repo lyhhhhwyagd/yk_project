@@ -154,7 +154,7 @@ export default {
   methods: {
     getPostsData() {
       console.log("开始访问数据");
-      axios.get('http://localhost:8081/post')
+      axios.get('http://localhost:8080/post')
           .then(response => {
             if (response.data.code === 200) {
               this.posts = response.data.data;

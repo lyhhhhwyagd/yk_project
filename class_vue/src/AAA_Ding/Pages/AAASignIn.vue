@@ -133,7 +133,7 @@ export default {
     ...mapMutations(["toggleEveryDisplay", "toggleHideConfig"]),
     submitForm() {
       console.log("开始访问数据");
-      axios.post('http://localhost:8081/loginIn',this.userCredentials)
+      axios.post('http://localhost:8080/loginIn',this.userCredentials)
           .then(response => {
             if (response.data.code === 200) {
               this.user = response.data.data;

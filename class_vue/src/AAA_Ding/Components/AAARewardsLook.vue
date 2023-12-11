@@ -144,7 +144,7 @@ export default {
     getRewardData() {
       console.log("开始访问数据");
       const id = this.$route.params.id; // 获取页面的ID
-      axios.get(`http://localhost:8081/reward/${id}`) // 将ID添加到请求的URL中
+      axios.get(`http://localhost:8080/reward/${id}`) // 将ID添加到请求的URL中
           .then(response => {
             if (response.data.code === 200) {
               this.rewards = response.data.data;
@@ -168,7 +168,7 @@ export default {
     async submitChanges() {  // 添加一个新的方法来处理提交
       console.log("正在发送对象");
       const id = this.$route.params.id; // 获取页面的ID
-      axios.put(`http://localhost:8081/reward/${id}`,this.newReward, {
+      axios.put(`http://localhost:8080/reward/${id}`,this.newReward, {
         headers: {
           'Content-Type': 'application/json',
         }

@@ -121,7 +121,7 @@ export default {
   methods: {
     getPostedUser(){
       this.newReward.postedByUserID = this.$route.query.userID;
-      axios.get(`http://localhost:8081/loginIn/${this.newReward.postedByUserID}`)
+      axios.get(`http://localhost:8080/loginIn/${this.newReward.postedByUserID}`)
           .then(response => {
             if (response.data.code === 200) {
               console.log('successful');
@@ -136,7 +136,7 @@ export default {
 
     },
     getRewardsID() {
-      axios.get('http://localhost:8081/reward')
+      axios.get('http://localhost:8080/reward')
           .then(response => {
             if (response.data.code === 200) {
               console.log('successful');
@@ -188,7 +188,7 @@ export default {
       this.newReward.postedTime=this.getPostedTime();
       console.log("正在发送对象");
       const id = this.$route.params.id; // 获取页面的ID
-      axios.post(`http://localhost:8081/reward`,this.newReward, {
+      axios.post(`http://localhost:8080/reward`,this.newReward, {
         headers: {
           'Content-Type': 'application/json',
         }

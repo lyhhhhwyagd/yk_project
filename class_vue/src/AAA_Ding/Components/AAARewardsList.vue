@@ -229,6 +229,7 @@ export default {
         reward.status,
         reward.receiverID,
         reward.receiverName,
+        reward.receivedTime,
         reward.deadLine
       ]);
 
@@ -418,7 +419,7 @@ export default {
     },
     getUserData(){
       this.userID = this.$route.query.userID;
-      axios.get(`http://localhost:8081/loginIn/${this.userID}`)
+      axios.get(`http://localhost:8080/loginIn/${this.userID}`)
           .then(response => {
             if (response.data.code === 200) {
               console.log('successful');
@@ -431,7 +432,7 @@ export default {
     },
     getRewardData() {
       console.log("开始访问数据");
-      axios.get('http://localhost:8081/reward')
+      axios.get('http://localhost:8080/reward')
         .then(response => {
           if (response.data.code === 200) {
             this.rewardsAll = response.data.data;
@@ -453,14 +454,29 @@ export default {
         }
       }
     },
+    getReceivedTime() {
+      let now = new Date();
+
+      let year = now.getFullYear();
+      let month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+      let day = String(now.getDate()).padStart(2, '0');
+
+      let hours = String(now.getHours()).padStart(2, '0');
+      let minutes = String(now.getMinutes()).padStart(2, '0');
+      let seconds = String(now.getSeconds()).padStart(2, '0');
+
+      let timeNow = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      return timeNow;
+    },
     askRewards(reward){
       this.getUserData();
       console.log("正在发送对象");
       const id = reward.rewardsID; // 获取页面的ID
       reward.receiverID=this.userID;
       reward.receiverName=this.userName;
+      reward.receivedTime=this.getReceivedTime();
       reward.status="已领取";
-      axios.put(`http://localhost:8081/reward/${id}`,reward)
+      axios.put(`http://localhost:8080/reward/${id}`,reward)
       .then(response => {
         if (response.data.code === 200) {
           console.log('领取成功');
@@ -484,7 +500,7 @@ export default {
       console.log("开始删除");
       const id = rewardsID;
       try {
-        const response = await axios.delete(`http://localhost:8081/reward/${id}`);
+        const response = await axios.delete(`http://localhost:8080/reward/${id}`);
         if (response.data.code === 200) {
           console.log('删除成功');
           window.location.reload();

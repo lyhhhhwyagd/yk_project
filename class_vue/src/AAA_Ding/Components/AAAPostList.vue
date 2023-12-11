@@ -69,7 +69,7 @@
       async deleteItem(id) {
         console.log("开始删除");
         try {
-          const response = await axios.delete(`http://localhost:8081/post/${id}`);
+          const response = await axios.delete(`http://localhost:8080/post/${id}`);
           if (response.data.code === 200) {
             console.log('删除成功');
             window.location.reload();

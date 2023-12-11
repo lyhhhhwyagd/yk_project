@@ -53,7 +53,7 @@
                       name="newDeadLine"
                       v-model="newReward.deadLine"
                     />
-                    
+
                     <div class="text-center">
                       <soft-button
                         class="my-4 mb-2"
@@ -100,6 +100,7 @@ export default {
         deadLine:'',
         receiverID:'',
         receiverName:'',
+        receivedTime:'',
       }
     };
   },
@@ -117,7 +118,7 @@ export default {
     getRewardData() {
       console.log("开始访问数据");
       const id = this.$route.params.id; // 获取页面的ID
-      axios.get(`http://localhost:8081/reward/${id}`) // 将ID添加到请求的URL中
+      axios.get(`http://localhost:8080/reward/${id}`) // 将ID添加到请求的URL中
       .then(response => {
       if (response.data.code === 200) {
         this.rewards = response.data.data;
@@ -129,6 +130,7 @@ export default {
         this.newReward.deadLine=this.rewards.deadLine;
         this.newReward.receiverID=this.rewards.receiverID;
         this.newReward.receiverName=this.rewards.receiverName;
+        this.newReward.receivedTime=this.rewards.receivedTime;
 
         console.log(this.rewards)
       } else {
@@ -146,7 +148,7 @@ export default {
       }
       console.log("正在发送对象");
       const id = this.$route.params.id; // 获取页面的ID
-      axios.put(`http://localhost:8081/reward/${id}`,this.newReward, {
+      axios.put(`http://localhost:8080/reward/${id}`,this.newReward, {
         headers: {
           'Content-Type': 'application/json',
         }

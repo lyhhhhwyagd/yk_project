@@ -1,5 +1,8 @@
 package com.exam.Entity;
 
+import lombok.Getter;
+
+@Getter
 public class Reward {
     private String RewardsID;
     private String Title;
@@ -12,40 +15,7 @@ public class Reward {
     private String ReceiverID;
     private String ReceiverName;
     private String PostedTime;
-
-    public String getRewardsID() {
-        return RewardsID;
-    }
-    public String getTitle() {
-        return Title;
-    }
-    public String getDescription() {
-        return Description;
-    }
-    public String getRewardAmount() {
-        return RewardAmount;
-    }
-    public String getStatus() {
-        return Status;
-    }
-    public String getDeadLine() {
-        return DeadLine;
-    }
-    public String getPostedByUserID() {
-        return PostedByUserID;
-    }
-    public String getReceiverID() {
-        return ReceiverID;
-    }
-    public String getPostedTime() {
-        return PostedTime;
-    }
-    public String getPostedByUserName() {
-        return PostedByUserName;
-    }
-    public String getReceiverName() {
-        return ReceiverName;
-    }
+    private String ReceivedTime;
 
     public void setRewardsID(String RewardsID) {
         this.RewardsID = RewardsID;
@@ -79,5 +49,8 @@ public class Reward {
     }
     public void setReceiverName(String ReceiverName) {
         this.ReceiverName = ReceiverName;
+    }
+    public void setReceivedTime(String ReceivedTime) {
+        this.ReceivedTime = ReceivedTime;
     }
 }

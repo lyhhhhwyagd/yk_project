@@ -15,10 +15,10 @@ public interface RewardMapper {
     Reward selectById(String rewardsID);
 
     @Update("update rewards set " +
-            "Title = #{reward.title}, Description = #{reward.description}, RewardAmount = #{reward.rewardAmount}, " +
+            "Title = #{reward.title}, Description = #{reward.description}, RewardAmount = #{reward.rewardAmount}, ReceivedTime = #{reward.receivedTime}, " +
             "Status = #{reward.status}, DeadLine = #{reward.deadLine}, ReceiverID = #{reward.receiverID}, ReceiverName = #{reward.receiverName} " +
             "where RewardsID = #{rewardsID}")
-    int update(String rewardsID,Reward reward);
+    int update(@Param("rewardsID")String rewardsID,@Param("reward")Reward reward);
 
     @Options(useGeneratedKeys = true,keyProperty = "RewardsID")
     @Insert("insert into rewards" +

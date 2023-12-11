@@ -35,6 +35,7 @@ public class RewardController {
     @PutMapping("/reward/{RewardsId}")
     public ApiResult update(@PathVariable("RewardsId") String rewardsID, @RequestBody Reward reward){
         System.out.println("更新指定ID的悬赏信息");
+        System.out.println(reward.getReceivedTime());
         return ApiResultHandler.success(rewardService.update(rewardsID,reward));
     }
 
