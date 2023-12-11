@@ -105,16 +105,6 @@
 
 <script>
 import axios from 'axios';
-import SoftAvatar from "@/components/SoftAvatar.vue";
-import SoftBadge from "@/components/SoftBadge.vue";
-
-
-import SoftInput from "@/components/SoftInput.vue";
-import SoftSwitch from "@/components/SoftSwitch.vue";
-import SoftButton from "@/components/SoftButton.vue";
-
-
-
 export default {
   name: 'search',
   data() {
@@ -131,11 +121,7 @@ export default {
     };
   },
   components: {
-    SoftAvatar,
-    SoftBadge,
-    SoftInput,
-    SoftSwitch,
-    SoftButton,
+
   },
   created() {
     this.getRewardData();
