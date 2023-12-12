@@ -26,7 +26,7 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="Tables" :to="{ name: 'Tables' }">
+        <sidenav-collapse navText="习题管理" :to="{ name: 'Tables' }">
           <template #icon>
             <office />
           </template>
