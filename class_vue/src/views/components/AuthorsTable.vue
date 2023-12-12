@@ -1,200 +1,248 @@
 <template>
-  <div class="card mb-4">
-    <div class="card-header pb-0">
-      <h6>User Management</h6>
-      <!-- <button @click="addUser" class="btn btn-success">Add User</button> -->
-      <button @click="exportUsers" class="btn btn-primary">Export Users</button>
-      <button @click="openPrintPreview" class="btn btn-info">Print Preview</button>
+    <div  >
+        <div class="card" style="margin-bottom: 10px ;" >
+            <div  >
+            <el-input style="width: 260px" v-model="data.courseName"  placeholder="请输入课程名称" :prefix-icon="Search"/>
+
+            <el-input style="width: 260px" v-model="data.dep"  placeholder="请输入学院名称" :prefix-icon="Search"/>
+
+
+            <el-button type="primary" style="margin-left :10px;background-color: #76dc30" @click="load">查询</el-button>
+
+            <el-button type="info" @click="reset">重置</el-button>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 10px">
+            <div style="margin-bottom: 10px">
+                <el-button  style="background-color: #76dc30" type="primary" @click="handleAdd">新增</el-button>
+                <el-button  style="background-color: #76dc30" type="info" @click="exportAll">导出</el-button>
+                <el-button  style="background-color: #76dc30" type="info" @click="printAll">打印</el-button>
+            </div>
+            <div>
+            <el-table  :data="data.tableData" :default-sort="{ prop: 'id', order: 'descending' }">
+                <el-table-column label="编号" sortable prop="id"></el-table-column>
+                <el-table-column label="课程名称" prop="courseName" width="180"></el-table-column>
+                <el-table-column label="开课老师" prop="teacherId" width="180"></el-table-column>
+                <el-table-column label="学院" prop="dep"></el-table-column>
+                <el-table-column label="班级" prop="classId"></el-table-column>
+                <el-table-column label="课程号" prop="courseId"></el-table-column>
+                <el-table-column label="学分" prop="bonus"></el-table-column>
+                <el-table-column >
+                    <template #default="scope">
+                        <el-button style="background-color: #76dc30;margin-right: 0" type="primary"  @click="handleEdit(scope.row)">编辑</el-button>
+                    </template>
+                </el-table-column>
+                <el-table-column >
+                    <template #default="scope">
+                        <el-button style="margin-right: 0" type="danger"  @click="del(scope.row.id)">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            </div>
+        </div>
+
+        <div class="card">
+            <el-pagination v-model:current-page="data.pageNum" v-model:page-size="data.pageSize"
+                           @current-change=" handleCurrentChange"
+                           background layout="prev, pager, next" :total="data.total"/>
+        </div>
+
+        <el-dialog title="课程信息" width="40%" v-model="data.formVisible" >
+            <el-form :model="data.form" label-width="100px" style="padding-right: 50px">
+                <el-form-item label="课程名称" prop="courseName">
+                    <el-input v-model="data.form.courseName" autocomplete="off" />
+                </el-form-item>
+                <el-form-item label="开课老师" prop="teacherId">
+                    <el-input v-model="data.form.teacherId" autocomplete="off" />
+                </el-form-item>
+                <el-form-item label="学院" prop="dep">
+                    <el-input v-model="data.form.dep" autocomplete="off" />
+                </el-form-item>
+                <el-form-item label="班级" prop="classId">
+                    <el-input v-model="data.form.classId" autocomplete="off" />
+                </el-form-item>
+                <el-form-item label="课程号" prop="courseId">
+                    <el-input v-model="data.form.courseId" autocomplete="off" />
+                </el-form-item>
+                <el-form-item label="学分" prop="bonus">
+                    <el-input v-model="data.form.bonus" autocomplete="off" />
+                </el-form-item>
+            </el-form>
+            <template #footer>
+      <span class="dialog-footer">
+        <el-button  @click="data.formVisible = false">取 消</el-button>
+        <el-button style="background-color: #76dc30" type="primary" @click="save">保 存</el-button>
+      </span>
+            </template>
+        </el-dialog>
+
+
     </div>
-    
-    <div class="card-body px-0 pt-0 pb-2">
-      <div class="table-responsive p-0">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>User ID</th>
-              <th>User Name</th>
-              <th>User Type</th>
-              <th>Create Time</th>
-              <th>User Email</th>
-              <th>User Phone</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="user in users" :key="user.userId">
-              <td>{{ user.userId }}</td>
-              <td>{{ user.userName }}</td>
-              <td>{{ user.userType }}</td>
-              <td>{{ user.createTime }}</td>
-              <td>{{ user.userEmail }}</td>
-              <td>{{ user.userPhone }}</td>
-              <td>
-                <button @click="openUpdateModal(user)" class="btn btn-warning">Update</button>
-                <button @click="deleteUser(user.userId)" class="btn btn-danger">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div id="main" style="width: 100%; height: 300px">
+
     </div>
-  </div>
-  <!-- Update User Modal -->
-<div v-if="isUpdateModalVisible" class="modal">
-  <div class="modal-content">
-    <span class="close" @click="closeUpdateModal">&times;</span>
-
-    <!-- Update User Form -->
-    <form @submit.prevent="updateUser">
-      <label for="userId">User ID:</label>
-      <input type="text" v-model="selectedUser.userId" readonly>
-
-      <label for="userName">User Name:</label>
-      <input type="text" v-model="selectedUser.userName">
-
-      <label for="userType">User Type:</label>
-      <input type="text" v-model="selectedUser.userType">
-
-      <label for="createTime">Create Time:</label>
-      <input type="text" v-model="selectedUser.createTime" readonly>
-
-      <label for="userEmail">User Email:</label>
-      <input type="text" v-model="selectedUser.userEmail">
-
-      <label for="userPhone">User Phone:</label>
-      <input type="text" v-model="selectedUser.userPhone">
-
-      <button type="submit" class="btn btn-success">Update User</button>
-    </form>
-  </div>
-</div>
-
 </template>
 
+<script setup>
 
-<script>
-export default {
-  name: "UserManagement",
-  data() {
-    return {
-      users: [],
-      selectedUser: {},
-      isUpdateModalVisible: true,
-    };
-  },
-  mounted() {
-    this.fetchUserData();
-  },
-  methods: {
-    fetchUserData() {
-      fetch('http://localhost:8080/user/all')
-        .then(response => response.json())
-        .then(data => {
-          this.users = data;
-        })
-        .catch(error => console.error('Error fetching user data:', error));
-    },
-    openUpdateModal(user) {
-    this.selectedUser = { ...user };
-    this.isUpdateModalVisible = true;
-    // You can perform any additional setup for the update modal here
-  },
+   //import request from "@/utils/request";
+    import {reactive} from "vue";
+   import request from "../../utils/request";
+   import {ElMessage} from "element-plus";
+   import {ElMessageBox} from "element-plus";
+   import * as echarts from 'echarts';
+   import {onMounted} from "@vue/runtime-core";
+    // request.get('/').then(res => {
+    //     console.log(res)
+    // })
 
-  closeUpdateModal() {
-    this.isUpdateModalVisible = false;
-    // Reset any update modal-related data if needed
-  },
-
-  updateUser() {
-    const updatedUser = {
-      userId: this.selectedUser.userId,
-      userName: this.selectedUser.userName,
-      userType: this.selectedUser.userType,
-      userEmail: this.selectedUser.userEmail,
-      userPhone: this.selectedUser.userPhone,
-    };
-
-    // Implement logic to update user using this.selectedUser
-    fetch('/user/update', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedUser),
+    const data = reactive({
+        courseName:"",
+        dep:"",
+        tableData: [{
+            "course_id":"","id":"","dep":"1","course":"1","bonus":"3","teacher_id":"1","class_id":"1"}],
+        total:0,
+        pageSize:4,//当前最大个数
+        pageNum:1,
+        formVisible:false,
+        form:{}
     })
-      .then(response => {
-        if (response.ok) {
-          console.log('User updated successfully:', updatedUser);
-          // After updating, close the modal and refresh the user data
-          this.closeUpdateModal();
-          this.fetchUserData();
-        } else {
-          console.error('Failed to update user:', response.statusText);
-        }
-      })
-      .catch(error => console.error('Error updating user:', error));
-  },
-    
-    deleteUser(userId) {
-      fetch('http://localhost:8080/user/delete', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId: userId }),
-      })
-        .then(response => {
-          if (response.ok) {
-            console.log('Successfully deleted user with ID:', userId);
-            this.fetchUserData(); // Refresh the user data
-          } else {
-            console.error('Failed to delete user with ID:', userId);
-          }
+   const load=() =>{
+        request.get("/course/selectpage", {
+            params:
+                {
+                    pageNum: data.pageNum,
+                    pageSize: data.pageSize,
+                    courseName:data.courseName,
+                    dep:data.dep
+                }
+        }).then(res =>{
+            //console.log(res)
+            data.tableData=res.data.list
+            data.total=res.data.total || 0
         })
-        .catch(error => console.error('Error deleting user:', error));
-    },
-    openPrintPreview() {
-      // Open print preview
-      window.print();
-    },
-    addUser() {
-      console.log('Adding a new user...');
-      
-    },
-    exportUsers() {
-    // Implement the logic to trigger the user export
-    fetch('http://localhost:8080/user/downloadUser', {
-      method: 'GET',
-      responseType: 'blob', // Set the response type to 'blob' for binary data
-      
-    })
-      .then(response => {
-        // Check if the response is successful
-        if (response.ok) {
-          // Create a blob from the response data
-          return response.blob();
-        } else {
-          console.error('Failed to fetch user Excel file:', response.statusText);
-        }
-      })
-      .then(blob => {
-        // Create a link element and trigger a download
-        const url = window.URL.createObjectURL(new Blob([blob]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'users.xlsx');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      })
-      .catch(error => console.error('Error exporting users:', error));
-  },
-  },
-};
+   }
+
+   const  handleCurrentChange =()=>
+   {
+       //翻页时重新加载
+       load();
+   }
+   const reset =()=>
+   {
+       data.courseName="";
+       data.dep="",
+       load();
+   }
+   const handleAdd = () =>
+   {
+
+       data.form={};
+       data.formVisible=true;
+   }
+   const save = () =>
+   {
+       console.log(data.form.id);
+       request.request({
+           url: data.form.id ? '/course/update' :'/course/add',
+           method: data.form.id? 'PUT' :'POST',
+           data: data.form
+           }).then(res=>{
+           if(res.code=="200")
+           {
+               ElMessage.success("操作成功");
+               data.formVisible=false;
+               load();
+           }
+           else
+           {
+               ElMessage.error(res.msg);
+           }
+       })
 
 
+   }
+
+
+    const handleEdit = (row) => {
+        data.form = JSON.parse(JSON.stringify(row));
+        data.formVisible = true
+    }
+    const del = (id) => {
+        ElMessageBox.confirm("删除后无法恢复，您确认删除吗",'删除确认',{ type: 'warning'}).then(res=>{
+            request.delete("/course/delete/"+id).then(res=>
+            {
+                if(res.code=="200")
+                {
+                    ElMessage.success("操作成功");
+                    load();
+                }
+                else
+                {
+                    ElMessage.error(res.msg);
+                }
+
+            })
+            }
+        )
+
+    }
+    const exportAll =()=>
+    {
+        window.open("http://localhost:8090/course/export")
+    }
+   //调用方法获取后台
+    load()
+
+   onMounted(async () => {
+       setTimeout(() => {aa()}, 1000)
+   })
+
+
+   const aa =()=> {
+
+       var option;
+       option = {
+           xAxis: {
+               type: 'category',
+               data: ["计算机学院","软件学院","数学学院","文学与新闻学院"]
+           },
+           yAxis: {
+               type: 'value'
+           },
+           series: [
+               {
+                   data: [],
+                   type: 'line'
+               },
+               {
+                   data: [],
+                   type: 'bar'
+               },
+
+           ]
+       };
+       var chartDom = document.getElementById('main');
+       var myChart = echarts.init(chartDom);
+       request.get("/course/map").then(res =>{
+           if(res.data) {
+               //option.xAxis.data = res.data.x;
+               option.series[0].data = res.data;
+               option.series[1].data = res.data;
+               myChart.setOption(option);
+           }
+       })
+
+   }
+   const printAll = (index, row) => {
+       // 正常跳转
+       // router.push({ name: 'record', params: { id: row.id } })
+       // 为了打开新窗口用下面方式
+       // const url = router.resolve({
+       //     name: 'record',
+       //     params: { id: row.id }
+       // })
+       window.open("Dashborad")
+   }
 </script>
-
-<style>
-/* Add your custom styles here */
-</style>
