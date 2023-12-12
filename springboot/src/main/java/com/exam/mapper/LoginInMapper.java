@@ -8,9 +8,9 @@ import java.util.List;
 
 @Mapper
 public interface LoginInMapper {
-    @Select("select * from User where UserEmail = #{email} and PassWord = #{password}")
+    @Select("select * from user where UserEmail = #{email} and PassWord = #{password}")
     LoginIn select(LoginIn loginIn);
 
-    @Select("select * from User where UserID = #{userID}")
+    @Select("select * from user where UserID = #{userID}")
     LoginIn selectByID(String userID);
 }
