@@ -79,8 +79,11 @@
 
 <script>
 import axios from 'axios';
-import SoftInput from "@/AAA_Ding/Components/SoftInput.vue";
-import SoftButton from "@/AAA_Ding/Components/SoftButton.vue";
+import SoftAvatar from "@/components/SoftAvatar.vue";
+import SoftBadge from "@/components/SoftBadge.vue";
+import SoftInput from "@/components/SoftInput.vue";
+import SoftSwitch from "@/components/SoftSwitch.vue";
+import SoftButton from "@/components/SoftButton.vue";
 
 
 
@@ -102,7 +105,10 @@ export default {
     };
   },
   components: {
+    SoftAvatar,
+    SoftBadge,
     SoftInput,
+    SoftSwitch,
     SoftButton,
   },
   created() {
