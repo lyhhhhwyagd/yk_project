@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-
+ @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/file")
 public class FileManagementController {

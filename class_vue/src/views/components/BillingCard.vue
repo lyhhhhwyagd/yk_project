@@ -1,68 +1,220 @@
 <template>
-  <div class="card">
-    <div class="card-header pb-0 px-3">
-      <h6 class="mb-0">{{ title }}</h6>
+  <div class="card mb-4">
+    <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+      <h6>User Management</h6>
+      <button @click="exportUsers" class="btn btn-primary mr-2">Export Users</button>
+        <button @click="openPrintPreview" class="btn btn-info mr-2">Print Preview</button>
+      <div class="d-flex align-items-center">
+        
+        
+        <!-- Search input field with Clear Search button -->
+        <div class="form-group mb-0" style="height: 40px;"> <!-- Adjust the height as needed -->
+          <label for="searchKeyword" class="mr-2">Search:</label>
+          <div class="input-group">
+            <input type="text" v-model="searchKeyword" class="form-control" id="searchKeyword" style="height: 100%;"> <!-- Adjust the height as needed -->
+            <!-- Clear Search button -->
+            <button @click="resetSearch" class="btn btn-secondary">Clear Search</button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="card-body pt-4 p-3">
-      <ul class="list-group">
-        <li
-          v-for="({ name, company, email, id }, index) of bills"
-          :key="index"
-          class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg"
-        >
-          <div class="d-flex flex-column">
-            <h6 class="mb-3 text-sm">{{ name }}</h6>
-            <span class="mb-2 text-xs">
-              Company Name:
-              <span class="text-dark font-weight-bold ms-sm-2">
-                {{ company }}</span
-              >
-            </span>
-            <span class="mb-2 text-xs">
-              Email Address:
-              <span class="text-dark ms-sm-2 font-weight-bold">
-                {{ email }}</span
-              >
-            </span>
-            <span class="text-xs">
-              VAT Number:
-              <span class="text-dark ms-sm-2 font-weight-bold">{{ id }}</span>
-            </span>
-          </div>
-          <div class="ms-auto text-end">
-            <a
-              class="btn btn-link text-danger text-gradient px-3 mb-0"
-              href="javascript:;"
-            >
-              <i class="far fa-trash-alt me-2" aria-hidden="true"></i>Delete
-            </a>
-            <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;">
-              <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i
-              >Edit
-            </a>
-          </div>
+  <br>
+    <!-- Update User Modal -->
+    <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel" aria-hidden="true">
+      <!-- ... modal content ... -->
+    </div>
+
+    <!-- Table and pagination -->
+    <div class="table-responsive p-0">
+      <table class="table table-hover">
+        <!-- ... table header ... -->
+        <tbody>
+          <!-- Loop through paginated and filtered users -->
+          <tr v-for="user in paginatedUsers" :key="user.userId">
+            <td>{{ user.userId }}</td>
+            <td>{{ user.userName }}</td>
+            <td>{{ user.userType }}</td>
+            <td>{{ user.createTime }}</td>
+            <td>{{ user.userEmail }}</td>
+            <td>{{ user.userPhone }}</td>
+            <td>
+              <button @click="deleteUser(user.userId)" class="btn btn-danger">Delete</button>
+              <button @click="openUpdateUserModal(user)" class="btn btn-warning">Update</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination navigation -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" :class="{ disabled: currentPage === 1 }">
+          <a class="page-link" @click="prevPage" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li v-for="page in totalPages" :key="page" class="page-item" :class="{ active: currentPage === page }">
+          <a class="page-link" @click="goToPage(page)">{{ page }}</a>
+        </li>
+        <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+          <a class="page-link" @click="nextPage" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
         </li>
       </ul>
-    </div>
+    </nav>
   </div>
 </template>
 
+
 <script>
+import $ from 'jquery';
+import "jquery";
 export default {
-  name: "BillingCard",
-  props: {
-    title: {
-      type: String,
-      default: "",
+  name: "UserTable",
+  data() {
+    return {
+      users: [],
+      selectedUser: {},
+      itemsPerPage: 5,
+      currentPage: 1,
+      searchKeyword: '', // Added searchKeyword
+    };
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.filteredUsers.length / this.itemsPerPage);
     },
-    bills: {
-      type: Array,
-      name: String,
-      company: String,
-      email: String,
-      id: String,
-      default: () => [],
+    paginatedUsers() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.filteredUsers.slice(start, end);
+    },
+    filteredUsers() {
+  const keyword = this.searchKeyword.toLowerCase();
+  return this.users.filter(user => 
+    (user.userId && typeof user.userId === 'string' && user.userId.toLowerCase().includes(keyword)) ||
+    (user.userName && typeof user.userName === 'string' && user.userName.toLowerCase().includes(keyword)) ||
+    (user.userType && typeof user.userType === 'string' && user.userType.toLowerCase().includes(keyword)) ||
+    (user.createTime && typeof user.createTime === 'string' && user.createTime.toLowerCase().includes(keyword)) ||
+    (user.userEmail && typeof user.userEmail === 'string' && user.userEmail.toLowerCase().includes(keyword)) ||
+    (user.userPhone && typeof user.userPhone === 'string' && user.userPhone.toLowerCase().includes(keyword))
+  );
+},
+
+  },
+  created() {
+    this.fetchUserData(); // 在组件创建时获取用户数据
+  },
+  mounted() {
+    this.fetchUserData();
+  },
+  methods: {
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+    goToPage(page) {
+      this.currentPage = page;
+    },
+    fetchUserData() {
+      fetch('http://localhost:8080/user/all')
+        .then(response => response.json())
+        .then(data => {
+          this.users = data;
+        })
+        .catch(error => console.error('Error fetching user data:', error));
+    },
+    openPrintPreview() {
+      // Open print preview
+      window.print();
+    },
+    addUser() {
+      console.log('Adding a new user...');
+    },
+    exportUsers() {
+      // Implement the logic to trigger the user export
+      fetch('http://localhost:8080/user/downloadUser', {
+        method: 'GET',
+        responseType: 'blob',
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.blob();
+          } else {
+            console.error('Failed to fetch user Excel file:', response.statusText);
+          }
+        })
+        .then(blob => {
+          const url = window.URL.createObjectURL(new Blob([blob]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'users.xlsx');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        })
+        .catch(error => console.error('Error exporting users:', error));
+    },
+    openUpdateUserModal(user) {
+      this.selectedUser = { ...user };
+      $('#updateUserModal').modal('show');
+    },
+    updateUser() {
+      fetch('http://localhost:8080/user/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.selectedUser),
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log('User updated successfully');
+            $('#updateUserModal').modal('hide');
+            this.fetchUserData();
+          } else {
+            console.error('Failed to update user:', response.statusText);
+          }
+        })
+        .catch(error => console.error('Error updating user:', error));
+    },
+    deleteUser(userId) {
+      // Implement the logic to delete a user
+      // You can use userId to identify the user to be deleted
+      console.log("userId:" ,userId)
+      fetch('http://localhost:8080/user/delete', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId: userId }),
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log('Successfully deleted user with ID:', userId);
+            // Refresh the page after deletion
+            this.fetchUserData(); // Refresh the user data
+          } else {
+            console.error('Failed to delete user with ID:', userId);
+          }
+        })
+        .catch(error => console.error('Error deleting user:', error));
+    },
+    resetSearch() {
+      this.searchKeyword = ''; // Clear the search keyword
     },
   },
 };
 </script>
+
+<style scoped>
+/* Add your custom styles here */
+</style>

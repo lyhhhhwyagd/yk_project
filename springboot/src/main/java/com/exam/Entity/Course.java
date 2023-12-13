@@ -1,5 +1,7 @@
 package com.exam.Entity;
 
+import java.io.Serializable;
+
 import cn.hutool.core.annotation.Alias;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

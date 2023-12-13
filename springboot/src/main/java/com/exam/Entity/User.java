@@ -1,7 +1,8 @@
 package com.exam.Entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
-
+import com.baomidou.mybatisplus.annotation.TableName;
+@TableName("user_zpq")
 public class User {
     @TableId
     private int userId;

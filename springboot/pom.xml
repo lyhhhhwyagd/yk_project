@@ -19,6 +19,11 @@
         <mysql.version>5.1.51</mysql.version>
     </properties>
     <dependencies>
+    <dependency>
+        <groupId>javax.persistence</groupId>
+        <artifactId>persistence-api</artifactId>
+        <version>1.0.2</version>
+        </dependency>
         <dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi</artifactId>

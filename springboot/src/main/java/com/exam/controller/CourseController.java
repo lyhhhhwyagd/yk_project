@@ -5,6 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.exam.common.Result;
+import com.exam.common.queryPageParam;
 import com.exam.Entity.Course;
 import com.exam.service.CourseService;
 import com.github.pagehelper.PageInfo;
