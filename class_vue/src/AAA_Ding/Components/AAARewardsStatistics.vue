@@ -87,10 +87,9 @@ export default {
         let day = moment().subtract(i, 'days');
         this.date.unshift(day.format('MMDD'));
         this.RewardsPostedNumber.unshift(this.rewards.filter(reward => moment(reward.postedTime).isSame(day, 'day')).length);
-        this.RewardsReceivedNumber.unshift(this.rewards.filter(reward => moment(reward.receiveTime).isSame(day, 'day')).length);
+        this.RewardsReceivedNumber.unshift(this.rewards.filter(reward => reward.receiveTime && moment(reward.receiveTime).isSame(day, 'day')).length);
       }
-      console.log(this.RewardsReceivedNumber);
-      console.log(this.RewardsPostedNumber);
+
     },
   }
 }

@@ -55,7 +55,7 @@ export default {
     gradientStroke1.addColorStop(0, "rgba(203,12,159,0)");
 
     let chartStatus = Chart.getChart(this.id);
-    if (chartStatus != undefined) {
+    if (chartStatus !== undefined) {
       chartStatus.destroy();
     }
 
@@ -67,7 +67,6 @@ export default {
           {
             label: this.chart.datasets[0].label,
             tension: 0.4,
-            borderWidth: 0,
             pointRadius: 0,
             borderColor: "#cb0c9f",
             // eslint-disable-next-line no-dupe-keys
@@ -80,7 +79,6 @@ export default {
           {
             label: this.chart.datasets[1].label,
             tension: 0.4,
-            borderWidth: 0,
             pointRadius: 0,
             borderColor: "#3A416F",
             // eslint-disable-next-line no-dupe-keys

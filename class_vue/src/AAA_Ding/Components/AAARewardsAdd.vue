@@ -80,7 +80,6 @@
 import axios from 'axios';
 
 import SoftInput from "@/AAA_Ding/Components/SoftInput.vue";
-
 import SoftButton from "@/AAA_Ding/Components/SoftButton.vue";
 
 export default {

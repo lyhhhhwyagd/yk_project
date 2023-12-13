@@ -12,7 +12,7 @@
                   <p class="mb-0">修改你的悬赏信息</p>
                 </div>
                 <div class="card-body">
-                  <form role="form" class="text-start">
+                  <form role="form" class="text-start" @submit="handleSubmit">
                     <label>标题</label>
                     <soft-input
                       id="Title"
@@ -60,7 +60,7 @@
                         variant="gradient"
                         color="success"
                         full-width
-                        @click="submitChanges"
+                        type="submit"
                       >提交修改
                       </soft-button>
                     </div>
@@ -80,9 +80,9 @@
 <script>
 import axios from 'axios';
 
-import SoftInput from "@/components/SoftInput.vue";
+import SoftInput from "@/AAA_Ding/Components/SoftInput.vue";
 
-import SoftButton from "@/components/SoftButton.vue";
+import SoftButton from "@/AAA_Ding/Components/SoftButton.vue";
 
 
 
@@ -113,6 +113,11 @@ export default {
     this.getRewardData();
   },
   methods: {
+    handleSubmit(event) {
+      event.preventDefault();
+      // 执行提交修改的逻辑
+      this.submitChanges();
+    },
     getRewardData() {
       console.log("开始访问数据");
       const id = this.$route.params.id; // 获取页面的ID
@@ -154,6 +159,7 @@ export default {
       .then(response => {
         if (response.data.code === 200) {
           console.log('Update successful');
+          this.$router.push({ name: 'Rewards', query: { userID: this.$route.query.userID } });
         } else {
           console.error('Error updating reward: ' + response.data.message);
         }
@@ -161,7 +167,6 @@ export default {
       .catch(error => {
         console.error(error);
       });
-      this.$router.push({ name: 'Rewards', query: { userID: this.$route.query.userID } });
     },
   },
 };

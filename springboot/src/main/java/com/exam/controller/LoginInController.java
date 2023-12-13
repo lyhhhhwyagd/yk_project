@@ -19,14 +19,13 @@ public class LoginInController {
     @PostMapping("/loginIn")
     public ApiResult select(@RequestBody LoginIn loginIn){
         System.out.println("匹配用户");
-        System.out.println(loginIn.getPassword());
         return ApiResultHandler.success(loginInService.select(loginIn));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/loginIn/{userID}")
     public ApiResult selectById(@PathVariable("userID") String userID){
-        System.out.println("根据ID查询悬赏信息");
+        System.out.println("根据ID查询用户信息");
         return ApiResultHandler.success(loginInService.selectByID(userID));
     }
 }
