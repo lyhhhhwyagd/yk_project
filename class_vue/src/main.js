@@ -23,6 +23,8 @@ import SoftUIDashboard from "./soft-ui-dashboard";
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import VueLuckyCanvas from '@lucky-canvas/vue'
+import ElementUI from "element-plus";
+import "element-plus/theme-chalk/index.css"
 
 const appInstance = createApp(App);
 appInstance.use(store);
@@ -31,3 +33,4 @@ appInstance.use(SoftUIDashboard);
 appInstance.use(ElementPlus);
 appInstance.use(VueLuckyCanvas);
 appInstance.mount("#app");
+appInstance.use(ElementUI)
