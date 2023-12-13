@@ -12,6 +12,7 @@ import java.util.List;
 public class CheckRollController {
     @Autowired
     private CheckRollService checkRollService;
+    @CrossOrigin(origins = "*")
     @GetMapping("/find_all")
     public List<CheckRoll> checkRoll() {
         return checkRollService.checkRollList();

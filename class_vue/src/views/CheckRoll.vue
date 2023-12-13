@@ -151,7 +151,7 @@
     methods: {
       ...mapMutations(["navbarMinimize", "toggleConfigurator"]),
       get(){
-        axios.get('http://localhost:8088/checkroll/find_all').then(res=>{
+        axios.get('http://localhost:8080/checkroll/find_all').then(res=>{
             console.log(res);
             for (let i = 0; i <res.data.length; i++) {
                 console.log(res.data[i].studentName);

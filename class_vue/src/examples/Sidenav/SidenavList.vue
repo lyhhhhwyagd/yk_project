@@ -5,6 +5,13 @@
   >
     <ul class="navbar-nav">
       <li class="nav-item">
+        <sidenav-collapse navText="Dashboard" :to="{ name: 'Dashboard' }">
+          <template #icon>
+            <shop />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
         <sidenav-collapse navText="论坛主页" :to="{ name: 'Posts' }">
           <template #icon>
             <shop />
@@ -13,13 +20,6 @@
       </li>
       <li class="nav-item">
         <sidenav-collapse navText="悬赏管理" :to="{ name: 'Rewards' }">
-          <template #icon>
-            <shop />
-          </template>
-        </sidenav-collapse>
-      </li>
-      <li class="nav-item">
-        <sidenav-collapse navText="Dashboard" :to="{ name: 'Dashboard' }">
           <template #icon>
             <shop />
           </template>
@@ -40,32 +40,7 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="Billing" :to="{ name: 'Billing' }">
-          <template #icon>
-            <credit-card />
-          </template>
-        </sidenav-collapse>
-      </li>
-
-      <li class="nav-item">
-        <sidenav-collapse
-          navText="Virtual Reality"
-          :to="{ name: 'Virtual Reality' }"
-        >
-          <template #icon>
-            <box3d />
-          </template>
-        </sidenav-collapse>
-      </li>
-      <li class="nav-item">
-        <sidenav-collapse navText="RTL" :to="{ name: 'Rtl' }">
-          <template #icon>
-            <settings />
-          </template>
-        </sidenav-collapse>
-      </li>
-      <li class="nav-item">
-        <sidenav-collapse navText="CheckRoll" :to="{ name: 'CheckRoll' }">
+        <sidenav-collapse navText="抽奖点名" :to="{ name: 'CheckRoll' }">
           <template #icon>
             <switches />
           </template>
