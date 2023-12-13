@@ -104,9 +104,7 @@ export default {
 },
 
   },
-  created() {
-    this.fetchUserData(); // 在组件创建时获取用户数据
-  },
+  
   mounted() {
     this.fetchUserData();
   },
