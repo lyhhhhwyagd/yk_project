@@ -46,6 +46,13 @@
           </template>
         </sidenav-collapse>
       </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="待办事项" :to="{ name: 'Tasks' }">
+          <template #icon>
+            <office />
+          </template>
+        </sidenav-collapse>
+      </li>
       <li class="mt-3 nav-item">
         <h6
           class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6"

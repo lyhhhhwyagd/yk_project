@@ -16,6 +16,7 @@ export default createStore({
     showNavbar: true,
     showFooter: true,
     showMain: true,
+    token:"",
     navbarFixed:
       "position-sticky blur shadow-blur left-auto top-1 z-index-sticky px-0 mx-4",
     absolute: "position-absolute px-4 mx-0 w-100 z-index-2",
@@ -57,6 +58,17 @@ export default createStore({
     },
     toggleHideConfig(state) {
       state.hideConfigButton = !state.hideConfigButton;
+    },
+    SET_TOKEN(state, token) {
+      state.token = token;
+    },
+    SET_FILTER(state, filter) {
+      localStorage.setItem("filterPattern", filter);
+      state.filterPattern = filter;
+    },
+    DEFAULT_FILTER(state) {
+      localStorage.setItem("filterPattern", "1");
+      state.filterPattern = "1";
     },
   },
   actions: {
