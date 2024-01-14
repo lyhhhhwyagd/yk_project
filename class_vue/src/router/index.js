@@ -17,7 +17,7 @@ import AAARewardsAdd from "@/AAA_Ding/Components/AAARewardsAdd.vue";
 import AAARewardsModify from "@/AAA_Ding/Components/AAARewardsModify.vue";
 import AAARewardsLook from "@/AAA_Ding/Components/AAARewardsLook.vue";
 import AAARewardsStatistics from "@/AAA_Ding/Components/AAARewardsStatistics.vue";
-
+import Tasks from "@/views/Tasks.vue";
 const routes = [
   {
     path: "/",
@@ -108,6 +108,11 @@ const routes = [
     path: "/sign-up",
     name: "Sign Up",
     component: SignUp,
+  },
+  {
+    path:"/tasks",
+    name:"Tasks",
+    component:Tasks,
   },
   {
     path: "/CheckRoll",
