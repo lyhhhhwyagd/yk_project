@@ -5,42 +5,42 @@
   >
     <ul class="navbar-nav">
       <li class="nav-item">
-        <sidenav-collapse navText="Dashboard" :to="{ name: 'Dashboard' }">
+        <sidenav-collapse navText="Dashboard" :to="{ name: 'Dashboard', query: { userID: userID } }">
           <template #icon>
             <shop />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="论坛主页" :to="{ name: 'Posts' }">
+        <sidenav-collapse navText="论坛主页" :to="{ name: 'Posts', query: { userID: userID }  }">
           <template #icon>
             <shop />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="悬赏管理" :to="{ name: 'Rewards' }">
+        <sidenav-collapse navText="悬赏管理" :to="{ name: 'Rewards', query: { userID: userID }  }">
           <template #icon>
             <shop />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="课程管理" :to="{ name: 'Tables' }">
+        <sidenav-collapse navText="课程管理" :to="{ name: 'Tables', query: { userID: userID }  }">
           <template #icon>
             <office />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="用户管理" :to="{ name: 'Profile' }">
+        <sidenav-collapse navText="用户管理" :to="{ name: 'Profile', query: { userID: userID }  }">
           <template #icon>
             <customer-support />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="抽奖点名" :to="{ name: 'CheckRoll' }">
+        <sidenav-collapse navText="抽奖点名" :to="{ name: 'CheckRoll', query: { userID: userID }  }">
           <template #icon>
             <switches />
           </template>
@@ -112,6 +112,12 @@ export default {
     getRoute() {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
+    },
+  },
+  computed: {
+    userID() {
+      console.log(this.$store.state.userID);
+      return this.$store.state.userID; // 替换为你存储userID的实际state路径
     },
   },
 };

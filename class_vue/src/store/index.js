@@ -3,6 +3,7 @@ import bootstrap from "bootstrap/dist/js/bootstrap.min.js";
 
 export default createStore({
   state: {
+    userID: null,
     hideConfigButton: false,
     isPinned: true,
     showConfig: false,
@@ -22,6 +23,9 @@ export default createStore({
     bootstrap,
   },
   mutations: {
+    setUserID(state, userID) {
+      state.userID = userID;
+    },
     toggleConfigurator(state) {
       state.showConfig = !state.showConfig;
     },
@@ -67,5 +71,7 @@ export default createStore({
       commit("cardBackground", payload);
     },
   },
-  getters: {},
+  getters: {
+    userID: state => state.userID,
+  },
 });

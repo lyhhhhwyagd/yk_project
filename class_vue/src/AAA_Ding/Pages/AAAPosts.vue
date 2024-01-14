@@ -64,8 +64,8 @@
     </div>
 
     <div class="row mt-4">
-      <div class='col-md-1'></div>
-      <div class="col-md-8">
+      <div class='col-md-2'></div>
+      <div class="col-md-6">
         <a-a-a-post-list
             title="热门帖子"
             :bills="this.bills"
@@ -94,6 +94,7 @@
               },
             ]"
         >
+          <button @click="navigateToPostAdd" class="centered-button">开启创作之旅</button>
           <ranking-list
               title="消息"
               :item="[
@@ -144,14 +145,17 @@ export default {
       bills:[],
     };
   },
-  created() { // 或者使用 mounted()
-    this.getPostsData(); // 在组件创建时获取数据
+  created() {
+    this.getPostsData();
   },
   components: {
     RankingList, RankingListCard, AAAPostList,
     MiniStatisticsCard,
   },
   methods: {
+    navigateToPostAdd() {
+      this.$router.push({ name: 'PostsAdd', query: { userID: this.$store.state.userID } });
+    },
     getPostsData() {
       console.log("开始访问数据");
       axios.get('http://localhost:8080/post')
@@ -180,3 +184,25 @@ export default {
   }
 };
 </script>
+
+<style>
+.centered-button {
+  font-size: 14px;
+  color: #333;
+  border: 2px solid rgb(43, 183, 53);
+  border-radius: 10px;
+  padding: 10px 20px;
+  background-color: #fff;
+  cursor: pointer;
+  outline: none;
+  display: block;
+  margin: 0 auto;
+  transition: background-color 0.3s, border-color 0.3s;
+  width: 200px;
+}
+
+.centered-button:hover {
+  background-color: #f5f5f5;
+  border-color: #76b476;
+}
+</style>

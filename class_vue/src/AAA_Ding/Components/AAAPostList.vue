@@ -92,7 +92,9 @@
 }
 
 .textL3 {
-  font-size: 14px; /* Adjust to your desired size */
+  font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+  font-size: 16px;
+  line-height: 1.8; /* Single line spacing can vary, but 1.2 is a common value */
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
