@@ -22,8 +22,8 @@ public interface PostMapper {
 
     @Options(useGeneratedKeys = true,keyProperty = "PostsID")
     @Insert("insert into post" +
-            "(postID, title, content, postedTime, updateTime, commentsCount, authorID, authorName, status) " +
-            "values(#{postID}, #{title}, #{content}, #{postedTime}, #{updateTime}" +
+            "(postID, title, content, postTime, updateTime, commentsCount, authorID, authorName, status) " +
+            "values(#{postID}, #{title}, #{content}, #{postTime}, #{updateTime}" +
             ", #{commentsCount}, #{authorID}, #{authorName}, #{status})")
     int insert(Post post);
 

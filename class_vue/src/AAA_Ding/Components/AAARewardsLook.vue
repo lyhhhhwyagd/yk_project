@@ -106,9 +106,6 @@
 <script>
 import axios from 'axios';
 
-
-
-
 export default {
   name: 'search',
   data() {
@@ -154,26 +151,6 @@ export default {
           .catch(error => {
             console.error(error);
           });
-    },
-    async submitChanges() {  // 添加一个新的方法来处理提交
-      console.log("正在发送对象");
-      const id = this.$route.params.id; // 获取页面的ID
-      axios.put(`http://localhost:8080/reward/${id}`,this.newReward, {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-          .then(response => {
-            if (response.data.code === 200) {
-              console.log('Update successful');
-            } else {
-              console.error('Error updating reward: ' + response.data.message);
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      this.$router.push('/rewards');
     },
   },
 };

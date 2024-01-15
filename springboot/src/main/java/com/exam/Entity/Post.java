@@ -7,7 +7,7 @@ public class Post {
     private String postID;
     private String title;
     private String content;
-    private String postedTime;
+    private String postTime;
     private String updateTime;
     private String commentsCount;
     private String authorID;
@@ -23,8 +23,8 @@ public class Post {
     public void setContent(String content) {
         this.content = content;
     }
-    public void setPostedTime(String postedTime) {
-        this.postedTime = postedTime;
+    public void setPostedTime(String postTime) {
+        this.postTime = postTime;
     }
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;

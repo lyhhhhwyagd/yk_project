@@ -21,7 +21,7 @@
                   <a class="btn btn-link text-dark px-3 mb-0">
                     <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>评论
                   </a>
-                  <a class="btn btn-link px-3 mb-0" id="expand-button">
+                  <a class="btn btn-link px-3 mb-0" id="expand-button" @click="postLook(bills[index].id)">
                     <i class="fas fa-arrow-down"></i>阅读全文
                   </a>
                   <a class="btn btn-link text-dark px-3 mb-0">
@@ -72,7 +72,7 @@
           const response = await axios.delete(`http://localhost:8080/post/${id}`);
           if (response.data.code === 200) {
             console.log('删除成功');
-            window.location.reload();
+            this.$router.push({ name: 'Posts', query: { userID: this.$route.query.userID } });
           } else {
             console.error('Error updating reward: ' + response.data.message);
           }
@@ -80,6 +80,9 @@
           console.error(error);
         }
       },
+      postLook(id){
+        this.$router.push({ name: 'PostsLook', params: { id: id }, query: { userID: this.userID } });
+      }
     },
   };
   </script>
@@ -92,7 +95,7 @@
 }
 
 .textL3 {
-  font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+  font-family: "Times New Roman", "Microsoft YaHei", "微软雅黑", sans-serif;
   font-size: 16px;
   line-height: 1.8; /* Single line spacing can vary, but 1.2 is a common value */
   display: -webkit-box;

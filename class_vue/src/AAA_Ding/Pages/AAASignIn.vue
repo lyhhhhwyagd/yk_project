@@ -132,21 +132,24 @@ export default {
   methods: {
     ...mapMutations(["toggleEveryDisplay", "toggleHideConfig"]),
     submitForm() {
-      console.log("开始访问数据");
-      axios.post('http://localhost:8080/loginIn',this.userCredentials)
-          .then(response => {
-            if (response.data.code === 200) {
-              this.user = response.data.data;
-              this.$store.commit('setUserID', this.user.userID);
-              this.$router.push({ name: 'Rewards', query: { userID: this.user.userID } });
-            } else {
-              window.alert("账号密码错误");
-              console.error('Error fetching rewards: ' + response.data.message);
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
+      if (this.userCredentials.email === '' || this.userCredentials.password === '') {
+        alert('账号或密码不能为空');
+      }else{
+        axios.post('http://localhost:8080/loginIn',this.userCredentials)
+            .then(response => {
+              if (response.data.code === 200) {
+                this.user = response.data.data;
+                this.$store.commit('setUserID', this.user.userID);
+                this.$router.push({ name: 'Rewards', query: { userID: this.user.userID } });
+              } else {
+                window.alert("账号密码错误");
+                console.error('Error fetching rewards: ' + response.data.message);
+              }
+            })
+            .catch(error => {
+              console.error(error);
+            });
+      }
     },
   },
 };

@@ -42,6 +42,8 @@ public class PostController {
     @PostMapping("/post")
     public ApiResult insert(@RequestBody Post post){
         System.out.println("添加帖子");
+        System.out.println(post.getPostID());
+        System.out.println(post.getPostTime());
         return ApiResultHandler.success(postService.insert(post));
     }
 

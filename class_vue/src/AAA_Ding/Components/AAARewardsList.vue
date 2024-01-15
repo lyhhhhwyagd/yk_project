@@ -465,8 +465,7 @@ export default {
       let minutes = String(now.getMinutes()).padStart(2, '0');
       let seconds = String(now.getSeconds()).padStart(2, '0');
 
-      let timeNow = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-      return timeNow;
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
     askRewards(reward){
       this.getUserData();
@@ -498,9 +497,8 @@ export default {
     },
     async deleteItem(rewardsID) {
       console.log("开始删除");
-      const id = rewardsID;
       try {
-        const response = await axios.delete(`http://localhost:8080/reward/${id}`);
+        const response = await axios.delete(`http://localhost:8080/reward/${rewardsID}`);
         if (response.data.code === 200) {
           console.log('删除成功');
           window.location.reload();

@@ -5,49 +5,49 @@
   >
     <ul class="navbar-nav">
       <li class="nav-item">
-        <sidenav-collapse navText="Dashboard" :to="{ name: 'Dashboard', query: { userID: userID } }">
+        <sidenav-collapse navText="Dashboard" :to="{ name: 'Dashboard', query: { userID: this.userID } }">
           <template #icon>
             <shop />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="论坛主页" :to="{ name: 'Posts', query: { userID: userID }  }">
+        <sidenav-collapse navText="论坛主页" :to="{ name: 'Posts', query: { userID: this.userID }  }">
           <template #icon>
             <shop />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="悬赏管理" :to="{ name: 'Rewards', query: { userID: userID }  }">
+        <sidenav-collapse navText="悬赏管理" :to="{ name: 'Rewards', query: { userID: this.userID }  }">
           <template #icon>
             <shop />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="课程管理" :to="{ name: 'Tables', query: { userID: userID }  }">
+        <sidenav-collapse navText="课程管理" :to="{ name: 'Tables', query: { userID: this.userID }  }">
           <template #icon>
             <office />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="用户管理" :to="{ name: 'Profile', query: { userID: userID }  }">
+        <sidenav-collapse navText="用户管理" :to="{ name: 'Profile', query: { userID: this.userID }  }">
           <template #icon>
             <customer-support />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="抽奖点名" :to="{ name: 'CheckRoll', query: { userID: userID }  }">
+        <sidenav-collapse navText="抽奖点名" :to="{ name: 'CheckRoll', query: { userID: this.userID }  }">
           <template #icon>
             <switches />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="待办事项" :to="{ name: 'Tasks' }">
+        <sidenav-collapse navText="待办事项" :to="{ name: 'Tasks', query: { userID: this.userID }   }">
           <template #icon>
             <office />
           </template>

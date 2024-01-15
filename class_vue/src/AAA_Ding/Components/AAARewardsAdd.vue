@@ -199,7 +199,7 @@ export default {
           .catch(error => {
             console.error(error);
           });
-      this.$router.push({ name: 'Rewards', query: { userID: this.$route.query.userID } });
+      this.$router.push({ name: 'Rewards', query: { userID: this.newReward.postedByUserID } });
     },
   },
 };
