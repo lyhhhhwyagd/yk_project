@@ -22,8 +22,8 @@ public interface PostCommentMapper {
 
     @Options(useGeneratedKeys = true,keyProperty = "commentID")
     @Insert("insert into post_comment" +
-            "(commentID, authorID, postID, postAuthorID, content, postTime, updateTime, status) " +
-            "values(#{commentID}, #{authorID}, #{postID}, #{postAuthorID}, #{content}" +
+            "(commentID, authorID, authorName, postID, postAuthorID, content, postTime, updateTime, status) " +
+            "values(#{commentID}, #{authorID}, #{authorName}, #{postID}, #{postAuthorID}, #{content}" +
             ", #{postTime}, #{updateTime}, #{status})")
     int insert(PostComment postComment);
 

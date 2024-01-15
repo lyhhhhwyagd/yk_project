@@ -6,6 +6,7 @@ import lombok.Getter;
 public class PostComment {
     private String commentID;
     private String authorID;
+    private String authorName;
     private String postID;
     private String postAuthorID;
     private String content;
@@ -18,6 +19,9 @@ public class PostComment {
     }
     public void setAuthorID(String authorID) {
         this.authorID = authorID;
+    }
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
     public void setPostID(String postID) {
         this.postID = postID;
