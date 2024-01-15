@@ -18,13 +18,13 @@
                   <a class="btn btn-link text-danger text-gradient px-3 mb-0">
                     <i class="fas fa-thumbs-up me-2" aria-hidden="true"></i>点赞
                   </a>
-                  <a class="btn btn-link text-dark px-3 mb-0">
+                  <a class="btn btn-link text-dark px-3 mb-0" @click="postLook(bills[index].id)">
                     <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>评论
                   </a>
                   <a class="btn btn-link px-3 mb-0" id="expand-button" @click="postLook(bills[index].id)">
                     <i class="fas fa-arrow-down"></i>阅读全文
                   </a>
-                  <a class="btn btn-link text-dark px-3 mb-0">
+                  <a class="btn btn-link text-dark px-3 mb-0" @click="postModify(bills[index].id)">
                     <i class="fas fa-edit text-dark me-2" aria-hidden="true"></i>修改
                   </a>
                   <a href="javascript:;" class="btn btn-link text-danger text-gradient px-3 mb-0" @click="confirmDelete(bills[index].id)">
@@ -81,8 +81,11 @@
         }
       },
       postLook(id){
-        this.$router.push({ name: 'PostsLook', params: { id: id }, query: { userID: this.userID } });
-      }
+        this.$router.push({ name: 'PostsLook', params: { id: id }, query: { userID: this.$route.query.userID } });
+      },
+      postModify(id){
+        this.$router.push({ name: 'PostsModify', params: { id: id }, query: { userID: this.$route.query.userID } });
+      },
     },
   };
   </script>
