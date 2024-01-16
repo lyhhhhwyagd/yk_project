@@ -20,6 +20,7 @@ import AAARewardsModify from "@/AAA_Ding/Components/AAARewardsModify.vue";
 import AAARewardsLook from "@/AAA_Ding/Components/AAARewardsLook.vue";
 import AAARewardsStatistics from "@/AAA_Ding/Components/AAARewardsStatistics.vue";
 import Tasks from "@/views/Tasks.vue";
+import AAAWeather from "@/AAA_Ding/Pages/AAAWeather.vue";
 const routes = [
   {
     path: "/",
@@ -80,6 +81,11 @@ const routes = [
     path: '/rewards/statistics',
     name: 'RewardsStatistics',
     component: AAARewardsStatistics,
+  },
+  {
+    path: '/weather',
+    name: 'Weather',
+    component: AAAWeather,
   },
   {
     path: "/dashboard",

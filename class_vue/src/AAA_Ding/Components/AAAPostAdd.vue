@@ -102,24 +102,28 @@ export default {
     submitAdd() {
       this.newPost.postTime=this.getPostedTime();
       this.newPost.updateTime=this.newPost.postTime;
-      console.log("正在发送对象");
-      const id = this.$route.params.id; // 获取页面的ID
-      axios.post(`http://localhost:8080/post`,this.newPost, {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-          .then(response => {
-            if (response.data.code === 200) {
-              console.log('Post successful');
-            } else {
-              console.error('Error updating reward: ' + response.data.message);
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      this.$router.push({ name: 'Posts', query: { userID: this.$route.query.userID } });
+      if(this.newPost.title===''||this.newPost.content===''){
+        window.alert("标题或内容为空");
+      }else{
+        const id = this.$route.params.id; // 获取页面的ID
+        axios.post(`http://localhost:8080/post`,this.newPost, {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+            .then(response => {
+              if (response.data.code === 200) {
+                console.log('Post successful');
+                console.log(this.newPost);
+              } else {
+                console.error('Error updating reward: ' + response.data.message);
+              }
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        this.$router.push({ name: 'Posts', query: { userID: this.$route.query.userID } });
+      }
     },
   }
 };

@@ -162,7 +162,6 @@ export default {
           .then(response => {
             if (response.data.code === 200) {
               this.posts = response.data.data;
-              console.log(this.posts);
               for(let i=0;i<this.posts.length;i++){
                 this.bills.push({
                   title:this.posts[i].title,
@@ -172,7 +171,6 @@ export default {
                   author:this.posts[i].authorName,
                 })
               }
-              console.log(this.bills);
             } else {
               console.error('Error fetching rewards: ' + response.data.message);
             }

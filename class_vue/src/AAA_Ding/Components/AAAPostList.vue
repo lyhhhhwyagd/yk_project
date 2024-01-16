@@ -72,7 +72,7 @@
           const response = await axios.delete(`http://localhost:8080/post/${id}`);
           if (response.data.code === 200) {
             console.log('删除成功');
-            this.$router.push({ name: 'Posts', query: { userID: this.$route.query.userID } });
+            window.location.reload();
           } else {
             console.error('Error updating reward: ' + response.data.message);
           }
