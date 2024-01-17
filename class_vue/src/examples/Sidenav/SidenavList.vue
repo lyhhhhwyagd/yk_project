@@ -5,14 +5,14 @@
   >
     <ul class="navbar-nav">
       <li class="nav-item">
-        <sidenav-collapse navText="天气管理" :to="{ name: 'Weather', query: { userID: this.userID } }">
+        <sidenav-collapse navText="Dashboard" :to="{ name: 'Dashboard', query: { userID: this.userID } }">
           <template #icon>
             <shop />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="Dashboard" :to="{ name: 'Dashboard', query: { userID: this.userID } }">
+        <sidenav-collapse navText="天气管理" :to="{ name: 'Weather', query: { userID: this.userID } }">
           <template #icon>
             <shop />
           </template>

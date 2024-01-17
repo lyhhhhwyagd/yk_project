@@ -23,44 +23,118 @@
           class="section min-vh-85 position-relative transform-scale-0 transform-scale-md-7"
         >
         <div class="Box">
+          
           <div style="position: relative;">
-              <!-- <el-progress type="circle"  :stroke-width="26" :width="550" :percentage="100" :show-text="false" status="success"></el-progress>
-              <div class="name" v-loading="loading">
-                  <div v-for="(item, index) in selectList" :key="index">
-                      就决定是你了！
-                      {{"\n"+ item }}！
-                  </div>
-                  <div v-if="selectList.length == 0">请开始抽奖吧!</div>
-              </div> -->
-              <LuckyWheel
-                      ref="myLucky"
-                      width="500px"
-                      height="500px"
-                      :prizes="prizes"
-                      :blocks="blocks"
-                      :buttons="buttons"
-                      @start="startCallback"
-                      @end="endCallback"
-                    />
-          </div>
-          <!-- <el-button size="large" type="success" round style="margin-top: 20px;" @click="randomStudent();">开始抽奖！</el-button> -->
-          <el-button size="large" type="success" round style="margin-top: 10px;" @click="get()">获取学生数据</el-button>
-          <el-button size="large" type="success" round style="margin-top: 10px;" @click="back()">返回主界面</el-button>
-        </div>
-          <div class="container-fluid">
-            <div class="pt-10 row">
-              <div class="col-lg-8 col-md-11">
-                <div class="d-flex">
-                  <div class="ms-auto">
-                  </div>
-                </div>
-                
-              </div>
+            <LuckyWheel
+                    ref="myLucky"
+                    width="500px"
+                    height="500px"
+                    :prizes="prizes"
+                    :blocks="blocks"
+                    :buttons="buttons"
+                    @start="startCallback"
+                    @end="endCallback"
+                  />
             </div>
-          </div>
         </div>
+        <div class="Box">
+          <el-row  :gutter="20">
+            <el-col :span="24" :offset="10">
+              <el-button size="large" type="success" round style="margin-top: 10px;" @click="get()">获取学生数据</el-button>
+              <el-button size="large" type="success" round style="margin-top: 10px;" @click="back()">返回主界面</el-button>
+            </el-col>
+            <el-col :span="12">
+              <h3>全部名单</h3>
+              <el-table
+                :data="filterstudents"
+                height="250"
+                style="width: 100%"
+              >
+                <el-table-column prop="name" label="姓名" sortable width="180" />
+                <el-table-column prop="id" label="学号" sortable />
+                <el-table-column align="right">
+                  <template #header>
+                    <el-input v-model="search" size="small" placeholder="请输入信息" />
+                  </template>
+                  <template #default="scope">
+                    <el-button type="success"  size="small" @click="dialogVisible1 = true,handleEdit(scope.$index, scope.row)"
+                      >编辑</el-button
+                    >
+                    <el-button
+                      size="small"
+                      type="danger"
+                      @click="handleDelete(scope.$index, scope.row)"
+                      >删除</el-button
+                    >
+                  </template>
+                </el-table-column>
+              </el-table>
+              <el-col :span="24" :offset="10">
+                <el-button size="large" type="success" round style="margin-top: 10px;" @click="dialogVisible = true">添加学生</el-button>
+              </el-col>
+            </el-col>
+            <el-col :span="12">
+              <h3>已抽学生</h3>
+              <el-table
+                :data="selectList"
+                style="width: 100%"
+              >
+              <el-table-column prop="name" label="姓名" sortable width="180" />
+              <el-table-column prop="id" label="学号" sortable />
+              </el-table>
+            </el-col>
+          </el-row>
+        </div>
+      </div>
       </main>
-      
+      <el-dialog
+        v-model="dialogVisible"
+        title="添加信息"
+        width="30%"
+        :before-close="handleClose"
+      >
+        <!-- <span>This is a message</span> -->
+        <el-form :model="addForm" label-width="120px">
+          <el-form-item label="姓名">
+            <el-input v-model="addForm.name" />
+          </el-form-item>
+          <el-form-item label="学号">
+            <el-input v-model="addForm.id" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="dialogVisible = false">取消</el-button>
+            <el-button type="success" @click="dialogVisible = false, handleAdd()">
+              确认
+            </el-button>
+          </span>
+        </template>
+      </el-dialog>
+      <el-dialog
+        v-model="dialogVisible1"
+        title="编辑信息"
+        width="30%"
+        :before-close="handleClose"
+      >
+        <!-- <span>This is a message</span> -->
+        <el-form :model="editForm" label-width="120px">
+          <el-form-item label="姓名">
+            <el-input v-model="editForm.name" />
+          </el-form-item>
+          <el-form-item label="学号">
+            <el-input v-model="editForm.id" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="dialogVisible1 = false">取消</el-button>
+            <el-button type="success" @click="dialogVisible1 = false, submmitChange()">
+              确认
+            </el-button>
+          </span>
+        </template>
+      </el-dialog>
     </div>
     <app-footer class="py-3 bg-white border-radius-lg" />
   </template>
@@ -81,8 +155,6 @@
 
   
   const body = document.getElementsByTagName("body")[0];
-  // const router = useRouter();
-  
   import { mapMutations, mapState } from "vuex";
   
   export default {
@@ -101,8 +173,11 @@
         selectList: [],//选中的学生数组
         selectedStudent: '',//当前选中的学生
         loading: false,
+        dialogVisible: false,
+        dialogVisible1: false,
         Num: 1,
         index: 0,
+        length: 0,
         show: true,
         router: useRouter(),
         blocks: [
@@ -118,11 +193,30 @@
           fonts: [{ text: '开始', top: '-10px' }]
         }
       ],
-      
+      addForm: {name:"",id:""},
+      editForm:'' ,
+      search:''
       };
     },
     computed: {
       ...mapState(["isTransparent", "isNavFixed", "navbarFixed", "mcolor"]),
+      filterstudents() {
+      return this.students.filter(
+        (data) => {
+        // Convert each property to lowercase for case-insensitive comparison
+        const lowerSearch = this.search.toLowerCase();
+        const lowerName = data.name.toLowerCase();
+        const lowerId = data.id.toLowerCase();
+
+        // Check if any property contains the search value
+        return (
+          !lowerSearch ||
+          lowerName.includes(lowerSearch) ||
+          lowerId.includes(lowerSearch) 
+        );
+      }
+      );
+    },
     },
     mounted() {
       setTooltip(this.$store.state.bootstrap);
@@ -153,9 +247,10 @@
       get(){
         axios.get('http://localhost:8080/checkroll/find_all').then(res=>{
             console.log(res);
+            this.length += res.data.length;
             for (let i = 0; i <res.data.length; i++) {
                 console.log(res.data[i].studentName);
-                this.students.push(res.data[i].studentName);
+                this.students.push({name: res.data[i].studentName, id: res.data[i].studentId});
                 let data = {};
                 if (i%2==0) {
                   data={
@@ -175,25 +270,57 @@
       back(){
         this.router.push("/Dashboard");
       },
-      //抽取随机学生
-      randomStudent() {
-        if( this.students.length == 0){
-            ElMessage.error('学生已全部遍历或列表为空，请获取学生数据')
-        }else{
-            this.selectList = []
-            this.loading = true
-            let arr = JSON.parse(JSON.stringify(this.students))  //深拷贝一份数组
-            for (let i = 0; i < this.Num; i++) {
-                let index = Math.floor(Math.random() * arr.length);
-                this.selectList.push(arr[index]);
-                arr.splice(index, 1);
-            }
-            this.students = arr;
-            setTimeout(() => {
-                this.loading = false
-            }, 500)
-        }
+      handleEdit(index, row) {
+        console.log(index, row);
+        this.editForm = row;
+        console.log(this.editForm)
+        this.index = index
       },
+      submmitChange(){
+        this.students[this.index] =  this.editForm;
+        this.prizes[this.index].fonts = [{ text: this.editForm.name }];
+      },
+      handleDelete(index, row) {
+        console.log(index, row);
+        this.students.splice(index,1)
+        this.prizes.splice(index,1)
+      },
+      handleAdd(){
+        console.log(this.addForm);
+        this.students.push(this.addForm);
+        let data = {};
+        if (this.length%2==0) {
+          data={
+            background: '#92E92D', fonts: [{ text: this.addForm.name }]
+          }
+        }else{
+          data={
+            background: '#20B237', fonts: [{ text: this.addForm.name }]
+          }
+        }
+        this.prizes.push(data);
+        this.length ++;
+        this.addForm = {name:"",id:""};
+      },
+      //抽取随机学生
+      // randomStudent() {
+      //   if( this.students.length == 0){
+      //       ElMessage.error('学生已全部遍历或列表为空，请获取学生数据')
+      //   }else{
+      //       this.selectList = []
+      //       this.loading = true
+      //       let arr = JSON.parse(JSON.stringify(this.students))  //深拷贝一份数组
+      //       for (let i = 0; i < this.Num; i++) {
+      //           let index = Math.floor(Math.random() * arr.length);
+      //           this.selectList.push(arr[index]);
+      //           arr.splice(index, 1);
+      //       }
+      //       this.students = arr;
+      //       setTimeout(() => {
+      //           this.loading = false
+      //       }, 500)
+      //   }
+      // },
       // 点击抽奖按钮会触发star回调
       startCallback () {
         // 调用抽奖组件的play方法开始游戏
@@ -206,14 +333,10 @@
           }else{
             this.index = Math.floor(Math.random() * this.prizes.length);
             this.$refs.myLucky.stop(this.index)
-            //console.log(this.prizes[index].fonts.text)
-            
-            
+            //console.log(this.prizes[index].fonts.text)   
           }
-          
           //const index = 0
           // 调用stop停止旋转并传递中奖索引
-          
         }, 3000)
         
         //this.prizes.splice(index,1)
@@ -222,7 +345,16 @@
       endCallback (prize) {
         console.log(prize.fonts[0].text)
         this.prizes.splice(this.index,1)
+        //this.students.splice(this.index,1)
+        this.selectList.push(this.students[this.index])
       },
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      }
     },
   };
   </script>
