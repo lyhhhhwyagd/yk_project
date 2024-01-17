@@ -26,6 +26,7 @@ import VueLuckyCanvas from '@lucky-canvas/vue'
 import ElementUI from "element-plus";
 import "element-plus/theme-chalk/index.css"
 
+
 const appInstance = createApp(App);
 appInstance.use(store);
 appInstance.use(router);

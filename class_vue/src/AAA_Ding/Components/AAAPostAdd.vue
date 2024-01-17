@@ -69,7 +69,7 @@ export default {
               this.posts = response.data.data;
               let today = new Date();
               let todayFormatted = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
-              let maxId = 0;
+              let maxId = 1;
               for(let i=0; i<this.posts.length; i++){
                 if(this.posts[i].postID.substring(0, 8)===todayFormatted){
                   let id = Number(this.posts[i].postID.substring(8));

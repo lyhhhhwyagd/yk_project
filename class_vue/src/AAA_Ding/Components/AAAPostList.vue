@@ -15,8 +15,16 @@
               </div>
               <div class="d-flex justify-content-between">
                 <div>
-                  <a class="btn btn-link text-danger text-gradient px-3 mb-0">
-                    <i class="fas fa-thumbs-up me-2" aria-hidden="true"></i>点赞
+                  <a
+                      class="btn btn-link px-3 mb-0"
+                      :class="{ 'text-danger': judgeIsLiked(bills[index].id), 'text-secondary': !judgeIsLiked(bills[index].id) }"
+                      @click="toggleLike(bills[index].id)"
+                  >
+                    <i
+                        class="fas fa-thumbs-up me-2"
+                        :class="{ 'text-danger': judgeIsLiked(bills[index].id), 'text-secondary': !judgeIsLiked(bills[index].id) }"
+                        aria-hidden="true"
+                    ></i>点赞
                   </a>
                   <a class="btn btn-link text-dark px-3 mb-0" @click="postLook(bills[index].id)">
                     <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>评论
@@ -59,7 +67,34 @@
         default: () => [],
       },
     },
+    data() {
+      return {
+        postLikes:[],
+        newLikes:{
+          id:'',
+          authorID:'',
+          postID:'',
+          createTime:'',
+        }
+      };
+    },
+    created(){
+      this.getPostLikes();
+    },
     methods: {
+      getPostLikes(){
+        axios.get(`http://localhost:8080/postLikes`) // 将ID添加到请求的URL中
+            .then(response => {
+              if (response.data.code === 200) {
+                this.postLikes=response.data.data;
+              } else {
+                console.error('Error fetching rewards: ' + response.data.message);
+              }
+            })
+            .catch(error => {
+              console.error(error);
+            });
+      },
       confirmDelete(id) {
         console.log("确认删除？");
         if (window.confirm('确认删除？')) {
@@ -86,6 +121,63 @@
       postModify(id){
         this.$router.push({ name: 'PostsModify', params: { id: id }, query: { userID: this.$route.query.userID } });
       },
+      judgeIsLiked(id){
+        let authorID=this.$route.query.userID;
+        for(let i=0;i<this.postLikes.length;i++){
+          if(this.postLikes[i].authorID===authorID&&this.postLikes[i].postID===id){
+            return true;
+          }
+        }
+        return false;
+      },
+      toggleLike(id){
+        let authorID=this.$route.query.userID;
+        let flag=0;
+        for(let i=0;i<this.postLikes.length;i++){
+          if(this.postLikes[i].authorID===authorID&&this.postLikes[i].postID===id){
+            flag=1;
+            break;
+          }
+        }
+        if(flag===0){
+          this.newLikes.id=this.getPostLikesID();
+          this.newLikes.authorID=authorID;
+          this.newLikes.postID=id;
+          this.newLikes.createTime=this.getTime();
+          axios.post(`http://localhost:8080/postLikes`,this.newLikes);
+        }
+        if(flag===1){
+          axios.delete(`http://localhost:8080/postLikes/${authorID}/${id}`);
+        }
+        window.location.reload();
+      },
+      getPostLikesID() {
+        let today = new Date();
+        let todayFormatted = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
+        let maxId = 1;
+        for(let i=0; i<this.postLikes.length; i++){
+          if(this.postLikes[i].id.substring(0, 8)===todayFormatted){
+            let id = Number(this.postLikes[i].id.substring(8));
+            if (id >= maxId){
+              maxId = id+1;
+            }
+          }
+        }
+        return todayFormatted + String(maxId).padStart(4, '0');
+      },
+      getTime() {
+        let now = new Date();
+
+        let year = now.getFullYear();
+        let month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        let day = String(now.getDate()).padStart(2, '0');
+
+        let hours = String(now.getHours()).padStart(2, '0');
+        let minutes = String(now.getMinutes()).padStart(2, '0');
+        let seconds = String(now.getSeconds()).padStart(2, '0');
+
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      },
     },
   };
   </script>
@@ -106,5 +198,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.text-secondary {
+  color: #6c757d; /* Bootstrap的深灰色 */
 }
 </style>
