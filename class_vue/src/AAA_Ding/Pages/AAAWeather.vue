@@ -133,7 +133,37 @@
       </div>
     </div>
     <div class="right-container">
-      <Amap :amapKey="this.yourAMapKey" />
+      <div class="col-lg-6 col-12 d-flex ms-auto">
+        <a
+            href="javascript:;"
+            class="btn btn-icon btn-outline-secondary ms-auto"
+        >
+          <span class="btn-inner--text">Export</span>
+          <span class="btn-inner--icon ms-2"
+          ><i class="ni ni-folder-17"></i
+          ></span>
+        </a>
+        <div class="dropleft ms-3">
+          <button
+              id="dropdownImport"
+              class="btn bg-gradient-dark dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+          >
+            Today
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownImport">
+            <li><a class="dropdown-item" href="javascript:;">Yesterday</a></li>
+            <li>
+              <a class="dropdown-item" href="javascript:;">Last 7 days</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="javascript:;">Last 30 days</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>

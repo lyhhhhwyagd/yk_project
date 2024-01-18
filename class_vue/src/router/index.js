@@ -9,7 +9,8 @@ import sp from "../views/sp.vue";
 import Rtl from "@/views/Rtl.vue";
 import SignIn from "@/AAA_Ding/Pages/AAASignIn.vue";
 import SignUp from "@/views/SignUp.vue";
-import CheckRoll from "@/views/CheckRoll.vue"
+import CheckRoll from "@/views/CheckRoll.vue";
+import AAANavigationBar from "@/AAA_Ding/Components/AAANavigationBar.vue";
 import AAAPosts from "@/AAA_Ding/Pages/AAAPosts.vue";
 import AAAPostList from "@/AAA_Ding/Components/AAAPostList.vue";
 import AAAPostAdd from "@/AAA_Ding/Components/AAAPostAdd.vue";
@@ -29,6 +30,11 @@ const routes = [
     path: "/",
     name: "/",
     redirect: "/sign-in",
+  },
+  {
+    path: "/navigationBar1",
+    name: "NavigationBar",
+    component: AAANavigationBar,
   },
   {
     path: "/posts",
