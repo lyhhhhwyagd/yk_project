@@ -114,13 +114,13 @@ export default {
     SidenavCollapse,
     Shop,
     Office,
-    CreditCard,
-    Box3d,
+
+
     CustomerSupport,
     Switches,
     Document,
     Spaceship,
-    Settings,
+
   },
   methods: {
     getRoute() {

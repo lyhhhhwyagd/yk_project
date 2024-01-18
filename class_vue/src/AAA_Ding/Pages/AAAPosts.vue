@@ -164,11 +164,14 @@ export default {
               this.posts = response.data.data;
               for(let i=0;i<this.posts.length;i++){
                 this.bills.push({
+                  id:this.posts[i].postID,
                   title:this.posts[i].title,
                   content:this.posts[i].content,
-                  createTime:this.posts[i].updateTime,
-                  id:this.posts[i].postID,
-                  author:this.posts[i].authorName,
+                  authorID:this.posts[i].authorID,
+                  authorName:this.posts[i].authorName,
+                  postTime:this.posts[i].postTime,
+                  updateTime: this.posts[i].updateTime,
+                  status: this.posts[i].status,
                 })
               }
             } else {
