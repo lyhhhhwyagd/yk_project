@@ -197,9 +197,9 @@ export default {
   cursor: pointer;
   outline: none;
   display: block;
-  margin: 0 auto;
   transition: background-color 0.3s, border-color 0.3s;
-  width: 200px;
+  margin-left: 20px;
+  width: calc(100% - 40px);
 }
 
 .centered-button:hover {

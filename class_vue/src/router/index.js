@@ -15,6 +15,7 @@ import AAAPostList from "@/AAA_Ding/Components/AAAPostList.vue";
 import AAAPostAdd from "@/AAA_Ding/Components/AAAPostAdd.vue";
 import AAAPostLook from "@/AAA_Ding/Components/AAAPostLook.vue";
 import AAAPostModify from "@/AAA_Ding/Components/AAAPostModify.vue";
+import AAAPostsStatistics from "@/AAA_Ding/Components/AAAPostStatistics.vue";
 import AAARewards from "@/AAA_Ding/Pages/AAARewards.vue";
 import AAARewardsList from "@/AAA_Ding/Components/AAARewardsList.vue";
 import AAARewardsAdd from "@/AAA_Ding/Components/AAARewardsAdd.vue";
@@ -53,6 +54,11 @@ const routes = [
     path: '/posts/modify/:id',
     name: 'PostsModify',
     component: AAAPostModify,
+  },
+  {
+    path: '/posts/statistics',
+    name: 'PostsStatistics',
+    component: AAAPostsStatistics,
   },
   {
     path: "/rewards",
