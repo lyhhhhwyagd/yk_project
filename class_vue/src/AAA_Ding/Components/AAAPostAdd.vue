@@ -6,7 +6,7 @@
           <p3>发布新帖</p3>
           <hr>
           <!-- 表单区域开始 -->
-          <form>
+          <form @submit.prevent="submitAdd">
             <div class="form-group">
               <label for="postTitle" class="form-label">标题</label>
               <input type="text" class="form-control" id="postTitle" placeholder="输入标题" v-model="newPost.title">
@@ -104,6 +104,7 @@ export default {
       this.newPost.updateTime=this.newPost.postTime;
       if(this.newPost.title===''||this.newPost.content===''){
         window.alert("标题或内容为空");
+        return 0;
       }else{
         const id = this.$route.params.id; // 获取页面的ID
         axios.post(`http://localhost:8080/post`,this.newPost, {

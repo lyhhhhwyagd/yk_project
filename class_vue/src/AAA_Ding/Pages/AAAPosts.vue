@@ -4,7 +4,7 @@
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <mini-statistics-card
             title="今日新帖"
-            value="+3,000"
+            :value="this.newCommentsNum"
             :percentage="{
             value: '+505%',
             color: 'text-success',
@@ -18,8 +18,8 @@
       </div>
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <mini-statistics-card
-            title="新增用户"
-            value="+2,300"
+            title="总帖子数"
+            :value="this.posts.length"
             :percentage="{
             value: '+3%',
             color: 'text-success',
@@ -33,8 +33,8 @@
       </div>
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <mini-statistics-card
-            title="今日访问"
-            value="+3,462"
+            title="总评论数"
+            :value="this.comments.length"
             :percentage="{
             value: '-2%',
             color: 'text-danger',
@@ -48,8 +48,8 @@
       </div>
       <div class="col-xl-3 col-sm-6 mb-xl-0">
         <mini-statistics-card
-            title="总用户量"
-            value="103,430"
+            title="总点赞数"
+            :value="this.likes.length"
             :percentage="{
             value: '+5%',
             color: 'text-success',
@@ -100,25 +100,25 @@
               :item="[
               {
                 title: '我的帖子',
-                amount: '2',
+                amount: myPostsNum,
                 icon: 'fa-arrow-up',
                 color: 'dark',
               },
               {
                 title: '我的评论',
-                amount: '5',
+                amount: myCommentsNum,
                 icon: 'fa-arrow-up',
                 color: 'dark',
               },
               {
                 title: '收到点赞',
-                amount: '765',
+                amount: receivedLikesNum,
                 icon: 'fa-info',
                 color: 'dark',
               },
               {
                 title: '收到评论',
-                amount: '231',
+                amount: receivedCommentsNum,
                 icon: 'fa-info',
                 color: 'dark',
               },
@@ -143,10 +143,20 @@ export default {
       iconBackground: "bg-gradient-success",
       posts:[],
       bills:[],
+      comments:[],
+      likes:[],
+      myPosts:[],
+      newCommentsNum:'',
+      myPostsNum:'',
+      myCommentsNum:'',
+      receivedCommentsNum:'',
+      receivedLikesNum:'',
     };
   },
   created() {
-    this.getPostsData();
+    this.getPostsData().then(() => {
+      this.calculateData();
+    });
   },
   components: {
     RankingList, RankingListCard, AAAPostList,
@@ -156,32 +166,79 @@ export default {
     navigateToPostAdd() {
       this.$router.push({ name: 'PostsAdd', query: { userID: this.$store.state.userID } });
     },
-    getPostsData() {
+    async getPostsData() {
       console.log("开始访问数据");
-      axios.get('http://localhost:8080/post')
-          .then(response => {
-            if (response.data.code === 200) {
-              this.posts = response.data.data;
-              for(let i=0;i<this.posts.length;i++){
-                this.bills.push({
-                  id:this.posts[i].postID,
-                  title:this.posts[i].title,
-                  content:this.posts[i].content,
-                  authorID:this.posts[i].authorID,
-                  authorName:this.posts[i].authorName,
-                  postTime:this.posts[i].postTime,
-                  updateTime: this.posts[i].updateTime,
-                  status: this.posts[i].status,
-                })
-              }
-            } else {
-              console.error('Error fetching rewards: ' + response.data.message);
+
+      // 创建一个包含所有axios请求的Promise数组
+      const requests = [
+        axios.get('http://localhost:8080/post'),
+        axios.get('http://localhost:8080/postComment'),
+        axios.get('http://localhost:8080/postLikes')
+      ];
+
+      // 等待所有请求完成
+      const responses = await Promise.all(requests);
+
+      // 根据响应来更新数据
+      responses.forEach(response => {
+        if (response.data.code === 200) {
+          if (response.config.url.endsWith('/post')) {
+            this.posts = response.data.data;
+            for(let i=0;i<this.posts.length;i++){
+              this.bills.push({
+                id:this.posts[i].postID,
+                title:this.posts[i].title,
+                content:this.posts[i].content,
+                authorID:this.posts[i].authorID,
+                authorName:this.posts[i].authorName,
+                postTime:this.posts[i].postTime,
+                updateTime: this.posts[i].updateTime,
+                status: this.posts[i].status,
+              })
             }
-          })
-          .catch(error => {
-            console.error(error);
-          });
+          } else if (response.config.url.endsWith('/postComment')) {
+            this.comments = response.data.data;
+          } else if (response.config.url.endsWith('/postLikes')) {
+            this.likes = response.data.data;
+          }
+        }
+      });
     },
+    calculateData(){
+      let authorID=this.$route.query.userID;
+      let today = new Date();
+      let todayFormatted = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
+      this.newCommentsNum=0;
+      this.myPostsNum=0;
+      this.myCommentsNum=0;
+      this.receivedCommentsNum=0;
+      this.receivedLikesNum=0;
+      for(let i=0;i<this.posts.length;i++){
+        if(this.posts[i].postTime.includes(todayFormatted)){
+          this.newCommentsNum++;
+        }
+        if(this.posts[i].authorID===authorID){
+          this.myPostsNum++;
+          this.myPosts.push(this.posts[i]);
+        }
+      }
+      for(let i=0;i<this.comments.length;i++){
+        if(this.comments[i].authorID===authorID){
+          this.myCommentsNum++;
+        }
+        if(this.comments[i].postAuthorID===authorID){
+          this.receivedCommentsNum++;
+        }
+      }
+      for(let i=0;i<this.likes.length;i++){
+        let postID=this.likes[i].postID;
+        for(let j=0;j<this.myPosts.length;j++){
+          if(postID===this.myPosts[j].postID){
+            this.receivedLikesNum++;
+          }
+        }
+      }
+    }
   }
 };
 </script>
