@@ -4,6 +4,8 @@ import Tables from "@/views/Tables.vue";
 import Billing from "@/views/Billing.vue";
 import VirtualReality from "@/views/VirtualReality.vue";
 import Profile from "@/views/Profile.vue";
+import Practices from "../views/Practices.vue";
+import sp from "../views/sp.vue";
 import Rtl from "@/views/Rtl.vue";
 import SignIn from "@/AAA_Ding/Pages/AAASignIn.vue";
 import SignUp from "@/views/SignUp.vue";
@@ -96,6 +98,16 @@ const routes = [
     path: "/tables",
     name: "Tables",
     component: Tables,
+  },
+  {
+    path: "/practices",
+    name: "Practices",
+    component: Practices,
+  },
+  {
+    path:"/sp",
+    name:"sp",
+    component:sp,
   },
   {
     path: "/billing",

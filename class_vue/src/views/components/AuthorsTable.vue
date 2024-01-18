@@ -17,10 +17,10 @@
       <div style="margin-bottom: 10px">
         <el-button  style="background-color: #76dc30" type="primary" @click="handleAdd">新增</el-button>
         <el-button  style="background-color: #76dc30" type="info" @click="exportAll">导出</el-button>
-        <el-button  style="background-color: #76dc30" type="info" @click="printAll">打印</el-button>
+        <el-button  style="background-color: #76dc30" type="info" @click="handlePrint">打印</el-button>
       </div>
       <div>
-        <el-table  :data="data.tableData" :default-sort="{ prop: 'id', order: 'descending' }">
+        <el-table  :data="data.tableData" :default-sort="{ prop: 'id', order: 'descending' }" >
           <el-table-column label="编号" sortable prop="id"></el-table-column>
           <el-table-column label="课程名称" prop="courseName" width="180"></el-table-column>
           <el-table-column label="开课老师" prop="teacherId" width="180"></el-table-column>
@@ -92,7 +92,8 @@
   import {ElMessage} from "element-plus";
   import {ElMessageBox} from "element-plus";
   import * as echarts from 'echarts';
-  import {onMounted} from "@vue/runtime-core";
+  import {onMounted} from "vue";
+  import printJS from 'print-js';
   // request.get('/').then(res => {
   //     console.log(res)
   // })
@@ -154,6 +155,7 @@
         ElMessage.success("操作成功");
         data.formVisible=false;
         load();
+        aa();
       }
       else
       {
@@ -177,6 +179,7 @@
                 {
                   ElMessage.success("操作成功");
                   load();
+                  aa();
                 }
                 else
                 {
@@ -195,7 +198,7 @@
   //调用方法获取后台
   load()
 
-  onMounted(async () => {
+  onMounted( () => {
     setTimeout(() => {aa()}, 1000)
   })
 
@@ -235,14 +238,19 @@
     })
 
   }
-  const printAll = (index, row) => {
-    // 正常跳转
-    // router.push({ name: 'record', params: { id: row.id } })
-    // 为了打开新窗口用下面方式
-    // const url = router.resolve({
-    //     name: 'record',
-    //     params: { id: row.id }
-    // })
-    window.open("Dashborad")
+  const handlePrint=()=> {
+    printJS({
+      header: "课程表",
+      type: "json",
+      properties: [
+        { field: "courseName", displayName: "课程名称" },
+        { field: "teacherId", displayName: "开课老师" },
+        { field: "dep", displayName: "学院" },
+        { field: "classId", displayName: "班级" },
+        { field: "courseId", displayName: "课程号" },
+        { field: "bonus", displayName: "学分" },
+      ],
+      printable: data.tableData,
+    });
   }
 </script>

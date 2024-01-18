@@ -40,6 +40,20 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
+        <sidenav-collapse navText="习题管理" :to="{ name: 'Practices', query: { userID: this.userID }  }">
+          <template #icon>
+            <office />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="答题管理" :to="{ name: 'sp', query: { userID: this.userID }  }">
+          <template #icon>
+            <office />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
         <sidenav-collapse navText="用户管理" :to="{ name: 'Profile', query: { userID: this.userID }  }">
           <template #icon>
             <customer-support />
@@ -68,7 +82,7 @@
           PAGES
         </h6>
       </li>
-      
+
       <li class="nav-item">
         <sidenav-collapse navText="Sign In" :to="{ name: 'Sign In' }">
           <template #icon>
