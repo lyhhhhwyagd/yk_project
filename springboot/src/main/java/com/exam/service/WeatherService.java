@@ -10,4 +10,6 @@ public interface WeatherService {
     List<Weather> selectByCity(String City);
 
     List<Weather> selectByCityAndDate(String City,String Data);
+
+    int deleteById(String id);
 }

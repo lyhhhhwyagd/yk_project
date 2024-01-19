@@ -133,35 +133,146 @@
       </div>
     </div>
     <div class="right-container">
-      <div class="col-lg-6 col-12 d-flex ms-auto">
-        <a
-            href="javascript:;"
-            class="btn btn-icon btn-outline-secondary ms-auto"
-        >
-          <span class="btn-inner--text">Export</span>
-          <span class="btn-inner--icon ms-2"
-          ><i class="ni ni-folder-17"></i
-          ></span>
-        </a>
-        <div class="dropleft ms-3">
-          <button
-              id="dropdownImport"
-              class="btn bg-gradient-dark dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-          >
-            Today
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownImport">
-            <li><a class="dropdown-item" href="javascript:;">Yesterday</a></li>
-            <li>
-              <a class="dropdown-item" href="javascript:;">Last 7 days</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="javascript:;">Last 30 days</a>
-            </li>
-          </ul>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <!-- Card header -->
+            <div class="pb-0 card-header">
+              <div class="d-lg-flex align-items-center justify-content-between">
+                <div>
+                  <h5 class="mb-0">城市天气记录</h5>
+                  <p class="mb-0 text-sm">
+                    include weather condition, temperature, wind, visibility and so on.
+                  </p>
+                </div>
+                <div class="d-flex flex-row align-items-center mt-4">
+                  <div class="input-group search-box">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="搜索城市"
+                        v-model="searchQuery"
+                        @keyup.enter="search"
+                    />
+                  </div>
+                  <div>
+                    <button
+                        type="button"
+                        class="mx-1 mb-0 btn btn-outline-success btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#import"
+                        @click="Export"
+                    >
+                      Export
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                        class="mx-1 mb-0 btn btn-outline-success btn-sm"
+                        data-type="csv"
+                        type="button"
+                        name="button"
+                        @click="Print"
+                    >
+                      Print
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="px-0 pb-0 card-body">
+              <div class="table-responsive">
+                <table id="products-list" class="table table-flush">
+                  <thead class="thead-light">
+                  <tr>
+                    <th class="col-md-1 align-middle">
+                      <div class="d-flex">
+                        <div class="my-auto form-check my-form-check">
+                          <input
+                              id="customCheck23"
+                              class="form-check-input"
+                              type="checkbox"
+                              v-model="selectAll"
+                              @change="toggleSelectAll"
+                          />
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-md-2">城市</th>
+                    <th class="col-md-2 align-middle text-center">温度(°C)</th>
+                    <th class="col-md-1 align-middle text-center">风速(m/s)</th>
+                    <th class="col-md-1 align-middle text-center">风向</th>
+                    <th class="col-md-1 align-middle text-center">湿度(%)</th>
+                    <th class="col-md-1 align-middle text-center">能见度(km)</th>
+                    <th class="col-md-2 align-middle text-center">
+                      采集时间
+                      <button class="btn-sort text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" @click="toggleArrow_obsTime">
+                        <span class="arrow arrow-up" v-bind:class="{ 'green': arrowState_obsTime === 2 }">&#9650;</span>
+                        <span class="arrow arrow-down" v-bind:class="{ 'green': arrowState_obsTime === 1 }">&#9660;</span>
+                      </button>
+                    </th>
+                    <th class="col-md-1 align-middle text-center"></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr v-for="data in limitedWeatherData" :key="data.id">
+                    <td class="col-md-1 align-middle text-center">
+                      <div class="d-flex">
+                        <div class="my-auto form-check my-form-check">
+                          <input
+                              id="customCheck23"
+                              class="form-check-input"
+                              type="checkbox"
+                              v-model="data.selected"
+                              @change="toggleReward(data)"
+                          />
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div>
+                          <soft-avatar
+                              :img="this.weatherImage2(data.weatherCondition)"
+                              size="sm"
+                              border-radius="lg"
+                              class="me-3"
+                              alt="user1"
+                          />
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">{{ data.city }}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center">
+                      <h6 class="mb-0 text-sm">{{ data.temperature }}</h6>
+                    </td>
+                    <td class="align-middle text-center">
+                      <h6 class="mb-0 text-sm">{{ data.windSpeed }}</h6>
+                    </td>
+                    <td class="align-middle text-center">
+                      <h6 class="mb-0 text-sm">{{ data.windDirection }}</h6>
+                    </td>
+                    <td class="align-middle text-center">
+                      <h6 class="mb-0 text-sm">{{ data.humidity }}</h6>
+                    </td>
+                    <td class="align-middle text-center">
+                      <h6 class="mb-0 text-sm">{{ data.visibility }}</h6>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-secondary text-xs font-weight-bold">{{ data.obsTime }}</span>
+                    </td>
+                    <td class="align-middle">
+                      <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user" @click="deleteConfirm(data.id)">删除 </a>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -175,19 +286,25 @@ import TimelineItem from "@/views/components/TimelineItem.vue";
 import TimelineList from "@/views/components/TimelineList.vue";
 import DualRangeSlider from "@/AAA_Ding/Components/DualRangeSlider.vue";
 import Amap from "@/AAA_Ding/Components/Map.vue";
+import SoftBadge from "@/AAA_Ding/Components/SoftBadge.vue";
+import SoftAvatar from "@/AAA_Ding/Components/SoftAvatar.vue";
+import * as XLSX from "xlsx";
 
 
 export default {
-  components: {Amap, DualRangeSlider, TimelineList, TimelineItem, ProjectsCard},
+  components: {SoftAvatar, SoftBadge, Amap, DualRangeSlider, TimelineList, TimelineItem, ProjectsCard},
   data() {
     return {
+      arrowState_obsTime: 0,
+      selectAll:false,
+      WeatherDataSelected:[],
+      searchQuery: '',
       map: null,
       selectedCity: '成都',
       dropdownOpen: false,
       cities: ['北京', '上海', '成都', '三亚', '深圳', '杭州'],
       pastFiveDays:[],
       pastFiveWeek:[],
-      allCityWeatherData:[],
       CityWeatherData:[],
       lastestCityWeatherData:[],
       WeatherData_Now: {
@@ -205,15 +322,67 @@ export default {
       lastestObsTime:'',
       CityWeatherData_pastFiveDaysTempMax:[],
       CityWeatherData_pastFiveDaysTempMin:[],
-      yourAMapKey:'be791b6a6dada3c5f7c7c88608826963',
+      allCityWeatherData:[],
+      selectedWeatherData:[],
     };
   },
 
   created(){
+    this.getAllWeatherData();
     this.getCityWeatherData();
     this.getDateAndWeek();
   },
+  computed: {
+    limitedWeatherData() {
+      const dataLength = this.selectedWeatherData.length;
+      const startIndex = Math.max(dataLength - 100, 0);
+      return this.selectedWeatherData.slice(startIndex, dataLength).reverse();
+    }
+  },
   methods: {
+    toggleArrow_obsTime() {
+      this.arrowState_obsTime = (this.arrowState_obsTime + 1) % 3;
+      if(this.arrowState_obsTime===0){
+        this.selectedWeatherData=this.allCityWeatherData;
+      }
+      if(this.arrowState_obsTime===1){
+        this.selectedWeatherData = this.allCityWeatherData.sort((a, b) => {
+          // convert postedTime to Date object
+          const dateA = new Date(a.obsTime);
+          const dateB = new Date(b.obsTime);
+
+          // compare dates
+          return dateA - dateB;
+        });
+      }
+      if(this.arrowState_obsTime===2){
+        this.selectedWeatherData = this.allCityWeatherData.sort((a, b) => {
+          // convert postedTime to Date object
+          const dateA = new Date(a.obsTime);
+          const dateB = new Date(b.obsTime);
+
+          // compare dates
+          return dateB - dateA;
+        });
+      }
+    },
+    toggleSelectAll() {
+      this.WeatherDataSelected=[];
+      this.limitedWeatherData.forEach(data => {
+        data.selected = this.selectAll;
+        this.toggleReward(data);
+      });
+    },
+    toggleReward(data){
+      if (data.selected) {
+        this.WeatherDataSelected.push(data);
+      } else {
+        const index = this.WeatherDataSelected.findIndex(item => item.id === data.id);
+        if (index !== -1) {
+          this.WeatherDataSelected.splice(index, 1);
+        }
+      }
+    },
     toggleDropdown() {
       this.dropdownOpen = !this.dropdownOpen;
     },
@@ -246,13 +415,10 @@ export default {
           .then(response => {
             if (response.data.code === 200) {
               this.allCityWeatherData=response.data.data;
-            } else {
-              console.error('Error fetching rewards: ' + response.data.message);
+              this.selectedWeatherData=this.allCityWeatherData;
+              console.log(this.selectedWeatherData);
             }
           })
-          .catch(error => {
-            console.error(error);
-          });
     },
     getCityWeatherData() {
       const id = this.$route.params.id; // 获取页面的ID
@@ -362,18 +528,218 @@ export default {
         return require("@/AAA_Ding/images/阴.png");
       }
     },
+    weatherImage2(weatherCondition){
+      if(weatherCondition.includes('雨')){
+        return require("@/AAA_Ding/images/小雨.png");
+      }
+      else if(weatherCondition.includes('雪')){
+        return require("@/AAA_Ding/images/小雪.png");
+      }
+      else if(weatherCondition.includes('晴')){
+        return require("@/AAA_Ding/images/晴.png");
+      }
+      else if(weatherCondition.includes('多云')){
+        return require("@/AAA_Ding/images/多云.png");
+      }
+      else{
+        return require("@/AAA_Ding/images/阴.png");
+      }
+    },
+    deleteConfirm(id) {
+      if (window.confirm("是否删除？")) {
+        this.deleteItem(id);
+      }
+    },
+    async deleteItem(id) {
+      console.log("开始删除");
+      try {
+        const response = await axios.delete(`http://localhost:8080/weather/${id}`);
+        if (response.data.code === 200) {
+          console.log('删除成功');
+          window.location.reload();
+        } else {
+          console.error('Error updating reward: ' + response.data.message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    search(){
+      this.selectedWeatherData = [];
+      for (let i = 0; i < this.allCityWeatherData.length; i++) {
+        if (this.allCityWeatherData[i].city.includes(this.searchQuery)) {
+          this.selectedWeatherData.push(this.allCityWeatherData[i]);
+        }
+      }
+      if (this.searchQuery === '') {
+        this.selectedWeatherData = this.allCityWeatherData;
+      }
+    },
+    Export() {
+      if (this.WeatherDataSelected.length===0){
+        window.confirm("未选择任何信息！");
+      }else{
+        if (window.confirm("是否导出？")) {
+          this.ExportToExcel();
+        }
+      }
+    },
+    ExportToExcel() {
+      // 创建工作表数据数组
+      const ws_data = this.WeatherDataSelected.map(data => [
+        data.id,
+        data.city,
+        data.obsTime,
+        data.temperature,
+        data.humidity,
+        data.windSpeed,
+        data.windDirection,
+        data.weatherCondition,
+        data.pressure,
+        data.visibility
+      ]);
+
+      // 添加标题行
+      ws_data.unshift([
+        "id",
+        "city",
+        "obsTime",
+        "temperature(°C)",
+        "humidity(%)",
+        "windSpeed(m/s)",
+        "windDirection",
+        "weatherCondition",
+        "pressure(kPa)",
+        "visibility(km)"
+      ]);
+
+      // 使用数据构建工作表
+      const ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+      // 构建工作簿并添加工作表
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "WeatherData");
+
+      // 生成工作簿的二进制字符串
+      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+      // 将二进制字符串转换为Blob对象
+      function s2ab(s) {
+        const buf = new ArrayBuffer(s.length);
+        const view = new Uint8Array(buf);
+        for (let i = 0; i < s.length; i++) {
+          view[i] = s.charCodeAt(i) & 0xFF;
+        }
+        return buf;
+      }
+      // 保存生成的Blob对象
+      const blob = new Blob([s2ab(wbout)], { type: 'application/octet-stream' });
+      // 创建下载链接
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = ('0' + (now.getMonth() + 1)).slice(-2);
+      const day = ('0' + now.getDate()).slice(-2);
+      const hours = ('0' + now.getHours()).slice(-2);
+      const minutes = ('0' + now.getMinutes()).slice(-2);
+      const seconds = ('0' + now.getSeconds()).slice(-2);
+      const formattedTime = year + month + day + hours + minutes + seconds;
+
+      a.href = url;
+      a.download = 'weather_data_'+formattedTime+'.xlsx';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function() {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }, 0);
+    },
+    Print() {
+      if (this.WeatherDataSelected.length===0){
+        window.confirm("未选择任何信息！");
+      }else{
+        if (window.confirm("是否进行打印预览？")) {
+          this.PrintExcel();
+        }
+      }
+    },
+    PrintExcel() {
+      // 构建HTML表格的数据字符串
+      let html = "<table><thead><tr>";
+      // 添加标题行
+      const headers = [
+        "id",
+        "city",
+        "obsTime",
+        "temperature(°C)",
+        "humidity(%)",
+        "windSpeed(m/s)",
+        "windDirection",
+        "weatherCondition",
+        "pressure(kPa)",
+        "visibility(km)"
+      ];
+      headers.forEach(header => {
+        html += `<th>${header}</th>`;
+      });
+      html += "</tr></thead><tbody>";
+
+      // 添加数据行
+      this.WeatherDataSelected.forEach(data => {
+        html += "<tr>";
+        html += `<td>${data.id}</td>`;
+        html += `<td>${data.city}</td>`;
+        html += `<td>${data.obsTime}</td>`;
+        html += `<td>${data.temperature}</td>`;
+        html += `<td>${data.humidity}</td>`;
+        html += `<td>${data.windSpeed}</td>`;
+        html += `<td>${data.windDirection}</td>`;
+        html += `<td>${data.weatherCondition}</td>`;
+        html += `<td>${data.pressure}</td>`;
+        html += `<td>${data.visibility}</td>`;
+        html += "</tr>";
+      });
+      html += "</tbody></table>";
+
+      // 新建一个窗口并写入HTML表格
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(html);
+
+      // 添加样式以确保打印效果
+      printWindow.document.write(`
+      <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th, td {
+        border: 1px solid black;
+        padding: 5px;
+        text-align: left;
+      }
+      </style>
+    `);
+      printWindow.document.write(`
+      <button onclick="window.print();">Print</button>
+      <button onclick="window.close();">Close</button>
+    `);
+      printWindow.document.close();
+    },
   },
 };
 </script>
 
 <style>
+.my-form-check{
+  margin-left: 10px;
+}
 .left-container{
   width:380px;
 }
 .right-container{
   margin-left:20px;
   width: calc(100% - 420px);
-  background-color: white;
   border-radius: 15px;
 }
 .rounded-rectangle {
@@ -509,5 +875,13 @@ export default {
 }
 .additional-container-text{
   margin-left: 40px;
+}
+.btn-sort {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.green {
+  color: limegreen;
 }
 </style>

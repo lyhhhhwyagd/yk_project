@@ -29,4 +29,8 @@ public class WeatherServiceImplementation implements WeatherService{
     public List<Weather> selectByCityAndDate(String City,String Date){
         return weatherMapper.selectByCityAndDate(City,Date);
     }
+
+    public int deleteById(String id){
+        return weatherMapper.deleteById(id);
+    }
 }

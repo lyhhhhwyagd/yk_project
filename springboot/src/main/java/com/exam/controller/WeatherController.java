@@ -36,4 +36,11 @@ public class WeatherController {
         System.out.println("根据城市和日期查询天气");
         return ApiResultHandler.success(weatherService.selectByCityAndDate(City,Date));
     }
+
+    @CrossOrigin(origins = "*")
+    @DeleteMapping("/weather/{id}")
+    public ApiResult deleteById(@PathVariable("id") String id){
+        System.out.println("删除天气信息");
+        return ApiResultHandler.success(weatherService.deleteById(id));
+    }
 }

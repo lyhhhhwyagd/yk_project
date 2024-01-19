@@ -129,7 +129,6 @@
       </div>
     </div>
   </div>
-
 </template>
 <script>
 import AAAPostList from "@/AAA_Ding/Components/AAAPostList.vue";

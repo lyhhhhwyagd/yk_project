@@ -16,4 +16,7 @@ public interface WeatherMapper {
 
     @Select("SELECT * FROM weather WHERE City = #{City} AND SUBSTRING(obsTime, 1, 10) = #{Date}")
     List<Weather> selectByCityAndDate(@Param("City") String City, @Param("Data") String Date);
+
+    @Delete("delete from weather where id = #{id}")
+    int deleteById(String id);
 }
