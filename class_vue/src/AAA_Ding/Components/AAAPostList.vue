@@ -372,7 +372,7 @@
         }
       },
       Statistics(){
-        this.$router.push({ name: 'PostsStatistics', query: { userID: this.userID } });
+        this.$router.push({ name: 'PostsStatistics', query: { userID: this.$route.query.userID } });
       },
       search() {
         this.BillsToShow = [];

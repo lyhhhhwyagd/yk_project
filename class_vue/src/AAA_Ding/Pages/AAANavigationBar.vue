@@ -6,19 +6,17 @@
           :count="String(this.posts.length)"
           :percentage="{
           color: 'success',
-          value: '+55%',
-          label: 'since last month'
+          label: 'Total number of posts'
         }"
           menu="查看详情"
           @click="goToPostsPage"
       />
       <default-statistics-card
           title="天气"
-          count="3.200"
+          :count="this.weather[this.weather.length-1].temperature"
           :percentage="{
           color: 'success',
-          value: '+12%',
-          label: 'since last month'
+          label: this.weather[this.weather.length-1].city
         }"
           menu="查看详情"
           @click="goToWeatherPage"
@@ -28,8 +26,7 @@
           :count="String(this.rewards.length)"
           :percentage="{
           color: 'secondary',
-          value: '+$213',
-          label: 'since last month'
+          label: 'Total number of rewards'
         }"
           menu="查看详情"
           @click="goToRewardsPage"
@@ -270,6 +267,13 @@ export default {
           }
         }
       });
+    },
+    getTodayDate(){
+      let now = new Date();
+      let year = now.getFullYear();
+      let month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+      let day = String(now.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     },
   },
 };

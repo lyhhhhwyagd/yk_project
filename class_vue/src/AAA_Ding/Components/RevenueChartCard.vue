@@ -2,7 +2,7 @@
   <div class="card">
     <div class="p-3 pb-0 card-header">
       <div class="d-flex justify-content-between">
-        <h6 class="mb-0">Revenue</h6>
+        <h6 class="mb-0">近日新增帖子</h6>
         <button
           type="button"
           class="mb-0 btn btn-icon-only btn-rounded btn-outline-secondary ms-2 btn-sm d-flex align-items-center justify-content-center"
@@ -17,11 +17,11 @@
       <div class="d-flex align-items-center">
         <span class="badge badge-md badge-dot me-4">
           <i class="bg-success"></i>
-          <span class="text-xs text-dark">Facebook Ads</span>
+          <span class="text-xs text-dark">New Post Num</span>
         </span>
         <span class="badge badge-md badge-dot me-4">
           <i class="bg-dark"></i>
-          <span class="text-xs text-dark">Google Ads</span>
+          <span class="text-xs text-dark">New Comment Num</span>
         </span>
       </div>
     </div>
