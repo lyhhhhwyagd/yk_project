@@ -8,11 +8,7 @@ import com.exam.mapper.UserMapper;
 import com.exam.util.ExportExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.LinkedHashMap;
 import java.util.List;
 @Service
@@ -51,4 +47,3 @@ public class UserService {
         return userMapper.selectById(id);
     }
 }
-
