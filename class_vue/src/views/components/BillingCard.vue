@@ -1,19 +1,19 @@
 <template>
   <div class="card mb-4">
     <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-      <h6>User Management</h6>
-      <button @click="exportUsers" class="btn btn-primary mr-2">Export Users</button>
-        <button @click="openPrintPreview" class="btn btn-info mr-2">Print Preview</button>
+      <h6>用户管理</h6>
+      <button @click="exportUsers" class="btn btn-primary mr-2">导出</button>
+        <button @click="openPrintPreview" class="btn btn-info mr-2">打印</button>
       <div class="d-flex align-items-center">
         
         
         <!-- Search input field with Clear Search button -->
         <div class="form-group mb-0" style="height: 40px;"> <!-- Adjust the height as needed -->
-          <label for="searchKeyword" class="mr-2">Search:</label>
+          <label for="searchKeyword" class="mr-2">搜索：</label>
           <div class="input-group">
             <input type="text" v-model="searchKeyword" class="form-control" id="searchKeyword" style="height: 100%;"> <!-- Adjust the height as needed -->
             <!-- Clear Search button -->
-            <button @click="resetSearch" class="btn btn-secondary">Clear Search</button>
+            <button @click="resetSearch" class="btn btn-secondary">清除</button>
           </div>
         </div>
       </div>
@@ -28,6 +28,17 @@
     <div class="table-responsive p-0">
       <table class="table table-hover">
         <!-- ... table header ... -->
+        <thead>
+  <tr>
+    <th>用户ID</th>
+    <th>用户名</th>
+    <th>用户角色</th>
+    <th>注册日期</th>
+    <th>用户邮箱</th>
+    <th>用户电话</th>
+    <th>操作</th>
+  </tr>
+</thead>
         <tbody>
           <!-- Loop through paginated and filtered users -->
           <tr v-for="user in paginatedUsers" :key="user.userId">

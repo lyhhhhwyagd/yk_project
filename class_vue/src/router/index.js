@@ -25,6 +25,7 @@ import AAARewardsLook from "@/AAA_Ding/Components/AAARewardsLook.vue";
 import AAARewardsStatistics from "@/AAA_Ding/Components/AAARewardsStatistics.vue";
 import Tasks from "@/views/Tasks.vue";
 import AAAWeather from "@/AAA_Ding/Pages/AAAWeather.vue";
+
 const routes = [
   {
     path: "/",
@@ -160,7 +161,8 @@ const routes = [
     path: "/CheckRoll",
     name: "CheckRoll",
     component: CheckRoll,
-  }
+  },
+  
 ];
 
 const router = createRouter({

@@ -1,54 +1,95 @@
-package com.exam.Entity;  // 注意包名的命名规范
+package com.exam.Entity;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-public class File {
+@Table(name = "file")
+public class File implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int fileId;
+    @Column(name = "id")
+    private Long id;
 
-    private String fileUrl;
+    @Column(name = "file_name", nullable = false)
+    private String fileName;
 
-    private int courseId;  // 假设 courseId 是一个整数
+    @Column(name = "file_size", nullable = false)
+    private Long fileSize;
 
-    // 必须要有一个无参构造函数
+    @Column(name = "upload_time", nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp uploadTime;
+
+    @Column(name = "course_id", nullable = false)
+    private Integer courseId;
+
+    // Constructors, getters, and setters
+
+    // Constructor
     public File() {
     }
 
-    // 其他构造函数和 getter/setter 方法
+    // Getters and setters
 
-    public int getFileId() {
-        return fileId;
+    public Long getId() {
+        return id;
     }
 
-    public void setFileId(int fileId) {
-        this.fileId = fileId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getFileUrl() {
-        return fileUrl;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFileUrl(String fileUrl) {
-        this.fileUrl = fileUrl;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public int getCourseId() {
+    public Long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(Long fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public Timestamp getUploadTime() {
+        return uploadTime;
+    }
+
+    public void setUploadTime(Timestamp uploadTime) {
+        this.uploadTime = uploadTime;
+    }
+
+    public Integer getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(int courseId) {
+    public void setCourseId(Integer courseId) {
         this.courseId = courseId;
     }
 
-    public File(String fileUrl, int courseId) {
-        this.fileUrl = fileUrl;
-        this.courseId = courseId;
-    }
+    // toString method (optional, for debugging)
 
+    @Override
+    public String toString() {
+        return "FileEntity{" +
+                "id=" + id +
+                ", fileName='" + fileName + '\'' +
+                ", fileSize=" + fileSize +
+                ", uploadTime=" + uploadTime +
+                ", courseId=" + courseId +
+                '}';
+    }
 }
