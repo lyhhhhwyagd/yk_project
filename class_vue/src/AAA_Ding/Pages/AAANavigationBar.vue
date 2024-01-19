@@ -2,76 +2,37 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <default-statistics-card
-          title="Sales"
-          count="$230,220"
+          title="论坛"
+          :count="String(this.posts.length)"
           :percentage="{
           color: 'success',
           value: '+55%',
           label: 'since last month'
         }"
-          menu="6 May - 7 May"
-          :dropdown="[
-          {
-            label: 'Last 7 days',
-            route: 'https://creative-tim.com/'
-          },
-          {
-            label: 'Last week',
-            route: '/pages/widgets'
-          },
-          {
-            label: 'Last 30 days',
-            route: '/'
-          }
-        ]"
+          menu="查看详情"
+          @click="goToPostsPage"
       />
       <default-statistics-card
-          title="Customers"
+          title="天气"
           count="3.200"
           :percentage="{
           color: 'success',
           value: '+12%',
           label: 'since last month'
         }"
-          menu="9 June - 12 June"
-          :dropdown="[
-          {
-            label: 'Last 7 days',
-            route: 'javascript:;'
-          },
-          {
-            label: 'Last week',
-            route: 'javascript:;'
-          },
-          {
-            label: 'Last 30 days',
-            route: 'javascript:;'
-          }
-        ]"
+          menu="查看详情"
+          @click="goToWeatherPage"
       />
       <default-statistics-card
-          title="Avg. Revenue"
-          count="$1.200"
+          title="悬赏"
+          :count="String(this.rewards.length)"
           :percentage="{
           color: 'secondary',
           value: '+$213',
           label: 'since last month'
         }"
-          menu="6 August - 9 August"
-          :dropdown="[
-          {
-            label: 'Last 7 days',
-            route: 'javascript:;'
-          },
-          {
-            label: 'Last week',
-            route: 'javascript:;'
-          },
-          {
-            label: 'Last 30 days',
-            route: 'javascript:;'
-          }
-        ]"
+          menu="查看详情"
+          @click="goToRewardsPage"
       />
     </div>
     <div class="mt-4 row">
@@ -172,6 +133,7 @@ import BR from "@/assets/img/icons/flags/BR.png";
 import AU from "@/assets/img/icons/flags/AU.png";
 import setTooltip from "@/assets/js/tooltip.js";
 import DefaultStatisticsCard from "@/AAA_Ding/Components/DefaultStatisticsCard.vue";
+import axios from "axios";
 
 export default {
   name: "Overview",
@@ -184,6 +146,10 @@ export default {
   },
   data() {
     return {
+      userID:'',
+      posts:[],
+      weather:[],
+      rewards:[],
       products: [
         {
           title: "Nike v22 Running",
@@ -264,6 +230,47 @@ export default {
   },
   mounted() {
     setTooltip(this.$store.state.bootstrap);
-  }
+  },
+  created(){
+    this.getAllData();
+    this.userID=this.$route.query.userID;
+  },
+  methods: {
+    goToRewardsPage(){
+      this.$router.push({ name: 'Rewards', query: { userID: this.userID } });
+    },
+    goToWeatherPage(){
+      this.$router.push({ name: 'Weather', query: { userID: this.userID } });
+    },
+    goToPostsPage(){
+      this.$router.push({ name: 'Posts', query: { userID: this.userID } });
+    },
+    async getAllData() {
+      console.log("开始访问数据");
+
+      // 创建一个包含所有axios请求的Promise数组
+      const requests = [
+        axios.get('http://localhost:8080/post'),
+        axios.get('http://localhost:8080/weather'),
+        axios.get('http://localhost:8080/reward')
+      ];
+
+      // 等待所有请求完成
+      const responses = await Promise.all(requests);
+
+      // 根据响应来更新数据
+      responses.forEach(response => {
+        if (response.data.code === 200) {
+          if (response.config.url.endsWith('/post')) {
+            this.posts = response.data.data;
+          } else if (response.config.url.endsWith('/weather')) {
+            this.weather = response.data.data;
+          } else if (response.config.url.endsWith('/reward')) {
+            this.rewards = response.data.data;
+          }
+        }
+      });
+    },
+  },
 };
 </script>
