@@ -74,6 +74,7 @@
                 <el-button size="large" type="success" round style="margin-top: 10px;" @click="dialogVisible = true">添加学生</el-button>
                 <el-button size="large" type="success" round style="margin-top: 10px;" @click="exportExcel">导出名单</el-button>
                 <el-button size="large" type="success" round style="margin-top: 10px;" @click="print">打印名单</el-button>
+                <el-button size="large" type="success" round style="margin-top: 10px;" @click="111">统计图表</el-button>
               </el-col>
             </el-col>
             <el-col :span="12">
@@ -349,26 +350,6 @@
         targetStyles: ['*'],
       })
     },
-      //抽取随机学生
-      // randomStudent() {
-      //   if( this.students.length == 0){
-      //       ElMessage.error('学生已全部遍历或列表为空，请获取学生数据')
-      //   }else{
-      //       this.selectList = []
-      //       this.loading = true
-      //       let arr = JSON.parse(JSON.stringify(this.students))  //深拷贝一份数组
-      //       for (let i = 0; i < this.Num; i++) {
-      //           let index = Math.floor(Math.random() * arr.length);
-      //           this.selectList.push(arr[index]);
-      //           arr.splice(index, 1);
-      //       }
-      //       this.students = arr;
-      //       setTimeout(() => {
-      //           this.loading = false
-      //       }, 500)
-      //   }
-      // },
-      // 点击抽奖按钮会触发star回调
       startCallback () {
         // 调用抽奖组件的play方法开始游戏
         

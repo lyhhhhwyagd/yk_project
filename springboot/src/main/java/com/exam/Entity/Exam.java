@@ -18,4 +18,7 @@ public class Exam {
     private String type;
     private String tips;
 
+    public String getExamId() {
+        return examCode;
+    }
 }

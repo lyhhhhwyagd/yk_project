@@ -15,7 +15,7 @@
 
         <div class="card" style="margin-bottom: 10px">
             <div style="margin-bottom: 10px">
-                <el-button  style="background-color: #76dc30" type="info" @click="exportToExcel">导出</el-button>
+                <el-button  style="background-color: #76dc30" type="info" @click="exportAll">导出</el-button>
                 <el-button  style="background-color: #76dc30" type="info" @click="handlePrint">打印</el-button>
             </div>
             <div>
@@ -78,7 +78,6 @@
     import * as echarts from 'echarts';
     import {onMounted} from "vue";
     import printJS from 'print-js';
-    import * as XLSX from 'xlsx';
     // request.get('/').then(res => {
     //     console.log(res)
     // })
@@ -113,54 +112,6 @@
             //console.log(res)
             data.tableData=res.data.list
             data.total=res.data.total || 0
-<<<<<<< HEAD
-=======
-            request.get("/problem/smap").then(res =>{
-                data.tableData1=res.data;
-                data.printData = data.tableData1.map(item => Object.assign({}, item, { myans: "s" }));
-                console.log(data.tableData1[0].ans);
-                console.log(data.printData[0].myans);
-                var url = window.location.href ;             //获取当前url
-                var cs = url.split('?')[1];                //获取?之后的参数字符串
-                var cs_arr = cs.split('&');                    //参数字符串分割为数组
-                var cs1={};
-                for(var i=0;i<cs_arr.length;i++){         //遍历数组，拿到json对象
-
-                    cs1[cs_arr[i].split('=')[0]] = cs_arr[i].split('=')[1]
-
-                }
-                var j=0;
-
-                for( j=0;j<data.tableData1.length;j++)
-                {
-                    var temp=data.tableData1[j].ans,ans1;
-                    request.get("/ans/query", {
-                        params:
-                            {
-                                problemid:data.tableData1[j].id,
-                                userid:cs1.userID,
-                            }
-                    }).then(res =>{
-                        if(res.data==null)
-                        {
-                            data.anse.push("未作答");
-                        }
-                        else
-                        {
-                            var t=res.data.myans;
-                            data.anse.push(t);
-                        }
-                        console.log(res);
-                        if(res.data==null) data.ndone++;
-                        else if(res.data.myans!=temp) data.wa++;
-                        else data.ac++;
-                    })
-
-                }
-
-            })
-
->>>>>>> 80dcc2360883e66b32c260ede3622c9f4f45d702
         })
 
     }
@@ -266,11 +217,9 @@
 
     }
 
-    const exportToExcel=()=> {
-        const worksheet = XLSX.utils.json_to_sheet(data.printData);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-        XLSX.writeFile(workbook, '答题情况.xlsx');
+    const exportAll =()=>
+    {
+        window.open("http://localhost:8080/problem/export")
     }
     //调用方法获取后台
     load()

@@ -21,13 +21,13 @@
               <el-button
                 size="small"
                 type="success"
-                @click="111"
+                @click="dialogVisible = true"
                 >增加数据</el-button
                 >
               <el-button
                 size="small"
                 type="success"
-                @click="111"
+                @click="dialogVisible2 = true"
                 >统计信息</el-button
                 >
             </div>
@@ -50,7 +50,7 @@
                     <el-button 
                      size="small"
                      type="success"
-                     @click="handleEdit(scope.$index, scope.row)"
+                     @click="dialogVisible1 = true,handleEdit(scope.$index, scope.row)"
                       >编辑</el-button
                     >
                     <el-button
@@ -65,12 +65,129 @@
         </div>
       </div>
     </div>
+    <el-dialog
+        v-model="dialogVisible"
+        title="添加信息"
+        width="30%"
+        :before-close="handleClose"
+      >
+        <!-- <span>This is a message</span> -->
+        <el-form :model="addForm" label-width="120px">
+          <el-form-item label="考试名称"> 
+            <el-input v-model="addForm.source"  />
+          </el-form-item>
+          <el-form-item label="考试日期">
+            <el-input v-model="addForm.examDate"  />
+          </el-form-item>
+          <el-form-item label="时长"> 
+            <el-input v-model="addForm.totalTime"  />
+          </el-form-item>
+          <el-form-item label="年级"> 
+            <el-input v-model="addForm.grade"  />
+          </el-form-item>
+          <el-form-item label="学期">
+            <el-input v-model="addForm.term"  />
+          </el-form-item>
+          <el-form-item label="专业"> 
+            <el-input v-model="addForm.major"  />
+          </el-form-item>
+          <el-form-item label="学院"> 
+            <el-input v-model="addForm.institute"  />
+          </el-form-item>
+          <el-form-item label="总分"> 
+            <el-input v-model="addForm.totalScore"  />
+          </el-form-item>
+          <el-form-item label="类型"> 
+            <el-input v-model="addForm.type"  />
+          </el-form-item>
+          <el-form-item label="备注"> 
+            <el-input v-model="addForm.tips"  />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="dialogVisible = false">取消</el-button>
+            <el-button type="success" @click="dialogVisible = false, handleAdd()">
+              确认
+            </el-button>
+          </span>
+        </template>
+      </el-dialog>
+      <el-dialog
+        v-model="dialogVisible1"
+        title="编辑信息"
+        width="30%"
+        :before-close="handleClose"
+      >
+        <!-- <span>This is a message</span> -->
+        <el-form :model="editForm" label-width="120px">
+          <el-form-item label="考试名称"> 
+            <el-input v-model="editForm.source"  />
+          </el-form-item>
+          <el-form-item label="考试日期">
+            <el-input v-model="editForm.examDate"  />
+          </el-form-item>
+          <el-form-item label="时长"> 
+            <el-input v-model="editForm.totalTime"  />
+          </el-form-item>
+          <el-form-item label="年级"> 
+            <el-input v-model="editForm.grade"  />
+          </el-form-item>
+          <el-form-item label="学期">
+            <el-input v-model="editForm.term"  />
+          </el-form-item>
+          <el-form-item label="专业"> 
+            <el-input v-model="editForm.major"  />
+          </el-form-item>
+          <el-form-item label="学院"> 
+            <el-input v-model="editForm.institute"  />
+          </el-form-item>
+          <el-form-item label="总分"> 
+            <el-input v-model="editForm.totalScore"  />
+          </el-form-item>
+          <el-form-item label="类型"> 
+            <el-input v-model="editForm.type"  />
+          </el-form-item>
+          <el-form-item label="备注"> 
+            <el-input v-model="editForm.tips"  />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="dialogVisible1 = false">取消</el-button>
+            <el-button type="success" @click="dialogVisible1 = false, submmitChange()">
+              确认
+            </el-button>
+          </span>
+        </template>
+      </el-dialog>
+      <el-dialog v-model="dialogVisible2" title="统计图表" width="30%" draggable>
+        <div class="chart">
+          <pie-chart
+            id="pie-chart-component"
+            height="300"
+            :chart="{
+              labels: ['计算机科学与技术', '信息工程', '网络工程', '软件工程','其他'],
+              datasets: {
+                label: 'Projects',
+                data: [4, 2, 1, 1 ,3],
+              },
+            }"
+          />
+        </div>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="dialogVisible2 = false">关闭</el-button>
+          </span>
+        </template>
+      </el-dialog>
   </template>
   
   <script>
   import AppFooter from "@/examples/Footer.vue";
   import Navbar from "@/examples/Navbars/Navbar.vue";
   import setTooltip from "@/assets/js/tooltip.js";
+  import PieChart from "@/examples/Charts/PieChart.vue";
 
   const body = document.getElementsByTagName("body")[0];
   import { mapMutations, mapState } from "vuex";
@@ -87,11 +204,35 @@
     components: {
       AppFooter,
       Navbar,
+      PieChart,
     },
     data() {
       return {
+        dialogVisible: false,
+        dialogVisible1: false,
+        dialogVisible2: false,
         length: 0,
         tableData: [],
+        addForm:{source:"",
+                examDate:"",
+                totalTime:"",
+                grade:"",
+                term:"",
+                major:"",
+                institute:"",
+                totalScore:"",
+                type:"",
+                tips:""},
+        editForm:{source:"",
+                examDate:"",
+                totalTime:"",
+                grade:"",
+                term:"",
+                major:"",
+                institute:"",
+                totalScore:"",
+                type:"",
+                tips:""},
         search: ''
       }
     },
@@ -171,9 +312,34 @@
     methods: {
       handleEdit(index, row) {
         console.log(index, row);
+        this.editForm = row;
+      },
+      submmitChange(){
+        axios.post('http://localhost:8080/exam/update', this.editForm).then(res=>{
+            console.log(res);
+        }).catch(err=>{
+            console.log("修改数据失败" + err);
+        })
+        this.$router.go(0);
+        // this.students[this.index] =  this.editForm;
+        // this.prizes[this.index].fonts = [{ text: this.editForm.name }];
       },
       handleDelete(index, row) {
-        console.log(index, row);
+        console.log(index, row.examCode);
+        axios.delete('http://localhost:8080/exam/delete/'+row.examCode).then(res=>{
+            console.log(res);
+        }).catch(err=>{
+            console.log("删除数据失败" + err);
+        })
+        this.$router.go(0);
+      },
+      handleAdd(){
+        axios.post('http://localhost:8080/exam/add', this.addForm).then(res=>{
+            console.log(res);
+        }).catch(err=>{
+            console.log("增加数据失败" + err);
+        })
+        this.$router.go(0);
       },
       print() {
         const style = '@page {  } ' + '@media print {td{border:1px    solid #000;text-align:center;height:40px}th{border:1px solid #000} }';//这里修改的是el-table边框问题
