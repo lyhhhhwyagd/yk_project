@@ -161,7 +161,7 @@
           </span>
         </template>
       </el-dialog>
-      <el-dialog v-model="dialogVisible2" title="统计图表" width="30%" draggable>
+      <el-dialog v-model="dialogVisible2" title="各学科考试占比" width="50%" draggable>
         <div class="chart">
           <pie-chart
             id="pie-chart-component"
