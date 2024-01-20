@@ -15,7 +15,7 @@
 
         <div class="card" style="margin-bottom: 10px">
             <div style="margin-bottom: 10px">
-                <el-button  style="background-color: #76dc30" type="info" @click="exportAll">导出</el-button>
+                <el-button  style="background-color: #76dc30" type="info" @click="exportToExcel">导出</el-button>
                 <el-button  style="background-color: #76dc30" type="info" @click="handlePrint">打印</el-button>
             </div>
             <div>
@@ -78,6 +78,7 @@
     import * as echarts from 'echarts';
     import {onMounted} from "vue";
     import printJS from 'print-js';
+    import * as XLSX from 'xlsx';
     // request.get('/').then(res => {
     //     console.log(res)
     // })
@@ -135,7 +136,7 @@
 
                 }
                 var j=0;
-                data.ac=0,data.wa=0,data.ndone=0;
+
                 for( j=0;j<data.tableData1.length;j++)
                 {
                     var temp=data.tableData1[j].ans,ans1;
@@ -271,9 +272,11 @@
 
     }
 
-    const exportAll =()=>
-    {
-        window.open("http://localhost:8080/problem/export")
+    const exportToExcel=()=> {
+        const worksheet = XLSX.utils.json_to_sheet(data.printData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+        XLSX.writeFile(workbook, '答题情况.xlsx');
     }
     //调用方法获取后台
     load()
