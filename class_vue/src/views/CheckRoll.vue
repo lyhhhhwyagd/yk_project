@@ -208,22 +208,22 @@
     computed: {
       ...mapState(["isTransparent", "isNavFixed", "navbarFixed", "mcolor"]),
       filterstudents() {
-      return this.students.filter(
-        (data) => {
-        // Convert each property to lowercase for case-insensitive comparison
-        const lowerSearch = this.search.toLowerCase();
-        const lowerName = data.name.toLowerCase();
-        const lowerId = data.id.toLowerCase();
+        return this.students.filter(
+          (data) => {
+          // Convert each property to lowercase for case-insensitive comparison
+          const lowerSearch = this.search.toLowerCase();
+          const lowerName = data.name.toLowerCase();
+          const lowerId = data.id.toLowerCase();
 
-        // Check if any property contains the search value
-        return (
-          !lowerSearch ||
-          lowerName.includes(lowerSearch) ||
-          lowerId.includes(lowerSearch) 
+          // Check if any property contains the search value
+          return (
+            !lowerSearch ||
+            lowerName.includes(lowerSearch) ||
+            lowerId.includes(lowerSearch) 
+          );
+        }
         );
-      }
-      );
-    },
+      },
     },
     mounted() {
       setTooltip(this.$store.state.bootstrap);

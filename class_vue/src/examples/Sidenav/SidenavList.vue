@@ -19,7 +19,21 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="论坛/天气/悬赏" :to="{ name: 'NavigationBar', query: { userID: this.userID }  }">
+        <sidenav-collapse navText="天气管理" :to="{ name: 'Weather', query: { userID: this.userID }  }">
+          <template #icon>
+            <shop />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="论坛主页" :to="{ name: 'Posts', query: { userID: this.userID }  }">
+          <template #icon>
+            <shop />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="悬赏管理" :to="{ name: 'Rewards', query: { userID: this.userID }  }">
           <template #icon>
             <shop />
           </template>
@@ -55,6 +69,13 @@
       </li>
       <li class="nav-item">
         <sidenav-collapse navText="抽奖点名" :to="{ name: 'CheckRoll', query: { userID: this.userID }  }">
+          <template #icon>
+            <switches />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="考试管理" :to="{ name: 'Exam', query: { userID: this.userID }  }">
           <template #icon>
             <switches />
           </template>

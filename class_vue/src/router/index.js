@@ -10,6 +10,7 @@ import Rtl from "@/views/Rtl.vue";
 import SignIn from "@/AAA_Ding/Pages/AAASignIn.vue";
 import SignUp from "@/views/SignUp.vue";
 import CheckRoll from "@/views/CheckRoll.vue";
+import Exam from '@/views/Exam';
 import AAANavigationBar from "@/AAA_Ding/Pages/AAANavigationBar.vue";
 import AAAPosts from "@/AAA_Ding/Pages/AAAPosts.vue";
 import AAAPostList from "@/AAA_Ding/Components/AAAPostList.vue";
@@ -162,7 +163,11 @@ const routes = [
     name: "CheckRoll",
     component: CheckRoll,
   },
-  
+  {
+    path: "/Exam",
+    name: "Exam",
+    component: Exam,
+  },
 ];
 
 const router = createRouter({

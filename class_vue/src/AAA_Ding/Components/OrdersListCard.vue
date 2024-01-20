@@ -37,6 +37,7 @@
                   <h6 class="mb-0 text-sm">{{ listTitle }}</h6>
                   <p class="mb-0 text-sm font-weight-bold text-secondary">
                     <span class="text-success">{{ order }}</span>
+                    orders
                   </p>
                 </div>
               </div>
