@@ -4,7 +4,7 @@
     id="sidenav-collapse-main"
   >
     <ul class="navbar-nav">
-      
+
       <li class="nav-item">
         <sidenav-collapse navText="文件管理" :to="{ name: 'Dashboard', query: { userID: this.userID } }">
           <template #icon>
@@ -84,6 +84,13 @@
       </li>
       <li class="nav-item">
         <sidenav-collapse navText="待办事项" :to="{ name: 'Tasks', query: { userID: this.userID }   }">
+          <template #icon>
+            <office />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="课堂管理" :to="{ name: 'Classmanage', query: { userID: this.userID }   }">
           <template #icon>
             <office />
           </template>
