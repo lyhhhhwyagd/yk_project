@@ -36,4 +36,38 @@ Content-Type: text/plain
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
+# 获取所有作业
 ###
+GET http://localhost:8080/homework/all
+###
+# 获取特定作业
+GET http://localhost:8080/homework/1
+###
+# 添加作业
+POST http://localhost:8080/homework/add
+Content-Type: application/json
+
+{
+  
+  "title": "数据库第二次作业",
+  "description": "关系代数章节作业",
+  "deadline": "2024-12-31T23:59:59",  
+  "teacher": "李老师",
+  "if_submit": false
+}
+###
+# 更新作业
+PUT http://localhost:8080/homework/1
+Content-Type: application/json
+
+{
+  "title": "更新后的标题",
+  "description": "更新后的描述",
+  "deadline": "2024-12-31T23:59:59",
+  "teacher": "更新后的教师姓名",
+  "ifSubmit": true
+}
+###
+# 删除作业
+DELETE http://localhost:8080/homework/3
+

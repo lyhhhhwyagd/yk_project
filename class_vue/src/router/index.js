@@ -124,6 +124,11 @@ const routes = [
     component:sp,
   },
   {
+    path:"/rtl",
+    name:"rtl",
+    component:sp,
+  },
+  {
     path: "/billing",
     name: "Billing",
     component: Billing,
@@ -138,11 +143,7 @@ const routes = [
     name: "Profile",
     component: Profile,
   },
-  {
-    path: "/rtl-page",
-    name: "Rtl",
-    component: Rtl,
-  },
+  
   {
     path: "/sign-in",
     name: "Sign In",

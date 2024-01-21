@@ -46,6 +46,7 @@
     "load-script": "^2.0.0",
     "moment": "^2.29.4",
     "print-js": "^1.6.0",
+    "tesseract.js": "^5.0.4",
     "vue": "3.2.0",
     "vue-amap": "^0.5.10",
     "vue-flatpickr-component": "9.0.5",
