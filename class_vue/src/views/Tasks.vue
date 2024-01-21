@@ -1,11 +1,18 @@
 /* eslint-disable vue/no-unused-vars */
 <template>
-  <div>
+  <div style="width: 100%">
     <el-button size="small" type="primary" @click="printBox" style="background-color: rgb(128, 214, 22);">打印</el-button>
     <el-button @click="exportPDF" size="small" type="primary" style="background-color: rgb(128, 214, 22);">导出PDF</el-button>
-    <el-button @click="loadAllTasksByOrder" size="small" type="primary" style="background-color: rgb(128, 214, 22);">排序!!</el-button>
-    <el-row :gutter="10">
-      <el-col :xs="{span:20,offset:2}" :sm="{span:16,offset:4}" :md="{span:16,offset:4}">
+    <el-button @click="loadAllTasksByOrder" size="small" type="primary" style="background-color: rgb(128, 214, 22);">排序</el-button>
+    <el-button @click="showChartDialog" size="small" type="primary" style="background-color: rgb(128, 214, 22);">
+      统计
+    </el-button>
+    <el-button @click="tasksSta" size="small" type="primary" style="background-color: rgb(128, 214, 22);">
+      分析
+    </el-button>
+
+    <el-row :gutter="10" style="width: 100%">
+      <el-col :xs="{span:20,offset:2}" :sm="{span:20,offset:2}" :md="{span:20,offset:2}" style="width: 100%">
         <div class="tasks-container" :key="refresh" id="printBox">
           <el-card class="box-card" v-for="(item,id) in tasks" :key="'taskId-'+item.taskId" ref="boxCards" style="margin-bottom: 10px; border-radius: 8px;">
             <div class="task-item">
@@ -18,7 +25,7 @@
               <!-- 使用el-row和el-col分为两列展示内容 -->
               <el-row>
                 <el-col :span="18">
-                  <div class="task-content" ref="taskContent">
+                  <div class="task-content" :style="{ display: !showTaskContent ? 'block' : 'none' }" ref="taskContent">
                     {{ item.taskContent }}
                   </div>
                 </el-col>
@@ -28,29 +35,29 @@
                   </div>
                 </el-col>
               </el-row>
-              <el-button link="true" @click="deleteTask(item.taskId)">
-                删除 <i class="el-icon-delete" style="color: red"></i>
-              </el-button>
-              <div ref="taskInput" style="display: none" class="task-content">
+              <div ref="taskInput" :style="{ display: item.editMode ? 'block' : 'none' }" class="task-content">
                 <el-input suffix-icon="el-icon-edit" ref="task_input" type="textarea"  maxlength="120"
                           show-word-limit autosize v-model="taskText" @blur="submitChange(item.taskId, id)" @keydown.enter="submitChange(item.taskId, id)"  ></el-input>
                 <!--            <el-button @click="submitChange(item.taskId, id)" class="changeSubmitButton" type="primary" icon="el-icon-check" circle></el-button>-->
               </div>
+
               <div class="moreButton-box">
                 <el-dropdown class="moreButton">
-                          <span class="el-dropdown-link">
-                            <i class="el-icon-more"></i>
-                          </span>
-                  <el-dropdown-menu>
-                    <el-dropdown-item>创建 <i class="el-icon-date" style="color: #409EFF"></i>{{ item.taskCreateTime }}
-                    </el-dropdown-item>
-                    <el-dropdown-item @click="changeTask(item.taskId, id)" divided>
-                      修改 <i class="el-icon-edit" style="color: dodgerblue"></i>
-                    </el-dropdown-item>
-                    <el-dropdown-item @click="deleteTask(item.taskId)" divided>
-                      删除 <i class="el-icon-delete" style="color: red"></i>
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
+                  <el-icon ><MoreFilled /></el-icon>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item>
+                        创建<i class="el-icon-date" style="color: #409EFF"></i>{{ formatDateTime(item.taskCreateTime)}}
+                      </el-dropdown-item>
+                      <el-dropdown-item @click="changeTask(item.taskId, id)" divided>
+                        修改
+                      </el-dropdown-item>
+                      <el-dropdown-item @click="deleteTask(item.taskId)" divided>
+                        删除
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+
                 </el-dropdown>
               </div>
               <!--<el-link icon="el-icon-more" class="moreButton"  :underline="false"></el-link>-->
@@ -74,13 +81,13 @@
             </el-button>
           </div>
           <div class="button-box">
-            <el-button class="finishedButton" v-if="showAddTask" size="small" @click="loadFinishedTasks"><i
+            <el-button class="finishedButton" v-if="showAddTask" size="large" @click="loadFinishedTasks"><i
                     class="el-icon-arrow-right" ref="finishedButtonIcon"></i> 已完成
               <span style="color:#ACB0AE">
                     {{ finishedTasksCount }}
                 </span>
             </el-button>
-            <el-button class="finishedButton" v-if="showAddTask" size="small" @click="addTaskButtonEvt"><i
+            <el-button class="finishedButton" v-if="showAddTask" size="large" @click="addTaskButtonEvt"><i
                     class="el-icon-s-flag"></i> 添加任务
             </el-button>
           </div>
@@ -95,37 +102,35 @@
               <!-- 使用el-row和el-col分为两列展示内容 -->
               <el-row>
                 <el-col :span="18">
-                  <div class="task-content" ref="taskContent">
+                  <div class="task-content" :style="{ display: !showTaskContent ? 'block' : 'none' }" ref="taskContent">
                     {{ item.taskContent }}
                   </div>
                 </el-col>
                 <el-col :span="6">
                   <div class="task-createtime" ref="taskCreateTime">
-                    创建时间: {{ item.taskCreateTime }}
+                    创建时间: {{ formatDateTime(item.taskCreateTime) }}
                   </div>
                 </el-col>
               </el-row>
-              <el-button link="true" @click="deleteTask(item.taskId)">
-                删除 <i class="el-icon-delete" style="color: red"></i>
-              </el-button>
               <div class="moreButton-box">
                 <el-dropdown class="moreButton">
-                          <span class="el-dropdown-link">
-                            <i class="el-icon-more"></i>
-                          </span>
-                  <el-dropdown-menu>
-                    <el-dropdown-item>创建 <i class="el-icon-date" style="color: #409EFF"></i>{{ item.taskCreateTime }}
-                    </el-dropdown-item>
-                    <el-dropdown-item>完成 <i class="el-icon-date" style="color: green"></i>{{ item.taskFinishTime }}
-                    </el-dropdown-item>
-                    <el-dropdown-item @click="changeTaskStatus(item.taskId, item.taskType)" divided>
-                      还原为未完成 <i class="el-icon-refresh" style="color: chartreuse"></i>
-                    </el-dropdown-item>
-                    <el-dropdown-item @click="deleteTask(item.taskId)" divided>
-                      删除 <i class="el-icon-delete" style="color: red"></i>
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
+                  <el-icon ><MoreFilled /></el-icon>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item>创建 {{ formatDateTime(item.taskCreateTime) }}
+                      </el-dropdown-item>
+                      <el-dropdown-item>完成 {{ formatDateTime(item.taskFinishTime) }}
+                      </el-dropdown-item>
+                      <el-dropdown-item @click="changeTaskStatus(item.taskId, item.taskType)" divided>
+                        还原为未完成 <i class="el-icon-refresh" style="color: chartreuse"></i>
+                      </el-dropdown-item>
+                      <el-dropdown-item @click="deleteTask(item.taskId)" divided>
+                        删除
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
                 </el-dropdown>
+
               </div>
             </div>
           </el-card>
@@ -134,7 +139,11 @@
     </el-row>
 
     <el-backtop></el-backtop>
+    <el-dialog v-model="showChartDialog1" title="任务统计图">
+      <canvas id="myChart"  width="400" height="400"></canvas>
+    </el-dialog>
   </div>
+
 </template>
 
 <script>
@@ -142,12 +151,22 @@
   import print from 'print-js'
   import html2canvas from 'html2canvas';
   import jsPDF from 'jspdf';
+  import { MoreFilled, Delete, Download } from "@element-plus/icons-vue";
+  //import Chart from 'chart.js/auto';
   // eslint-disable-next-line no-unused-vars
   import { ref } from 'vue';
+  import { Chart, registerables } from 'chart.js';
+  import 'chartjs-adapter-moment';
+  import moment from 'moment';
+
+
+
 
   export default {
     name: "Tasks",
-
+    components: {
+      MoreFilled,
+    },
     data() {
       this.taskInput = ref(null);
       this.taskContent = ref(null);
@@ -157,6 +176,11 @@
         refresh: -1,
         finishedTasksCount: 0,
         showFinished: false,
+        showTaskInput: false,
+        showTaskContent:false,
+        showChart:false,
+        showChartDialog1: false,
+        chart: null,
         tasks: {},
         finishedTasks: {},
         boxCardsWidth: 0,
@@ -179,17 +203,131 @@
       //this.$store.commit("LOGIN");
       this.loadAllTasks();
     },
+    /*
     updated() {
+      console.log("updated this.$refs.boxCards=", this.$refs.boxCards);
       if (this.$refs.boxCards !== undefined) {
         this.boxCardsWidth = this.$refs.boxCards['0'].$el.clientWidth;
       }
     },
+
+     */
+    updated() {
+      this.$nextTick(() => {
+        if (this.$refs.boxCards !== undefined && this.$refs.boxCards[0] !== undefined) {
+          this.boxCardsWidth = this.$refs.boxCards[0].$el.clientWidth;
+        }
+      });
+    },
+
     methods: {
       hoverButton(index) {
         this.$refs.icons[index].style.color = "green";
       },
       leaveButton(index) {
         this.$refs.icons[index].style.color = "white";
+      },
+      formatDateTime(value) {
+        // 创建 Date 对象
+        var originalDate = new Date(value);
+        var year = originalDate.getFullYear();
+        var month = ('0' + (originalDate.getMonth() + 1)).slice(-2);
+        var day = ('0' + originalDate.getDate()).slice(-2);
+        var hours = ('0' + originalDate.getHours()).slice(-2);
+        var minutes = ('0' + originalDate.getMinutes()).slice(-2);
+        var seconds = ('0' + originalDate.getSeconds()).slice(-2);
+
+        // 拼接为指定格式
+        var formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.0`;
+        //console.log("规格化时间：",formattedDateTime);
+        return formattedDateTime;
+      },
+      processDataForChart() {
+        // 对任务数据进行处理，计算每天的任务数量
+        const taskCounts = {};
+
+        this.tasks.forEach(task => {
+          const date = task.taskDdl.split(' ')[0]; // 提取日期部分
+          taskCounts[date] = (taskCounts[date] || 0) + 1;
+        });
+        return {
+          labels: Object.keys(taskCounts),
+          data: Object.values(taskCounts),
+        };
+      },
+      tasksSta(){
+        this.$router.push({
+          name: 'TasksStatistic',
+          query: { tasks: JSON.stringify(this.tasks) } });
+      },
+      createChart(){
+        this.showChart = true;
+        const chartdata = this.tasks;
+        const { labels, data } = this.processDataForChart();
+        console.log("labels:", labels);
+        console.log("data:", data);
+        // 获取 canvas 元素
+        const canvas = document.getElementById('myChart');
+        // 检查 canvas 是否存在
+        if (!canvas) {
+          console.error("Canvas element not found");
+          return;
+        }
+        const ctx = canvas.getContext('2d');
+        this.chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: '每天的任务数量',
+              data: data,
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1,
+            }],
+          },
+          options: {
+            scales: {
+              x: {
+                type: 'time',
+                time: {
+                  unit: 'day',
+                  displayFormats:{
+                    day : 'YYYY-MM-DD HH:mm:ss'
+                  }
+                },
+                title: {
+                  display: true,
+                  text: '日期',
+                },
+              },
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: '任务数量',
+                },
+              },
+            },
+          },
+        });
+
+      },
+      showChartDialog() {
+        this.showChartDialog1 = true;
+        console.log("showChartDialog1=", this.showChartDialog1);
+        //this.createChart();
+
+        // 使用 $nextTick 确保图表在弹窗打开后才创建
+
+        this.$nextTick(() => {
+          const canvas = document.getElementById('myChart');
+          if (canvas) {
+            this.createChart();
+          } else {
+            console.error("Canvas element not found");
+          }
+        });
       },
       printBox() {
         setTimeout(function () {
@@ -298,13 +436,15 @@
         console.log("formattedDate:",formattedDate);
         // eslint-disable-next-line no-unused-vars
         axios.post("http://localhost:8080/zc/api/insert", param).then(res => {
-          this.loadUnfinishedTasks();
-          this.$message({
-            type: 'success',
-            message: '添加成功'
-          });
-          this.showAddTask = true
-          this.new_task = ""
+          console.log("addTask res=", res);
+          if(res.data.msg == "success"){
+            this.loadUnfinishedTasks();
+            this.$message({
+              type: 'success',
+              message: '添加成功'
+            });
+            this.showAddTask = true
+            this.new_task = ""}
         })
       },
       formatDate(date) {
@@ -319,7 +459,12 @@
         param.append("token", "1")
         axios.post("http://localhost:8080/zc/api/tasks", param).then(res => {
           //this.tasks = Object.assign({},res.data.result)
-          this.tasks = res.data.result
+          console.log("loadAllTasks res.data.result=",res.data.result);
+          //this.tasks = res.data.result;
+          this.tasks = res.data.result.map(task => {
+            return { ...task, editMode: false };
+          });
+          console.log("loadAllTasks tasks=", this.tasks);
           this.refresh = Math.random(); //强制触发vue的diff重新渲染
         })
         axios.post("http://localhost:8080/zc/api/finished", param).then(res => {
@@ -360,12 +505,24 @@
         console.log("this.$refs.taskContent", this.$refs.taskContent);
         console.log("this.$refs.task_input", this.$refs.task_input);
         console.log("第一个元素：", this.$refs.taskInput[0]);
-        this.$refs.taskInput[id].style.display = "block";
-        this.$refs.taskContent[id].style.display = "none";
+        const targetTask = this.tasks.find(task => task.taskId === taskId);
+        if (targetTask) {
+          targetTask.editMode = !targetTask.editMode;
+        }
+        //this.$refs.taskInput[id].style.display = "block";
+        //this.$refs.taskContent[id].style.display = "none";
+        //this.showTaskInput = true;
+        //this.showTaskContent = true;
+        console.log("this.$refs.taskInput",this.$refs.taskInput);
+        console.log("this.$refs.taskContent",this.$refs.taskContent);
         this.$refs.task_input[id].focus();
         this.taskText = this.$refs.taskContent[id].innerText;
-
-
+        console.log("this.taskText = this.$refs.taskContent[id].innerText=", this.taskText = this.$refs.taskContent[id].innerText);
+        console.log(taskId);
+        console.log(id);
+        console.log(this.$refs.taskInput[id]);
+        console.log(this.$refs.taskContent[id]);
+        console.log(this.$refs.task_input[id]);
       },
       submitChange(taskId,id){
         let param = new FormData;
@@ -378,8 +535,18 @@
         axios.post("http://localhost:8080/zc/api/update", param).then(res=>{
           console.log(res);
           if(res.data.msg==="success") {
-            this.$refs.taskInput[id].style.display = "none";
-            this.$refs.taskContent[id].style.display = "block";
+            const targetTask = this.tasks.find(task => task.taskId === taskId);
+            if (targetTask) {
+              targetTask.editMode = !targetTask.editMode;
+            }
+            const taskType = targetTask.taskType;
+            if(taskType == 0){
+              this.loadAllTasks();
+            }else if(taskType == 1){
+              this.loadFinishedTasks();
+            }
+            //this.$refs.taskInput[id].style.display = "none";
+            //this.$refs.taskContent[id].style.display = "block";
             this.$refs.taskContent[id].innerText = this.taskText;
           } else {
             console.log(res.data.msg);
@@ -491,7 +658,8 @@
 </style>
 <style scoped>
   .tasks-container {
-    max-width: 980px;
+    /*max-width: 980px;*/
+    width: 100%;
     margin: 0 auto;
     /*border: #409EFF 2px solid;*/
     padding-top: 20px;
@@ -500,18 +668,19 @@
 
   .box-card {
     margin: 0 auto;
-    max-width: 780px;
+    /*max-width: 780px;*/
     padding: 0 0;
+    min-height: 100px;
   }
 
   .add-task-box {
     margin: 0 auto;
-    max-width: 780px;
+    /*max-width: 780px;*/
+    width: 100%;
     padding: 0 0;
   }
   .button-box {
     margin: 0 auto;
-    max-width: 780px;
     padding: 0 0;
   }
 
