@@ -25,6 +25,7 @@ public class UserService {
     public void userDelete(Integer id){//删除by ID
         userMapper.deleteById(id);
     }
+    
     public void userUpdate(User user){
         UpdateWrapper<User> wrapper = new UpdateWrapper<>();
         wrapper.eq("user_id", user.getUserId());
