@@ -74,7 +74,7 @@
                 <el-button size="large" type="success" round style="margin-top: 10px;" @click="dialogVisible = true">添加学生</el-button>
                 <el-button size="large" type="success" round style="margin-top: 10px;" @click="exportExcel">导出名单</el-button>
                 <el-button size="large" type="success" round style="margin-top: 10px;" @click="print">打印名单</el-button>
-                <el-button size="large" type="success" round style="margin-top: 10px;" @click="111">统计图表</el-button>
+                <el-button size="large" type="success" round style="margin-top: 10px;" @click="dialogVisible2 = true">统计图表</el-button>
               </el-col>
             </el-col>
             <el-col :span="12">
@@ -139,6 +139,46 @@
           </span>
         </template>
       </el-dialog>
+      <el-dialog v-model="dialogVisible2" title="抽奖提问统计图" width="50%" draggable>
+        <div class="chart">
+          <default-line-chart
+            id="line-chart"
+            title="Line chart"
+            :chart="{
+              labels: [
+                'Apr',
+                'May',
+                'Jun',
+                'Jul',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec',
+              ],
+              datasets: [
+                {
+                  label: '研究与开发实践',
+                  data: [50, 40, 30, 22, 30, 25, 40, 20, 50],
+                },
+                {
+                  label: '数据库系统原理',
+                  data: [30, 90, 40, 10, 29, 29, 30, 23, 40],
+                },
+                {
+                  label: '软件工程',
+                  data: [40, 80, 70, 9, 30, 9, 14, 13, 20],
+                },
+              ],
+            }"
+          />
+        </div>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="dialogVisible2 = false">关闭</el-button>
+          </span>
+        </template>
+      </el-dialog>
     </div>
     <app-footer class="py-3 bg-white border-radius-lg" />
   </template>
@@ -152,6 +192,7 @@
   import image2 from "@/assets/img/team-2.jpg";
   import image3 from "@/assets/img/team-3.jpg";
   import image4 from "@/assets/img/team-4.jpg";
+  import DefaultLineChart from "@/examples/Charts/DefaultLineChart.vue";
   
   import axios from "axios"
   import { ElMessage } from 'element-plus'
@@ -170,6 +211,7 @@
     components: {
       AppFooter,
       Navbar,
+      DefaultLineChart,
     },
     data() {
       return {
@@ -183,6 +225,7 @@
         loading: false,
         dialogVisible: false,
         dialogVisible1: false,
+        dialogVisible2: false,
         Num: 1,
         index: 0,
         length: 0,
