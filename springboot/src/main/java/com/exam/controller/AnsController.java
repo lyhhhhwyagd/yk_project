@@ -4,9 +4,11 @@ package com.exam.controller;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
-import com.exam.Entity.Ans;
 import com.exam.common.Result;
 import com.exam.service.AnsService;
+import com.exam.Entity.Ans;
+import com.exam.service.ProblemService;
+import com.exam.Entity.Anse;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,7 @@ public class AnsController {
 
     @Resource
     private AnsService ansService;
+    private ProblemService problemService;
 
     @GetMapping("/selects")
     public Result selectPages(@RequestParam(defaultValue = "1") Integer pageNum,
@@ -46,7 +49,7 @@ public class AnsController {
         }
     }
     @GetMapping("/query")
-    public Result query(Ans ans)
+    public Result query( Ans ans)
     {
         return Result.success(ansService.query(ans));
 
@@ -54,10 +57,10 @@ public class AnsController {
 
 
     @GetMapping("/export")
-    public void exportData(HttpServletResponse response)throws IOException
+    public void exportData(HttpServletResponse response,Anse anse)throws IOException
     {
         ExcelWriter writer= ExcelUtil.getWriter(true);
-        List<Ans> list=ansService.listAll();
+        List<Anse> list=ansService.selects(anse);
         // List<> list=new ArrayList<>(2);
         if(!list.isEmpty()) {
             writer.write(list, true);
@@ -71,24 +74,7 @@ public class AnsController {
 
         }
     }
-    @GetMapping("/map")
-    public Result get()
-    {
-        List<Ans>  list=ansService.listAll();
-        int q1=0,q2=0,q3=0,q4=0;
-        for( Ans it:list)
-        {
-            switch (it.getMyans())
-            {
-                case "计算机学院":q1+=1;break;
-                case "软件学院":q2+=1;break;
-                case "数学学院":q3+=1;break;
-                case "文学与新闻学院":q4+=1;break;
-            }
 
-        }
-        return Result.success(CollUtil.newArrayList(q1,q2,q3,q4));
-    }
 
 
 

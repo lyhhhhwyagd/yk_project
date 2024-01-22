@@ -1,5 +1,6 @@
 <template>
-    <div  >
+    <div v-if="data.userType=='学生'"> 此页面不对学生开放</div>
+    <div  v-if="data.userType!='学生'">
         <div class="card" style="margin-bottom: 10px ;" >
             <div  >
                 <el-input style="width: 260px" v-model="data.problemname"  placeholder="请输入题目名称" :prefix-icon="Search"/>
@@ -87,7 +88,7 @@
 
 
     </div>
-    <div id="main" style="width: 100%; height: 300px">
+    <div id="main" style="width: 100%; height: 300px" v-if="data.userType!='学生'">
 
     </div>
 </template>
@@ -109,6 +110,7 @@
     const data = reactive({
        // courseName:"",
         //dep:"",
+        userType:'',
         "problemname":"",
         "teacherid":"",
         tableData: [{
@@ -266,4 +268,37 @@
             printable: data.tableData,
         });
     }
+    async  function getUserType()
+    {
+        try {
+
+            var url = window.location.href ;             //获取当前url
+            var cs = url.split('?')[1];                //获取?之后的参数字符串
+            var cs_arr = cs.split('&');                    //参数字符串分割为数组
+            var cs1={};
+            for(var i=0;i<cs_arr.length;i++){         //遍历数组，拿到json对象
+
+                cs1[cs_arr[i].split('=')[0]] = cs_arr[i].split('=')[1]
+
+            }
+            const userId = cs1.userID;
+            if (!Number.isInteger(Number(userId))) {
+                console.error('Invalid userID:', userId);
+                return;
+            }
+            const response = await fetch(`http://localhost:8080/user/userType/${userId}`);
+
+            // 输出响应头中的内容类型
+            console.log('Content-Type:', response.headers.get('content-type'));
+            // 直接使用 response.text() 获取纯文本内容
+            const textData = await response.text();
+            // 在这里你可以根据需要处理 textData
+            data.userType = textData;
+            console.log(data.userType);
+            //console.log('User Type:', this.userType);
+        } catch (error) {
+            console.error('获取用户权限时出错：', error);
+        }
+    }
+    getUserType();
 </script>

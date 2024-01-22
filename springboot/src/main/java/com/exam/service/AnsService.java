@@ -1,6 +1,8 @@
 package com.exam.service;
 
 import com.exam.Entity.Ans;
+import com.exam.Entity.Problem;
+import com.exam.Entity.Anse;
 import com.exam.common.Result;
 import com.exam.mapper.AnsMapper;
 import com.github.pagehelper.PageHelper;
@@ -44,6 +46,11 @@ public class AnsService {
     {
         List<Ans> ansList=ansMapper.listAll();
         return ansList;
+    }
+    public List<Anse> selects( Anse anse)
+    {
+        List<Anse> anselist=ansMapper.selects(anse);
+        return  anselist;
     }
 
 

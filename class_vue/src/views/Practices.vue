@@ -21,6 +21,7 @@
             {
                 Practice,
             },
+        data (){return {userType:'学生',};}
     };
 </script>
 

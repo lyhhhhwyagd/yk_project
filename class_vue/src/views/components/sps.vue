@@ -1,5 +1,8 @@
-<template>
-    <div  >
+<template >
+    <div v-if="data.userType!=='学生'">此页面仅为学生答题使用</div>
+    <div  v-if="data.userType==='学生'">
+
+
         <div class="card" style="margin-bottom: 10px ;" >
             <div  >
                 <el-input style="width: 260px" v-model="data.problemname"  placeholder="请输入题目名称" :prefix-icon="Search"/>
@@ -15,7 +18,7 @@
 
         <div class="card" style="margin-bottom: 10px">
             <div style="margin-bottom: 10px">
-                <el-button  style="background-color: #76dc30" type="info" @click="exportAll">导出</el-button>
+                <el-button  style="background-color: #76dc30" type="info" @click="exportToExcel">导出</el-button>
                 <el-button  style="background-color: #76dc30" type="info" @click="handlePrint">打印</el-button>
             </div>
             <div>
@@ -27,7 +30,7 @@
 
                     <el-table-column >
                         <template #default="scope">
-                            <el-button style="background-color: #76dc30;margin-right: 0" type="primary"  @click="handleEdit(scope.row)">答题</el-button>
+                            <el-button style="background-color: #76dc30;margin-right: 0" type="primary"  @click="handleEdit(scope.row)">答题详情</el-button>
                         </template>
                     </el-table-column>
 
@@ -40,35 +43,38 @@
                            @current-change=" handleCurrentChange"
                            background layout="prev, pager, next" :total="data.total"/>
         </div>
-        <el-dialog title="题目信息" width="40%" v-model="data.radioVisible" height="60%" >
-          {{data.form.problemdes}}
-        <el-radio-group v-model="radio">
-            <el-radio :label="1">{{data.form.a}}</el-radio>
-            <el-radio :label="2">{{data.form.b}}</el-radio>
-            <el-radio :label="3">{{data.form.c}}</el-radio>
-            <el-radio :label="4">{{data.form.d}}</el-radio>
-        </el-radio-group>
+        <el-dialog :title="data.form.problemdes" width="40%" v-model="data.radioVisible" height="60%" >
+
+            <el-radio-group v-model="radio">
+                <el-radio :label="1">{{data.form.a}}</el-radio>
+                <el-radio :label="2">{{data.form.b}}</el-radio>
+                <el-radio :label="3">{{data.form.c}}</el-radio>
+                <el-radio :label="4">{{data.form.d}}</el-radio>
+            </el-radio-group>
             <div class="dialog-footer" v-html="data.scores">
             </div>
 
             <div class="dialog-footer">
 
                 <el-button style="background-color: #76dc30" type="primary" @click="save(radio)">提交</el-button>
-        <el-button  @click="data.radioVisible = false">取 消</el-button>
-      </div>
+                <el-button  @click="data.radioVisible = false">取 消</el-button>
+            </div>
         </el-dialog>
 
 
 
 
+    </div >
+
+    <div id="main" style="width: 100%; height: 400px" v-if="data.userType==='学生'">
 
     </div>
-    <div id="main" style="width: 100%; height: 300px">
 
-    </div>
+
 </template>
 
 <script setup>
+
 
     //import request from "@/utils/request";
     import {reactive} from "vue";
@@ -78,13 +84,21 @@
     import * as echarts from 'echarts';
     import {onMounted} from "vue";
     import printJS from 'print-js';
+    import * as XLSX from 'xlsx';
     // request.get('/').then(res => {
     //     console.log(res)
     // })
+
     import { ref } from 'vue'
+
     const radio = ref(1)
     const data = reactive({
+        userType:'',
+        c:1,
         // courseName:"",
+        ac:0,
+        ndone:0,
+        wa:0,
         scores:"",
         myans:"1",
         userid:"1",
@@ -92,7 +106,12 @@
         teacherid:"",
         tableData: [{
             "problemdes":"","id":"","problemname":"","a":"1","b":"3","c":"1","d":"1","ans":"","teacherid":"1","time":"1"}],
+        tableData1: [{
+            "problemdes":"","id":"","problemname":"","a":"1","b":"3","c":"1","d":"1","ans":"","teacherid":"1","time":"1"}],
+        printData: [{
+            "problemdes":"","id":"","problemname":"","a":"1","b":"3","c":"1","d":"1","ans":"","teacherid":"1","time":"1","myans":""}],
         total:0,
+        anse:[],
         pageSize:4,//当前最大个数
         pageNum:1,
         formVisible:false,
@@ -112,8 +131,56 @@
             //console.log(res)
             data.tableData=res.data.list
             data.total=res.data.total || 0
-        })
+            request.get("/problem/smap").then(res =>{
+                data.tableData1=res.data;
+                data.printData = data.tableData1.map(item => Object.assign({}, item, { myans: "s" }));
+                console.log(data.tableData1[0].ans);
+                console.log(data.printData[0].myans);
+                var url = window.location.href ;             //获取当前url
+                var cs = url.split('?')[1];                //获取?之后的参数字符串
+                var cs_arr = cs.split('&');                    //参数字符串分割为数组
+                var cs1={};
+                for(var i=0;i<cs_arr.length;i++){         //遍历数组，拿到json对象
 
+                    cs1[cs_arr[i].split('=')[0]] = cs_arr[i].split('=')[1]
+
+                };
+                for( let j=0;j<data.tableData1.length;j++)
+                {
+                    var temp=data.tableData1[j].ans,ans1;
+                    var t1=data.tableData1[j];
+
+                    request.get("/ans/query", {
+                        params:
+                            {
+                                problemid:data.tableData1[j].id,
+                                userid:cs1.userID,
+                            }
+                    }).then(res =>{
+                        t1.ans=1;
+                        console.log(j);
+                        console.log(temp);
+                        console.log(data.tableData1[j]);
+                        if(res.data==null)
+                        {
+                            data.anse.push("未作答");
+                        }
+                        else
+                        {
+                            var t=res.data.myans;
+                            data.anse.push(t);
+                        }
+                        console.log(res);
+                        if(res.data==null) data.ndone++;
+                        else if(res.data.myans!=temp) data.wa++;
+                        else data.ac++;
+                    })
+
+                }
+
+            })
+
+        })
     }
 
     const  handleCurrentChange =()=>
@@ -133,19 +200,19 @@
         let option;
         if(radio==1)
         {
-             option ="A";
+            option ="A";
         }
         if(radio==2)
         {
-             option ="B";
+            option ="B";
         }
         if(radio==3)
         {
-           option ="C";
+            option ="C";
         }
         if(radio==4)
         {
-          option ="D";
+            option ="D";
         }
         console.log(option);
         if(option==data.form.ans)
@@ -177,7 +244,7 @@
                 ElMessage.success("操作成功");
                 data.formVisible=false;
                 load();
-             //   aa();
+                //   aa();
             }
             else
             {
@@ -185,6 +252,7 @@
             }
         })
         data.radioVisible = false;
+        load();
     }
 
 
@@ -211,7 +279,7 @@
             console.log(res);
             data.scores=res.data==null?null:res.data.myans;
             if(data.scores==data.form.ans) data.scores="回答正确 "+"正确答案:"+data.form.ans;
-            else if(data.scores!=null && data.scores!=data.form.ans) data.scores="回答错误,"+" 你的答案: "+data.scores+"正确答案:"+data.form.ans;
+            else if(data.scores!=null && data.scores!=data.form.ans) data.scores="回答错误,"+" 你的答案: "+data.scores+"  正确答案:"+data.form.ans;
             console.log(data.scores);
         })
 
@@ -219,50 +287,81 @@
 
     const exportAll =()=>
     {
-        window.open("http://localhost:8080/problem/export")
+        const worksheet = XLSX.utils.json_to_sheet(data.printData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+        XLSX.writeFile(workbook, 'tableData.xlsx');
+
+    }
+    const exportToExcel=()=> {
+        const worksheet = XLSX.utils.json_to_sheet(data.printData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+        XLSX.writeFile(workbook, 'tableData.xlsx');
     }
     //调用方法获取后台
+
     load()
 
-    // onMounted( () => {
-    //     setTimeout(() => {aa()}, 1000)
-    // })
+    //getUserType();
+    //created()
+    onMounted( () => {
+        setTimeout(() => {aa()}, 2000)
+    })
 
     const aa =()=> {
         var option;
         option = {
-            xAxis: {
-                type: 'category',
-                data: ["计算机学院","软件学院","数学学院","文学与新闻学院"]
+            title: {
+                text: '答题统计',
+                left: 'center'
             },
-            yAxis: {
-                type: 'value'
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
             },
             series: [
                 {
-                    data: [],
-                    type: 'line'
-                },
-                {
-                    data: [],
-                    type: 'bar'
-                },
+                    name: '回答情况',
+                    type: 'pie',
+                    radius: '50%',
+                    data: [
+                        { value:data.ac, name: '作答正确' },
+                        { value: data.wa, name: '作答错误' },
+                        { value: data.ndone, name: '未作答' },
 
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
             ]
         };
+
         var chartDom = document.getElementById('main');
         var myChart = echarts.init(chartDom);
-        request.get("/problem/map").then(res =>{
-            if(res.data) {
-                //option.xAxis.data = res.data.x;
-                option.series[0].data = res.data;
-                option.series[1].data = res.data;
-                myChart.setOption(option);
-            }
-        })
+        myChart.setOption(option);
+
+
+        // request.get("/problem/map").then(res =>{
+        //     if(res.data) {
+        //         //option.xAxis.data = res.data.x;
+        //         option.series[0].data = res.data;
+        //         option.series[1].data = res.data;
+        //         myChart.setOption(option);
+        //     }
+        // })
 
     }
     const handlePrint=()=> {
+        for(var i=0;i<data.printData.length;i++) data.printData[i].myans=data.anse[i];
         printJS({
             header: "习题表",
             type: "json",
@@ -277,8 +376,44 @@
                 { field: "d", displayName: "d选项" },
                 { field: "ans", displayName: "答案" },
                 { field: "time", displayName: "时间" },
+                { field: "myans", displayName: "作答情况" },
+                { field: "time", displayName: "时间" },
             ],
-            printable: data.tableData,
+            printable: data.printData,
         });
     }
+    async  function getUserType()
+    {
+        try {
+
+            var url = window.location.href ;             //获取当前url
+            var cs = url.split('?')[1];                //获取?之后的参数字符串
+            var cs_arr = cs.split('&');                    //参数字符串分割为数组
+            var cs1={};
+            for(var i=0;i<cs_arr.length;i++){         //遍历数组，拿到json对象
+
+                cs1[cs_arr[i].split('=')[0]] = cs_arr[i].split('=')[1]
+
+            }
+            const userId = cs1.userID;
+            if (!Number.isInteger(Number(userId))) {
+                console.error('Invalid userID:', userId);
+                return;
+            }
+            const response = await fetch(`http://localhost:8080/user/userType/${userId}`);
+
+            // 输出响应头中的内容类型
+            console.log('Content-Type:', response.headers.get('content-type'));
+            // 直接使用 response.text() 获取纯文本内容
+            const textData = await response.text();
+            // 在这里你可以根据需要处理 textData
+            data.userType = textData;
+            console.log(data.userType);
+            //console.log('User Type:', this.userType);
+        } catch (error) {
+            console.error('获取用户权限时出错：', error);
+        }
+    }
+    getUserType();
+
 </script>

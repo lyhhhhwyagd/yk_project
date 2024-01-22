@@ -1,10 +1,9 @@
 package com.exam.mapper;
 
 import com.exam.Entity.Ans;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.exam.Entity.Anse;
+import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -29,4 +28,7 @@ public interface AnsMapper {
 
     @Select("select * from ans")
     List<Ans> listAll();
+
+    @Select("select problem.id,problemdes,problemname,a,b,c,d,ans,teacherid,time,myans,userid from ans,problem where ans.problemid=problem.id and ans.userid=#{userid}")
+    List<Anse> selects(Anse anse);
 }
