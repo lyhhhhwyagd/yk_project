@@ -46,4 +46,8 @@ public class UserService {
     public User getUserById(Integer id) {
         return userMapper.selectById(id);
     }
+   
+    public String findUserTypeById(Integer id) {
+        return userMapper.findUserTypeById(id);
+    }
 }

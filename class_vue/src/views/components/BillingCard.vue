@@ -1,8 +1,11 @@
 <template>
-  <div class="card mb-4">
+   <div v-if="userRole === '学生'" class="alert alert-warning" role="alert">
+      本界面不对学生开放
+    </div>
+  <div class="card mb-4" v-if="userRole !== '学生'">
     <div class="card-header pb-0 d-flex justify-content-between align-items-center">
       <h6>用户管理</h6>
-      <button @click="exportUsers" class="btn btn-primary mr-2">导出</button>
+      <button @click="exportUsers" class="btn btn-primary mr-2" >导出</button>
       <button @click="openPrintPreview" class="btn btn-info mr-2">打印</button>
       <div class="d-flex align-items-center">
         <div class="form-group mb-0" style="height: 40px;">
@@ -24,6 +27,7 @@
             <th>用户名</th>
             <th>用户角色</th>
             <th>注册日期</th>
+            <th>用户密码</th>
             <th>用户邮箱</th>
             <th>用户电话</th>
             <th>操作</th>
@@ -35,6 +39,7 @@
             <td>{{ user.userName }}</td>
             <td>{{ user.userType }}</td>
             <td>{{ user.createTime }}</td>
+            <td >******</td>
             <td>{{ user.userEmail }}</td>
             <td>{{ user.userPhone }}</td>
             <td>
@@ -69,8 +74,11 @@
   <div class="col-md-1">
     <input v-model="userType" placeholder="用户角色" class="form-control" />
   </div>
-  <div class="col-md-2">
+  <div class="col-md-1">
     <input v-model="createTime" placeholder="注册日期" class="form-control" />
+  </div>
+  <div class="col-md-2">
+    <input v-model="password" placeholder="密码" class="form-control" />
   </div>
   <div class="col-md-2">
     <input v-model="userEmail" placeholder="用户邮箱" class="form-control" />
@@ -79,7 +87,7 @@
     <input v-model="userPhone" placeholder="用户电话" class="form-control" />
   </div>
   <div class="col-md-2">
-    <button @click="addUser" class="btn btn-default">添加用户记录</button>
+    <button @click="addUser" class="btn btn-success">添加用户</button>
   </div>
 </div>
 
@@ -115,6 +123,11 @@
               <div class="form-group">
                 <label for="updateCreateTime">注册日期</label>
                 <input type="text" class="form-control" id="updateCreateTime" v-model="selectedUser.createTime" disabled>
+              </div>
+              
+              <div class="form-group">
+                <label for="updateUserEmail">用户密码</label>
+                <input type="password" class="form-control" id="updateUserEmail" v-model="selectedUser.password" required>
               </div>
 
               <div class="form-group">
@@ -155,8 +168,10 @@ export default {
       userName: '',
       userType: '',
       createTime: '',
+      password:'',
       userEmail: '',
       userPhone: '',
+      userRole:'',//用于权限管理
     };
   },
   computed: {
@@ -183,12 +198,45 @@ export default {
   mounted() {
     this.fetchUserData();
   },
+  created() {
+  // 设置默认值，确保界面不会在获取用户角色之前渲染
+  this.userRole = '';
+
+  // 获取用户角色信息
+  this.getUserRole();
+},
   methods: {
+    async getUserRole() {
+  try {
+    const userId = this.$route.query.userID;
+
+    if (!Number.isInteger(Number(userId))) {
+      console.error('Invalid userID:', userId);
+      return;
+    }
+
+    const response = await fetch(`http://localhost:8080/user/userType/${userId}`);
+    
+    // 输出响应头中的内容类型
+    console.log('Content-Type:', response.headers.get('content-type'));
+
+    // 直接使用 response.text() 获取纯文本内容
+    const textData = await response.text();
+
+    // 在这里你可以根据需要处理 textData
+    this.userRole = textData;
+
+    console.log('User Type:', this.userRole);
+  } catch (error) {
+    console.error('获取用户权限时出错：', error);
+  }
+},
     addUser() {
     const newUser = {
       userName: this.userName,
       userType: this.userType,
       createTime: this.createTime,
+      password:this.password,
       userEmail: this.userEmail,
       userPhone: this.userPhone,
     };
@@ -315,6 +363,7 @@ export default {
       $('#updateUserModal').modal('hide');
     },
   },
+  
 };
 </script>
 

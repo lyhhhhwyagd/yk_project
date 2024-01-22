@@ -42,7 +42,7 @@
               <button @click="selectFile(homework.id)" class="btn btn-success">选择文件</button>
               <button @click="uploadFile(homework.id)" class="btn btn-primary">上传作业</button>
               
-              <button @click="deleteHomework(homework.id)" class="btn btn-danger">删除作业</button>
+              <button @click="deleteHomework(homework.id)" class="btn btn-danger" v-if="userType !== '学生'">删除作业</button>
               <input type="file" ref="fileInput" style="display:none" @change="handleFileChange" />
             </td>
           </tr>
@@ -68,7 +68,7 @@
     </nav>
   </div>
 
-  <div class="row">
+  <div class="row" v-if="userType !== '学生'">
     <div class="col-md-3">
       <input v-model="title" placeholder="作业名" class="form-control" />
     </div>
@@ -82,7 +82,7 @@
       <input v-model="teacher" placeholder="教师名" class="form-control" />
     </div>
         <div class="col-md-2">
-      <button @click="add" class="btn btn-default">添加作业记录</button>
+      <button @click="add" class="btn btn-default"></button>
     </div>
     <!-- 添加文件上传输入框和触发 OCR 的按钮 -->
     <div class="col-md-3">
@@ -114,7 +114,7 @@ export default {
       sortOrder: 'asc',
       selectedFile: null,
       ocrResult: '',
-      
+      userType: '',
     };
   },
   computed: {
@@ -137,6 +137,34 @@ export default {
     },
   },
   methods: {
+
+  async getUserType() {
+  try {
+    const userId = this.$route.query.userID;
+
+    if (!Number.isInteger(Number(userId))) {
+      console.error('Invalid userID:', userId);
+      return;
+    }
+
+    const response = await fetch(`http://localhost:8080/user/userType/${userId}`);
+    
+    // 输出响应头中的内容类型
+    console.log('Content-Type:', response.headers.get('content-type'));
+
+    // 直接使用 response.text() 获取纯文本内容
+    const textData = await response.text();
+
+    // 在这里你可以根据需要处理 textData
+    this.userType = textData;
+
+    console.log('User Type:', this.userType);
+  } catch (error) {
+    console.error('获取用户权限时出错：', error);
+  }
+},
+
+
     copyToClipboard() {
     // 获取 OCR 结果
     const ocrResult = this.ocrResult;
@@ -383,6 +411,7 @@ export default {
   },
   created() {
     this.fetchHomeworkData();
+    this.getUserType(); 
   },
 };
 </script>

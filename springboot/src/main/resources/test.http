@@ -35,7 +35,8 @@ Content-Disposition: form-data; name="file"; filename="user.sql"
 Content-Type: text/plain
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
-
+###
+GET http://localhost:8080/user/userType/20002
 # 获取所有作业
 ###
 GET http://localhost:8080/homework/all
