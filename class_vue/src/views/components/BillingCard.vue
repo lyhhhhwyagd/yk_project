@@ -5,7 +5,7 @@
   <div class="card mb-4" v-if="userRole !== '学生'">
     <div class="card-header pb-0 d-flex justify-content-between align-items-center">
       <h6>用户管理</h6>
-      <button @click="exportUsers" class="btn btn-primary mr-2" >导出</button>
+      <button @click="exportUsers" class="btn btn-success mr-2" >导出</button>
       <button @click="redirectToSpringBootPage" class="btn btn-default mr-2">图表</button>
       <button @click="openPrintPreview" class="btn btn-info mr-2">打印</button>
       <div class="d-flex align-items-center">
@@ -44,7 +44,7 @@
             <td>{{ user.userEmail }}</td>
             <td>{{ user.userPhone }}</td>
             <td>
-              <button @click="updateUser(user)" class="btn btn-warning">更新</button>
+              <button @click="updateUser(user)" class="btn btn-info">更新</button>
               <button @click="deleteUser(user.userId)" class="btn btn-danger">删除</button>
             </td>
           </tr>

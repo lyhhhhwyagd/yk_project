@@ -3,7 +3,7 @@
     <div class="card-header pb-0 d-flex justify-content-between align-items-center">
       <h6>文件管理</h6>
       
-      <button @click="exportFiles" class="btn btn-primary mr-2">导出</button>
+      <button @click="exportFiles" class="btn btn-success mr-2">导出</button>
       <button @click="openPrintPreview" class="btn btn-info mr-2">打印</button>
       <button @click="redirectToSpringBootPage" class="btn btn-default mr-2">图表</button>
       <button @click="sortByCourseId" class="btn btn-success mr-2">按课程号排序</button>
@@ -45,7 +45,7 @@
   <td>{{ file.courseId }}</td>
   <td>
     <!-- 操作按钮 -->
-    <button @click="downloadFile(file.fileName)" class="btn btn-primary">下载</button>
+    <button @click="downloadFile(file.fileName)" class="btn btn-info">下载</button>
     
   </td>
 </tr>

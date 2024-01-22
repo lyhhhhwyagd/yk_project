@@ -2,7 +2,7 @@
   <div class="card mb-4">
     <div class="card-header pb-0 d-flex justify-content-between align-items-center">
       <h6>作业管理</h6>
-      <button @click="exportHomework" class="btn btn-primary mr-2">导出</button>
+      <button @click="exportHomework" class="btn btn-success mr-2">导出</button>
       <button @click="openPrintPreview" class="btn btn-info mr-2">打印</button>
       <button @click="redirectToSpringBootPage" class="btn btn-default mr-2">图表</button>
       <button @click="sortByDeadline" class="btn btn-success mr-2">按截止时间排序</button>
@@ -41,7 +41,7 @@
             <td>
               <!-- <button @click="update(homework)" class="btn btn-info">更新作业信息</button> -->
               <button @click="selectFile(homework.id)" class="btn btn-success">选择文件</button>
-              <button @click="uploadFile(homework.id)" class="btn btn-primary">上传作业</button>
+              <button @click="uploadFile(homework.id)" class="btn btn-info">上传作业</button>
               
               <button @click="deleteHomework(homework.id)" class="btn btn-danger" v-if="userType !== '学生'">删除作业</button>
               <input type="file" ref="fileInput" style="display:none" @change="handleFileChange" />
