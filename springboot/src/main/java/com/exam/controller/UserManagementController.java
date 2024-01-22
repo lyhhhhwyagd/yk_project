@@ -45,6 +45,15 @@ public class UserManagementController {
 
         return new ResponseEntity<>(excelBytes, headers, HttpStatus.OK);
     }
+    @GetMapping("/userType/{id}")
+    public ResponseEntity<String> getUserTypeById(@PathVariable Integer id) {
+        String userType = userService.findUserTypeById(id);
+        if (userType != null) {
+            return new ResponseEntity<>(userType, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Integer id) {
         User user = userService.getUserById(id);

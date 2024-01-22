@@ -25,6 +25,9 @@ import AAARewardsModify from "@/AAA_Ding/Components/AAARewardsModify.vue";
 import AAARewardsLook from "@/AAA_Ding/Components/AAARewardsLook.vue";
 import AAARewardsStatistics from "@/AAA_Ding/Components/AAARewardsStatistics.vue";
 import Tasks from "@/views/Tasks.vue";
+import Classmanage from "@/views/Classmanage.vue";
+import ClassmanageStatistic from "@/examples/Charts/ClassmanageStatistic";
+import TasksStatistic from "@/examples/Charts/TasksStatistic";
 import AAAWeather from "@/AAA_Ding/Pages/AAAWeather.vue";
 
 const routes = [
@@ -124,6 +127,11 @@ const routes = [
     component:sp,
   },
   {
+    path:"/rtl",
+    name:"rtl",
+    component:sp,
+  },
+  {
     path: "/billing",
     name: "Billing",
     component: Billing,
@@ -138,11 +146,7 @@ const routes = [
     name: "Profile",
     component: Profile,
   },
-  {
-    path: "/rtl-page",
-    name: "Rtl",
-    component: Rtl,
-  },
+  
   {
     path: "/sign-in",
     name: "Sign In",
@@ -157,6 +161,21 @@ const routes = [
     path:"/tasks",
     name:"Tasks",
     component:Tasks,
+  },
+  {
+    path:"/Classmanage",
+    name:"Classmanage",
+    component:Classmanage,
+  },
+  {
+    path:"/ClassmanageStatistic",
+    name:"ClassmanageStatistic",
+    component:ClassmanageStatistic,
+  },
+  {
+    path:"/TasksStatistic",
+    name:"TasksStatistic",
+    component:TasksStatistic,
   },
   {
     path: "/CheckRoll",

@@ -2,6 +2,7 @@
   <div class="card mb-4">
     <div class="card-header pb-0 d-flex justify-content-between align-items-center">
       <h6>文件管理</h6>
+      
       <button @click="exportFiles" class="btn btn-primary mr-2">导出</button>
       <button @click="openPrintPreview" class="btn btn-info mr-2">打印</button>
       <button @click="sortByCourseId" class="btn btn-success mr-2">按课程号排序</button>
@@ -71,14 +72,14 @@
     </nav>
   </div>
   <div class="row">
-  <div class="col-md-2">
+  <div class="col-md-2" v-if="userType !== '学生'">
     <input v-model="courseId" placeholder="课程ID" class="form-control" />
   </div>
-  <div class="col-md-4">
+  <div class="col-md-4" v-if="userType !== '学生'">
     <input type="file" @change="handleFileChange" class="form-control is-valid" />
   </div>
-  <div class="col-md-2">
-    <button @click="uploadFile" class="btn btn-default">上传文件</button>
+  <div class="col-md-2" v-if="userType !== '学生'">
+    <button @click="uploadFile" class="btn btn-default" >上传文件</button>
   </div>
 </div>
 
@@ -96,7 +97,7 @@ export default {
       courseId: '',
       sortOrder: 'asc',
       selectedFile: null,
-     
+      userType: '',
     };
   },
   computed: {
@@ -246,6 +247,33 @@ export default {
           console.error("下载文件时出错：", error);
         });
     },
+    async getUserType() {
+  try {
+    const userId = this.$route.query.userID;
+
+    if (!Number.isInteger(Number(userId))) {
+      console.error('Invalid userID:', userId);
+      return;
+    }
+
+    const response = await fetch(`http://localhost:8080/user/userType/${userId}`);
+    
+    // 输出响应头中的内容类型
+    console.log('Content-Type:', response.headers.get('content-type'));
+
+    // 直接使用 response.text() 获取纯文本内容
+    const textData = await response.text();
+
+    // 在这里你可以根据需要处理 textData
+    this.userType = textData;
+
+    console.log('User Type:', this.userType);
+  } catch (error) {
+    console.error('获取用户权限时出错：', error);
+  }
+},
+
+
     async deleteFile(fileId) {
       try {
         const response = await fetch(`http://localhost:8080/file/delete?id=${fileId}`, {
@@ -259,6 +287,7 @@ export default {
   },
   created() {
     this.fetchData();
+    this.getUserType();
   },
 };
 </script>

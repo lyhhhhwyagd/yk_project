@@ -4,13 +4,7 @@
     id="sidenav-collapse-main"
   >
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <sidenav-collapse navText="Dashboard" :to="{ name: 'Dashboard', query: { userID: this.userID } }">
-          <template #icon>
-            <shop />
-          </template>
-        </sidenav-collapse>
-      </li>
+
       <li class="nav-item">
         <sidenav-collapse navText="文件管理" :to="{ name: 'Dashboard', query: { userID: this.userID } }">
           <template #icon>
@@ -81,8 +75,22 @@
           </template>
         </sidenav-collapse>
       </li>
+      <li>
+        <sidenav-collapse navText="作业管理" :to="{ name: 'Virtual Reality', query: { userID: this.userID } }">
+          <template #icon>
+            <shop />
+          </template>
+        </sidenav-collapse>
+      </li>
       <li class="nav-item">
         <sidenav-collapse navText="待办事项" :to="{ name: 'Tasks', query: { userID: this.userID }   }">
+          <template #icon>
+            <office />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="课堂管理" :to="{ name: 'Classmanage', query: { userID: this.userID }   }">
           <template #icon>
             <office />
           </template>
@@ -118,12 +126,11 @@
 import SidenavCollapse from "./SidenavCollapse.vue";
 import Shop from "../../components/Icon/Shop.vue";
 import Office from "../../components/Icon/Office.vue";
-import CreditCard from "../../components/Icon/CreditCard.vue";
-import Box3d from "../../components/Icon/Box3d.vue";
+
 import CustomerSupport from "../../components/Icon/CustomerSupport.vue";
 import Document from "../../components/Icon/Document.vue";
 import Spaceship from "../../components/Icon/Spaceship.vue";
-import Settings from "../../components/Icon/Settings.vue";
+
 import Switches from "../../components/Icon/Switches.vue";
 
 export default {

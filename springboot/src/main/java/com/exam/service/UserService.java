@@ -25,6 +25,7 @@ public class UserService {
     public void userDelete(Integer id){//删除by ID
         userMapper.deleteById(id);
     }
+    
     public void userUpdate(User user){
         UpdateWrapper<User> wrapper = new UpdateWrapper<>();
         wrapper.eq("user_id", user.getUserId());
@@ -45,5 +46,9 @@ public class UserService {
     }
     public User getUserById(Integer id) {
         return userMapper.selectById(id);
+    }
+   
+    public String findUserTypeById(Integer id) {
+        return userMapper.findUserTypeById(id);
     }
 }
