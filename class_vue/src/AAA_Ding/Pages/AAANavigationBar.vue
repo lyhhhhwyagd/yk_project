@@ -2,76 +2,34 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <default-statistics-card
-          title="Sales"
-          count="$230,220"
+          title="论坛"
+          :count="String(this.posts.length)"
           :percentage="{
           color: 'success',
-          value: '+55%',
-          label: 'since last month'
+          label: 'Total number of posts'
         }"
-          menu="6 May - 7 May"
-          :dropdown="[
-          {
-            label: 'Last 7 days',
-            route: 'https://creative-tim.com/'
-          },
-          {
-            label: 'Last week',
-            route: '/pages/widgets'
-          },
-          {
-            label: 'Last 30 days',
-            route: '/'
-          }
-        ]"
+          menu="查看详情"
+          @click="goToPostsPage"
       />
       <default-statistics-card
-          title="Customers"
-          count="3.200"
+          title="天气"
+          :count="this.weather[this.weather.length-1].temperature"
           :percentage="{
           color: 'success',
-          value: '+12%',
-          label: 'since last month'
+          label: this.weather[this.weather.length-1].city
         }"
-          menu="9 June - 12 June"
-          :dropdown="[
-          {
-            label: 'Last 7 days',
-            route: 'javascript:;'
-          },
-          {
-            label: 'Last week',
-            route: 'javascript:;'
-          },
-          {
-            label: 'Last 30 days',
-            route: 'javascript:;'
-          }
-        ]"
+          menu="查看详情"
+          @click="goToWeatherPage"
       />
       <default-statistics-card
-          title="Avg. Revenue"
-          count="$1.200"
+          title="悬赏"
+          :count="String(this.rewards.length)"
           :percentage="{
           color: 'secondary',
-          value: '+$213',
-          label: 'since last month'
+          label: 'Total number of rewards'
         }"
-          menu="6 August - 9 August"
-          :dropdown="[
-          {
-            label: 'Last 7 days',
-            route: 'javascript:;'
-          },
-          {
-            label: 'Last week',
-            route: 'javascript:;'
-          },
-          {
-            label: 'Last 30 days',
-            route: 'javascript:;'
-          }
-        ]"
+          menu="查看详情"
+          @click="goToRewardsPage"
       />
     </div>
     <div class="mt-4 row">
@@ -87,17 +45,17 @@
         <div class="card h-100">
           <div class="p-3 pb-0 card-header">
             <div class="d-flex justify-content-between">
-              <h6 class="mb-0">Sales by Age</h6>
+              <h6 class="mb-0">城市7天平均气温</h6>
             </div>
           </div>
           <div class="p-3 card-body">
             <horizontal-bar-chart
                 :chart="{
-                labels: ['16-20', '21-25', '26-30', '31-36', '36-42', '42+'],
+                labels: ['成都', '北京', '上海', '深圳', '杭州', '重庆'],
                 datasets: [
                   {
-                    label: 'Sales by age',
-                    data: [15, 20, 12, 60, 20, 15]
+                    label: 'Average Temperature',
+                    data: this.averageTemperature
                   }
                 ]
               }"
@@ -109,36 +67,44 @@
         <div class="card">
           <div class="p-3 pb-0 card-header">
             <div class="d-flex justify-content-between">
-              <h6 class="mb-0">Sales by Country</h6>
+              <h6 class="mb-0">即时天气</h6>
             </div>
           </div>
           <div class="p-3 card-body">
             <ul class="list-group list-group-flush list my--3">
               <li
-                  v-for="(sale, index) in sales"
+                  v-for="(city,index) in cityWeatherNow"
                   :key="index"
                   class="px-0 border-0 list-group-item"
               >
                 <div class="row align-items-center">
                   <div class="col-auto">
                     <!-- Country flag -->
-                    <img :src="sale.flag" alt="Country flag" />
+                    <img :src="getWeatherImage(city.weatherCondition)" :style="{ width: '30px', height: '30px' }" alt="Country flag" />
                   </div>
                   <div class="col">
-                    <p class="mb-0 text-xs font-weight-bold">Country:</p>
-                    <h6 class="mb-0 text-sm">{{ sale.country }}</h6>
+                    <p class="mb-0 text-xs font-weight-bold">城市：</p>
+                    <h6 class="mb-0 text-sm">{{ city.city }}</h6>
                   </div>
                   <div class="text-center col">
-                    <p class="mb-0 text-xs font-weight-bold">Sales:</p>
-                    <h6 class="mb-0 text-sm">{{ sale.sales }}</h6>
+                    <p class="mb-0 text-xs font-weight-bold">温度：</p>
+                    <h6 class="mb-0 text-sm">{{ city.temperature }}°C</h6>
                   </div>
                   <div class="text-center col">
-                    <p class="mb-0 text-xs font-weight-bold">Bounce:</p>
-                    <h6 class="mb-0 text-sm">{{ sale.bounce }}</h6>
+                    <p class="mb-0 text-xs font-weight-bold">天气：</p>
+                    <h6 class="mb-0 text-sm">{{ city.weatherCondition }}</h6>
+                  </div>
+                  <div class="text-center col">
+                    <p class="mb-0 text-xs font-weight-bold">{{ city.windDirection }}</p>
+                    <h6 class="mb-0 text-sm">m/s</h6>
+                  </div>
+                  <div class="text-center col">
+                    <p class="mb-0 text-xs font-weight-bold">相对湿度：</p>
+                    <h6 class="mb-0 text-sm">{{ city.humidity }}%</h6>
                   </div>
                 </div>
                 <hr
-                    v-if="index !== sales.length - 1"
+                    v-if="index !== cityWeatherNow.length - 1"
                     class="mt-3 mb-1 horizontal dark"
                 />
               </li>
@@ -150,8 +116,8 @@
     <div class="mt-4 row">
       <div class="col-12">
         <orders-list-card
-            title="Top Selling Products"
-            :headers="['Product', 'Value', 'Ads Spent', 'Refunds']"
+            title="悬赏列表"
+            :headers="['悬赏内容', '发起人', '价值', '状态']"
             :lists="products"
         />
       </div>
@@ -165,11 +131,7 @@ import RevenueChartCard from "@/AAA_Ding/Components/RevenueChartCard.vue";
 import HorizontalBarChart from "@/AAA_Ding/Components/HorizontalBarChart.vue";
 import OrdersListCard from "@/AAA_Ding/Components/OrdersListCard.vue";
 // images
-import US from "@/assets/img/icons/flags/US.png";
-import DE from "@/assets/img/icons/flags/DE.png";
-import GB from "@/assets/img/icons/flags/GB.png";
-import BR from "@/assets/img/icons/flags/BR.png";
-import AU from "@/assets/img/icons/flags/AU.png";
+import axios from "axios";
 import setTooltip from "@/assets/js/tooltip.js";
 import DefaultStatisticsCard from "@/AAA_Ding/Components/DefaultStatisticsCard.vue";
 
@@ -184,86 +146,144 @@ export default {
   },
   data() {
     return {
-      products: [
-        {
-          title: "Nike v22 Running",
-          order: "12.821",
-          values: ["$130.992", "$9.500", "13"],
-          info: "Refund rate is lower with 97% than other products",
-          img:
-              "https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/blue-shoe.jpg",
-          icon: "bold-down text-success"
-        },
-        {
-          title: "Business Kit (Mug + Notebook)",
-          order: "8.232",
-          values: ["$80.250", "$4.200", "40"],
-          img:
-              "https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/black-mug.jpg",
-          icon: "bold-down text-success"
-        },
-        {
-          title: "Black Chair",
-          order: "2.421",
-          values: ["$40.600", "$9.430", "54"],
-          img:
-              "https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/black-chair.jpg",
-          icon: "bold-up text-danger"
-        },
-        {
-          title: "Wireless Charger",
-          order: "5.921",
-          values: ["$91.300", "$7.364", "5"],
-          img:
-              "https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/bang-sound.jpg",
-          icon: "bold-down text-success"
-        },
-        {
-          title: "Mountain Trip Kit (Camera + Backpack)",
-          order: "921",
-          values: ["$140.925", "$20.531", "121"],
-          info: "Refund rate is higher with 70% than other products",
-          img:
-              "https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/photo-tools.jpg",
-          icon: "bold-up text-danger"
-        }
-      ],
-      sales: [
-        {
-          country: "United States",
-          sales: 2500,
-          bounce: "29.9%",
-          flag: US
-        },
-        {
-          country: "Germany",
-          sales: "3.900",
-          bounce: "40.22%",
-          flag: DE
-        },
-        {
-          country: "Great Britain",
-          sales: "1.400",
-          bounce: "23.44%",
-          flag: GB
-        },
-        {
-          country: "Brasil",
-          sales: "562",
-          bounce: "32.14%",
-          flag: BR
-        },
-        {
-          country: "Australia",
-          sales: "400",
-          bounce: "56.83%",
-          flag: AU
-        }
-      ]
+      userID:'',
+      posts:[],
+      weather:[],
+      rewards:[],
+      averageTemperature:[],
+      products: [],
+      cityWeatherNow:[],
     };
   },
   mounted() {
     setTooltip(this.$store.state.bootstrap);
-  }
+  },
+  created(){
+    this.getAllData();
+    this.userID=this.$route.query.userID;
+  },
+  methods: {
+    goToRewardsPage(){
+      this.$router.push({ name: 'Rewards', query: { userID: this.userID } });
+    },
+    goToWeatherPage(){
+      this.$router.push({ name: 'Weather', query: { userID: this.userID } });
+    },
+    goToPostsPage(){
+      this.$router.push({ name: 'Posts', query: { userID: this.userID } });
+    },
+    getAllData() {
+      console.log("开始访问数据");
+
+      // 创建一个包含所有axios请求的Promise数组
+
+      axios.get(`http://localhost:8080/post`) // 将ID添加到请求的URL中
+          .then(response => {
+            if (response.data.code === 200) {
+              this.posts=response.data.data;
+            }
+          });
+      axios.get('http://localhost:8080/weather')
+          .then(response => {
+            if (response.data.code === 200) {
+              this.weather=response.data.data;
+              this.calculateAverageTemperature();
+              this.getCityWeatherNow();
+            }
+          });
+      axios.get('http://localhost:8080/reward')
+          .then(response => {
+            if (response.data.code === 200) {
+              this.rewards=response.data.data;
+              this.getRewardToProduct();
+            }
+          });
+    },
+    calculateAverageTemperature(){
+      let length=[];
+      for(let i=0;i<6;i++) length[i]=0;
+      for(let i=0;i<6;i++) this.averageTemperature[i]=0;
+      for(let i=this.weather.length-1;i>=this.weather.length-2500;i--){
+        if(this.weather[i].city==="成都"){
+          length[0]++;
+          this.averageTemperature[0]+=Number(this.weather[i].temperature);
+        }else if(this.weather[i].city==="北京"){
+          length[1]++;
+          this.averageTemperature[1]+=Number(this.weather[i].temperature);
+        }else if(this.weather[i].city==="上海"){
+          length[2]++;
+          this.averageTemperature[2]+=Number(this.weather[i].temperature);
+        }else if(this.weather[i].city==="深圳"){
+          length[3]++;
+          this.averageTemperature[3]+=Number(this.weather[i].temperature);
+        }else if(this.weather[i].city==="杭州"){
+          length[4]++;
+          this.averageTemperature[4]+=Number(this.weather[i].temperature);
+        }else if(this.weather[i].city==="重庆"){
+          length[5]++;
+          this.averageTemperature[5]+=Number(this.weather[i].temperature);
+        }
+      }
+      for(let i=0;i<6;i++) this.averageTemperature[i]=this.averageTemperature[i]/length[i];
+    },
+    getCityWeatherNow(){
+      let num=0;
+      for(let i=this.weather.length-1;i>=this.weather.length-7;i--){
+        if(this.weather[i].city!=="三亚"){
+          this.cityWeatherNow.push(this.weather[i]);
+          num++;
+          if(num===5){
+            break;
+          }
+        }
+      }
+    },
+    getWeatherImage(weatherCondition){
+      if(weatherCondition.includes('雨')){
+        return require("@/AAA_Ding/images/小雨.png");
+      }
+      else if(weatherCondition.includes('雪')){
+        return require("@/AAA_Ding/images/小雪.png");
+      }
+      else if(weatherCondition.includes('晴')){
+        return require("@/AAA_Ding/images/晴.png");
+      }
+      else if(weatherCondition.includes('多云')){
+        return require("@/AAA_Ding/images/多云.png");
+      }
+      else{
+        return require("@/AAA_Ding/images/阴.png");
+      }
+    },
+    getRewardToProduct(){
+      for(let i=0;i<this.rewards.length&&i<5;i++){
+        let NewProduction={
+          title: '',
+          order: '',
+          values: [],
+          info: '',
+          img:'',
+          icon:'',
+        };
+        NewProduction.title=this.rewards[i].title;
+        NewProduction.order = this.rewards[i].description.length > 30
+            ? this.rewards[i].description.slice(0, 30) + "..."
+            : this.rewards[i].description;
+        NewProduction.values.push(this.rewards[i].postedByUserName);
+        NewProduction.values.push(this.rewards[i].rewardAmount);
+        NewProduction.values.push(this.rewards[i].status);
+        NewProduction.img=require("../../assets/img/team-2.jpg");
+        if(this.rewards[i].status==="已领取"){
+          NewProduction.icon="bold-up text-success";
+        }else{
+          NewProduction.icon="bold-down text-danger";
+        }
+        this.products.push(NewProduction);
+      }
+    }
+  },
 };
 </script>
+<style>
+
+</style>
