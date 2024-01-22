@@ -4,6 +4,7 @@
       <h6>作业管理</h6>
       <button @click="exportHomework" class="btn btn-primary mr-2">导出</button>
       <button @click="openPrintPreview" class="btn btn-info mr-2">打印</button>
+      <button @click="redirectToSpringBootPage" class="btn btn-default mr-2">图表</button>
       <button @click="sortByDeadline" class="btn btn-success mr-2">按截止时间排序</button>
       <div class="d-flex align-items-center">
         <div class="form-group mb-0" style="height: 40px;">
@@ -314,6 +315,10 @@ export default {
     openPrintPreview() {
       // Open print preview
       window.print();
+    },
+    redirectToSpringBootPage() {
+      // 使用 window.location.href 跳转到指定页面
+      window.location.href = 'http://localhost:8080/001/index.html';
     },
     update(homework) {
     // 构建更新的作业对象

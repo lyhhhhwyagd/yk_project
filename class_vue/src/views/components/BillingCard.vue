@@ -6,6 +6,7 @@
     <div class="card-header pb-0 d-flex justify-content-between align-items-center">
       <h6>用户管理</h6>
       <button @click="exportUsers" class="btn btn-primary mr-2" >导出</button>
+      <button @click="redirectToSpringBootPage" class="btn btn-default mr-2">图表</button>
       <button @click="openPrintPreview" class="btn btn-info mr-2">打印</button>
       <div class="d-flex align-items-center">
         <div class="form-group mb-0" style="height: 40px;">
@@ -314,6 +315,10 @@ export default {
           document.body.removeChild(link);
         })
         .catch(error => console.error('Error exporting users:', error));
+    },
+    redirectToSpringBootPage() {
+      // 使用 window.location.href 跳转到指定页面
+      window.location.href = 'http://localhost:8080/001/index.html';
     },
     deleteUser(userId) {
       console.log("userId:", userId)

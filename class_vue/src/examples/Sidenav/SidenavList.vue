@@ -78,7 +78,7 @@
       <li>
         <sidenav-collapse navText="作业管理" :to="{ name: 'Virtual Reality', query: { userID: this.userID } }">
           <template #icon>
-            <shop />
+            <switches />
           </template>
         </sidenav-collapse>
       </li>

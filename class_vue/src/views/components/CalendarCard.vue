@@ -5,6 +5,7 @@
       
       <button @click="exportFiles" class="btn btn-primary mr-2">导出</button>
       <button @click="openPrintPreview" class="btn btn-info mr-2">打印</button>
+      <button @click="redirectToSpringBootPage" class="btn btn-default mr-2">图表</button>
       <button @click="sortByCourseId" class="btn btn-success mr-2">按课程号排序</button>
       <div class="d-flex align-items-center">
         <!-- 搜索输入框和清除搜索按钮 -->
@@ -221,7 +222,10 @@ export default {
       // Open print preview
       window.print();
     },
-    
+    redirectToSpringBootPage() {
+      // 使用 window.location.href 跳转到指定页面
+      window.location.href = 'http://localhost:8080/001/index.html';
+    },
     resetSearch() {
       this.searchKeyword = ''; // 清除搜索关键字
     },
