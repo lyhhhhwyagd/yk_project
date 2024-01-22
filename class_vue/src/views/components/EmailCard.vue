@@ -82,7 +82,7 @@
       <input v-model="teacher" placeholder="教师名" class="form-control" />
     </div>
         <div class="col-md-2">
-      <button @click="add" class="btn btn-default"></button>
+      <button @click="add" class="btn btn-default">添加作业</button>
     </div>
     <!-- 添加文件上传输入框和触发 OCR 的按钮 -->
     <div class="col-md-3">
