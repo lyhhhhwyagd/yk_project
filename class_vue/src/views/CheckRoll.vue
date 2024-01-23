@@ -12,7 +12,7 @@
         backgroundImage: 'url(' + require('@/assets/img/vr-bg.jpg') + ')',
         backgroundSize: 'cover',
       }"
-    >
+      >
       <sidenav
         :custom_class="mcolor"
         :class="isTransparent"
@@ -34,16 +34,17 @@
                     :buttons="buttons"
                     @start="startCallback"
                     @end="endCallback"
-                  />
+                    v-if="userType !== '学生'"/>
+            <div v-else> 抱歉，学生角色暂未开放该功能</div>
             </div>
         </div>
-        <div class="Box">
+        <div class="Box" >
           <el-row  :gutter="20">
             <el-col :span="24" :offset="10">
-              <el-button size="large" type="success" round style="margin-top: 10px;" @click="get()">获取学生数据</el-button>
+              <el-button size="large" type="success" round style="margin-top: 10px;" @click="get()" v-if="userType !== '学生'">获取学生数据</el-button>
               <el-button size="large" type="success" round style="margin-top: 10px;" @click="back()">返回主界面</el-button>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="12" v-if="userType !== '学生'">
               <h3>全部名单</h3>
               <el-table
                 id="out-table"
@@ -77,7 +78,7 @@
                 <el-button size="large" type="success" round style="margin-top: 10px;" @click="dialogVisible2 = true">统计图表</el-button>
               </el-col>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="12" v-if="userType !== '学生'">
               <h3>已抽学生</h3>
               <el-table
                 :data="selectList"
@@ -180,6 +181,7 @@
         </template>
       </el-dialog>
     </div>
+    
     <app-footer class="py-3 bg-white border-radius-lg" />
   </template>
   
@@ -215,6 +217,7 @@
     },
     data() {
       return {
+        userType:'',
         image1,
         image2,
         image3,
@@ -248,6 +251,9 @@
       editForm:'' ,
       search:''
       };
+    },
+    created(){
+        this.getUserType();
     },
     computed: {
       ...mapState(["isTransparent", "isNavFixed", "navbarFixed", "mcolor"]),
@@ -295,6 +301,25 @@
     },
     methods: {
       ...mapMutations(["navbarMinimize", "toggleConfigurator"]),
+      async getUserType() {
+            try {
+                const userId = this.$route.query.userID;
+                if (!Number.isInteger(Number(userId))) {
+                    console.error('Invalid userID:', userId);
+                    return;
+                }
+                const response = await fetch(`http://localhost:8080/user/userType/${userId}`);
+                // 输出响应头中的内容类型
+                console.log('Content-Type:', response.headers.get('content-type'));
+                // 直接使用 response.text() 获取纯文本内容
+                const textData = await response.text();
+                // 在这里你可以根据需要处理 textData
+                this.userType = textData;
+                console.log('User Type:', this.userType);
+            } catch (error) {
+                console.error('获取用户权限时出错：', error);
+            }
+        },
       get(){
         axios.get('http://localhost:8080/checkroll/find_all').then(res=>{
             console.log(res);

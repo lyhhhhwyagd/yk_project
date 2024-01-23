@@ -5,7 +5,7 @@
           <div class="card">
             <!-- Card header -->
             <div class="card-header">
-              <h5 class="mb-0">考试管理</h5>
+              <h5 class="mb-0">活动管理</h5>
               <el-button 
                 size="small"
                 type="success"
@@ -30,24 +30,13 @@
                 @click="dialogVisible2 = true"
                 >统计信息</el-button
                 >
-              <el-button
-                size="small"
-                type="success"
-                @click="jump()"
-                >驾驶舱页面</el-button
-                >
             </div>
             <el-table :data="filterdata" id="out-table" style="width: 100%">
-                <el-table-column label="考试名称" prop="source" sortable />
-                <el-table-column label="考试日期" prop="examDate" sortable />
-                <el-table-column label="时长" prop="totalTime" sortable />
-                <el-table-column label="年级" prop="grade" sortable />
-                <el-table-column label="学期" prop="term" sortable />
-                <el-table-column label="专业" prop="major" sortable />
-                <el-table-column label="学院" prop="institute" sortable />
-                <el-table-column label="总分" prop="totalScore" sortable />
-                <el-table-column label="类型" prop="type" sortable />
-                <el-table-column label="备注" prop="tips" sortable />
+                <el-table-column label="活动名称" prop="activityName" sortable />
+                <el-table-column label="活动日期" prop="activityDate" sortable />
+                <el-table-column label="活动时长/小时" prop="activityDuration" sortable />
+                <el-table-column label="活动内容" prop="activityContent"  />
+                <el-table-column label="备注" prop="remarks" />
                 <el-table-column align="right">
                   <template #header>
                     <el-input v-model="search" size="small" placeholder="请输入检索条件" />
@@ -79,40 +68,25 @@
       >
         <!-- <span>This is a message</span> -->
         <el-form :model="addForm" label-width="120px">
-          <el-form-item label="考试名称"> 
-            <el-input v-model="addForm.source"  />
+          <el-form-item label="活动名称"> 
+            <el-input v-model="addForm.activityName"  />
           </el-form-item>
-          <el-form-item label="考试日期">
-            <el-input v-model="addForm.examDate"  />
+          <el-form-item label="活动日期">
+            <el-input v-model="addForm.activityDate"  />
           </el-form-item>
-          <el-form-item label="时长"> 
-            <el-input v-model="addForm.totalTime"  />
+          <el-form-item label="活动时长/小时"> 
+            <el-input v-model="addForm.activityDuration"  />
           </el-form-item>
-          <el-form-item label="年级"> 
-            <el-input v-model="addForm.grade"  />
-          </el-form-item>
-          <el-form-item label="学期">
-            <el-input v-model="addForm.term"  />
-          </el-form-item>
-          <el-form-item label="专业"> 
-            <el-input v-model="addForm.major"  />
-          </el-form-item>
-          <el-form-item label="学院"> 
-            <el-input v-model="addForm.institute"  />
-          </el-form-item>
-          <el-form-item label="总分"> 
-            <el-input v-model="addForm.totalScore"  />
-          </el-form-item>
-          <el-form-item label="类型"> 
-            <el-input v-model="addForm.type"  />
+          <el-form-item label="活动内容"> 
+            <el-input v-model="addForm.activityContent"  />
           </el-form-item>
           <el-form-item label="备注"> 
-            <el-input v-model="addForm.tips"  />
+            <el-input v-model="addForm.remarks"  />
           </el-form-item>
         </el-form>
         <template #footer>
           <span class="dialog-footer">
-            <el-button @click="dialogVisible = false">取消</el-button>
+            <el-button @click="dialogVisible = false" >取消</el-button>
             <el-button type="success" @click="dialogVisible = false, handleAdd()">
               确认
             </el-button>
@@ -127,36 +101,21 @@
       >
         <!-- <span>This is a message</span> -->
         <el-form :model="editForm" label-width="120px">
-          <el-form-item label="考试名称"> 
-            <el-input v-model="editForm.source"  />
-          </el-form-item>
-          <el-form-item label="考试日期">
-            <el-input v-model="editForm.examDate"  />
-          </el-form-item>
-          <el-form-item label="时长"> 
-            <el-input v-model="editForm.totalTime"  />
-          </el-form-item>
-          <el-form-item label="年级"> 
-            <el-input v-model="editForm.grade"  />
-          </el-form-item>
-          <el-form-item label="学期">
-            <el-input v-model="editForm.term"  />
-          </el-form-item>
-          <el-form-item label="专业"> 
-            <el-input v-model="editForm.major"  />
-          </el-form-item>
-          <el-form-item label="学院"> 
-            <el-input v-model="editForm.institute"  />
-          </el-form-item>
-          <el-form-item label="总分"> 
-            <el-input v-model="editForm.totalScore"  />
-          </el-form-item>
-          <el-form-item label="类型"> 
-            <el-input v-model="editForm.type"  />
-          </el-form-item>
-          <el-form-item label="备注"> 
-            <el-input v-model="editForm.tips"  />
-          </el-form-item>
+            <el-form-item label="活动名称"> 
+                <el-input v-model="editForm.activityName"  />
+              </el-form-item>
+              <el-form-item label="活动日期">
+                <el-input v-model="editForm.activityDate"  />
+              </el-form-item>
+              <el-form-item label="活动时长/小时"> 
+                <el-input v-model="editForm.activityDuration"  />
+              </el-form-item>
+              <el-form-item label="活动内容"> 
+                <el-input v-model="editForm.activityContent"  />
+              </el-form-item>
+              <el-form-item label="备注"> 
+                <el-input v-model="editForm.remarks"  />
+              </el-form-item>
         </el-form>
         <template #footer>
           <span class="dialog-footer">
@@ -167,18 +126,10 @@
           </span>
         </template>
       </el-dialog>
-      <el-dialog v-model="dialogVisible2" title="各学科考试占比" width="50%" draggable>
+      <el-dialog v-model="dialogVisible2" title="历年活动数及活动时长统计" width="50%" draggable>
         <div class="chart">
-          <pie-chart
-            id="pie-chart-component"
-            height="300"
-            :chart="{
-              labels: ['计算机科学与技术', '信息工程', '网络工程', '软件工程','其他'],
-              datasets: {
-                label: 'Projects',
-                data: [4, 2, 1, 1 ,3],
-              },
-            }"
+            <mixed-chart
+            :chart="chartContent"
           />
         </div>
         <template #footer>
@@ -193,7 +144,7 @@
   import AppFooter from "@/examples/Footer.vue";
   import Navbar from "@/examples/Navbars/Navbar.vue";
   import setTooltip from "@/assets/js/tooltip.js";
-  import PieChart from "@/examples/Charts/PieChart.vue";
+  import MixedChart from "./components/MixedChart.vue";
 
   const body = document.getElementsByTagName("body")[0];
   import { mapMutations, mapState } from "vuex";
@@ -206,11 +157,11 @@
   import printJS from 'print-js';
 
   export default {
-    name: "Exam",
+    name: "Activity",
     components: {
       AppFooter,
       Navbar,
-      PieChart,
+      MixedChart,
     },
     data() {
       return {
@@ -220,27 +171,32 @@
         dialogVisible2: false,
         length: 0,
         tableData: [],
-        addForm:{source:"",
-                examDate:"",
-                totalTime:"",
-                grade:"",
-                term:"",
-                major:"",
-                institute:"",
-                totalScore:"",
-                type:"",
-                tips:""},
-        editForm:{source:"",
-                examDate:"",
-                totalTime:"",
-                grade:"",
-                term:"",
-                major:"",
-                institute:"",
-                totalScore:"",
-                type:"",
-                tips:""},
-        search: ''
+        addForm:{
+                activityId:"",
+                activityName:"",
+                activityDate:"",
+                activityDuration:"",
+                activityContent:"",
+                remarks:""},
+        editForm:{
+                activityID:"",
+                activityName:"",
+                activityDate:"",
+                activityDuration:"",
+                activityContent:"",
+                remarks:""},
+        search: '',
+        chartContent:{
+              labels: [
+                '2020',
+                '2021',
+                '2022',
+                '2023',
+                '2024',
+                
+              ],
+              datasets: [],
+            }
       }
     },
     created(){
@@ -254,30 +210,21 @@
             (data) => {
             // Convert each property to lowercase for case-insensitive comparison
             const lowerSearch = this.search.toLowerCase();
-            const lowerSource = data.source != null ? data.source.toLowerCase() : '';
-            const lowerExamDate = data.examDate != null ? data.examDate.toLowerCase() : '';
-            const lowerTotalTime = data.totalTime != null ? data.totalTime.toLowerCase() : '';
-            const lowerGrade = data.grade != null ? data.grade.toLowerCase() : '';
-            const lowerTerm = data.term !=null ? data.term.toLowerCase() : '';
-            const lowerMajor = data.major != null ? data.major.toLowerCase() : '';
-            const lowerInstitute = data.institute != null ? data.institute.toLowerCase() : '';
-            const lowerTotalScore = data.totalScore != null ? data.totalScore.toLowerCase() : '';
-            const lowerType = data.type != null ? data.type.toLowerCase() : '';
-            const lowerTips = data.tips != null ? data.tips.toLowerCase() : '';
+            const lowerActivityName = data.activityName != null ? data.activityName.toLowerCase() : '';
+            const lowerActivityDate = data.activityDate != null ? data.activityDate.toLowerCase() : '';
+            const lowerActivityDuration = data.activityDuration != null ? data.activityDuration.toLowerCase() : '';
+            const lowerActivityContent = data.activityContent != null ? data.activityContent.toLowerCase() : '';
+            const lowerRemarks = data.remarks !=null ? data.remarks.toLowerCase() : '';
+            
 
             // Check if any property contains the search value
             return (
                 !lowerSearch ||
-                lowerSource.includes(lowerSearch) ||
-                lowerExamDate.includes(lowerSearch) ||
-                lowerTotalTime.includes(lowerSearch) ||
-                lowerGrade.includes(lowerSearch) ||
-                lowerTerm.includes(lowerSearch) ||
-                lowerMajor.includes(lowerSearch) ||
-                lowerInstitute.includes(lowerSearch) ||
-                lowerTotalScore.includes(lowerSearch) ||
-                lowerType.includes(lowerSearch) ||
-                lowerTips.includes(lowerSearch)
+                lowerActivityName.includes(lowerSearch) ||
+                lowerActivityDate.includes(lowerSearch) ||
+                lowerActivityDuration.includes(lowerSearch) ||
+                lowerActivityContent.includes(lowerSearch) ||
+                lowerRemarks.includes(lowerSearch)
             );
             }
         );
@@ -285,7 +232,7 @@
     },
     mounted() {
       setTooltip(this.$store.state.bootstrap);
-      axios.get('http://localhost:8080/exam/find_all').then(res=>{
+      axios.get('http://localhost:8080/activity/find_all').then(res=>{
             console.log(res);
             this.length += res.data.length;
             for (let i = 0; i <res.data.length; i++) {
@@ -295,6 +242,24 @@
         }).catch(err=>{
             console.log("获取数据失败" + err);
         })
+        // getStatistic(){
+      axios.get('http://localhost:8080/activity/statistic').then(res=>{
+            console.log(res);
+            // this.length += res.data.length;
+            let chartdata1 ={label:'活动总数',data:[]}
+            let chartdata2 ={label:'活动总时长',data:[]}
+            for (let i = 0; i <res.data.length; i++) {
+                console.log(res.data[i]);
+                chartdata1.data.push(res.data[i].times)
+                chartdata2.data.push(res.data[i].duration);
+            }
+            this.chartContent.datasets.push(chartdata2);
+            this.chartContent.datasets.push(chartdata1);
+            console.log(this.chartContent);
+        }).catch(err=>{
+            console.log("获取数据失败" + err);
+        })
+    //   },
     },
     beforeMount() {
       this.$store.state.showNavbar = true;
@@ -320,7 +285,7 @@
     },
     
     methods: {
-      async getUserType() {
+        async getUserType() {
             try {
                 const userId = this.$route.query.userID;
                 if (!Number.isInteger(Number(userId))) {
@@ -342,9 +307,10 @@
       handleEdit(index, row) {
         console.log(index, row);
         this.editForm = row;
+        this.editForm.activityID = row.activityId;
       },
       submmitChange(){
-        axios.post('http://localhost:8080/exam/update', this.editForm).then(res=>{
+        axios.post('http://localhost:8080/activity/update', this.editForm).then(res=>{
             console.log(res);
         }).catch(err=>{
             console.log("修改数据失败" + err);
@@ -354,8 +320,8 @@
         // this.prizes[this.index].fonts = [{ text: this.editForm.name }];
       },
       handleDelete(index, row) {
-        console.log(index, row.examCode);
-        axios.delete('http://localhost:8080/exam/delete/'+row.examCode).then(res=>{
+        console.log(index, row);
+        axios.delete('http://localhost:8080/activity/delete/'+row.activityId).then(res=>{
             console.log(res);
         }).catch(err=>{
             console.log("删除数据失败" + err);
@@ -363,7 +329,7 @@
         this.$router.go(0);
       },
       handleAdd(){
-        axios.post('http://localhost:8080/exam/add', this.addForm).then(res=>{
+        axios.post('http://localhost:8080/activity/add', this.addForm).then(res=>{
             console.log(res);
         }).catch(err=>{
             console.log("增加数据失败" + err);
@@ -401,16 +367,13 @@
             //返回一个新创建的 Blob 对象，其内容由参数中给定的数组串联组成。
             new Blob([wbout], { type: "application/octet-stream" }),
             //设置导出文件名称
-            "考试信息.xlsx"
+            "活动信息.xlsx"
           );
         } catch (e) {
           if (typeof console !== "undefined") console.log(e, wbout);
         }
         return wbout;
     },
-    jump(){
-      window.location.href = 'http://localhost:8080/015/index.html';
-    }
     },
     
   };
