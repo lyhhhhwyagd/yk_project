@@ -4,21 +4,6 @@
     id="sidenav-collapse-main"
   >
     <ul class="navbar-nav">
-
-      <li class="nav-item">
-        <sidenav-collapse navText="文件管理" :to="{ name: 'Dashboard', query: { userID: this.userID } }">
-          <template #icon>
-            <shop />
-          </template>
-        </sidenav-collapse>
-      </li>
-      <li class="nav-item">
-        <sidenav-collapse navText="天气管理" :to="{ name: 'Weather', query: { userID: this.userID }  }">
-          <template #icon>
-            <shop />
-          </template>
-        </sidenav-collapse>
-      </li>
       <li class="nav-item">
         <sidenav-collapse navText="论坛主页" :to="{ name: 'Posts', query: { userID: this.userID }  }">
           <template #icon>
@@ -27,7 +12,21 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="悬赏管理" :to="{ name: 'Rewards', query: { userID: this.userID }  }">
+        <sidenav-collapse navText="天气组件" :to="{ name: 'Weather', query: { userID: this.userID }  }">
+          <template #icon>
+            <shop />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="悬赏中心" :to="{ name: 'Rewards', query: { userID: this.userID }  }">
+          <template #icon>
+            <shop />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="文件管理" :to="{ name: 'Dashboard', query: { userID: this.userID } }">
           <template #icon>
             <shop />
           </template>
@@ -90,7 +89,7 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="课堂管理" :to="{ name: 'Classmanage', query: { userID: this.userID }   }">
+        <sidenav-collapse navText="课堂管理" :to="{ name: 'ClassManage', query: { userID: this.userID }   }">
           <template #icon>
             <office />
           </template>

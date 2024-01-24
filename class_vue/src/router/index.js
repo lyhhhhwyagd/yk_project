@@ -37,7 +37,7 @@ const routes = [
     redirect: "/sign-in",
   },
   {
-    path: "/navigationBar1",
+    path: "/navigationBar",
     name: "NavigationBar",
     component: AAANavigationBar,
   },
@@ -163,8 +163,8 @@ const routes = [
     component:Tasks,
   },
   {
-    path:"/Classmanage",
-    name:"Classmanage",
+    path:"/ClassManage",
+    name:"ClassManage",
     component:Classmanage,
   },
   {

@@ -140,7 +140,7 @@ export default {
               if (response.data.code === 200) {
                 this.user = response.data.data;
                 this.$store.commit('setUserID', this.user.userID);
-                this.$router.push({ name: 'Dashboard', query: { userID: this.user.userID } });
+                this.$router.push({ name: 'NavigationBar', query: { userID: this.user.userID } });
               } else {
                 window.alert("账号密码错误");
                 console.error('Error fetching rewards: ' + response.data.message);
