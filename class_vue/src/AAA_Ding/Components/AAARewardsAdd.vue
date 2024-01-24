@@ -180,26 +180,33 @@ export default {
     },
 
     submitAdd() {
-      this.newReward.rewardsID=this.getRewardsID();
-      this.newReward.postedTime=this.getPostedTime();
-      console.log("正在发送对象");
-      const id = this.$route.params.id; // 获取页面的ID
-      axios.post(`http://localhost:8080/reward`,this.newReward, {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-          .then(response => {
-            if (response.data.code === 200) {
-              console.log('Update successful');
-            } else {
-              console.error('Error updating reward: ' + response.data.message);
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      this.$router.push({ name: 'Rewards', query: { userID: this.newReward.postedByUserID } });
+      if(this.newReward.title===''||this.newReward.description===''||this.newReward.rewardAmount===''||this.newReward.deadLine===''){
+        window.alert("存在空白信息，请重新输入");
+        event.preventDefault();
+        
+      }else{
+        this.newReward.rewardsID=this.getRewardsID();
+        this.newReward.postedTime=this.getPostedTime();
+        console.log("正在发送对象");
+        console.log(this.newReward);
+        const id = this.$route.params.id; // 获取页面的ID
+        axios.post(`http://localhost:8080/reward`,this.newReward, {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+            .then(response => {
+              if (response.data.code === 200) {
+                console.log('Update successful');
+              } else {
+                console.error('Error updating reward: ' + response.data.message);
+              }
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        this.$router.push({ name: 'Rewards', query: { userID: this.newReward.postedByUserID } });
+      }
     },
   },
 };
