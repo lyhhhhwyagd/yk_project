@@ -1,15 +1,4 @@
 <template>
-  <div class="container top-0 position-sticky z-index-sticky">
-    <div class="row">
-      <div class="col-12">
-        <navbar
-            is-blur="blur blur-rounded my-3 py-2 start-0 end-0 mx-4 shadow"
-            btn-background="bg-gradient-success"
-            :dark-mode="true"
-        />
-      </div>
-    </div>
-  </div>
   <main class="mt-0 main-content main-content-bg">
     <section>
       <div class="page-header min-vh-75">
@@ -19,13 +8,13 @@
               <div class="mt-8 card card-plain">
                 <div class="pb-0 card-header text-start">
                   <h3 class="font-weight-bolder text-success text-gradient">
-                    Welcome back
+                    欢迎回来
                   </h3>
-                  <p class="mb-0">Enter your email and password to sign in</p>
+                  <p class="mb-0">输入邮箱和密码后进行登录</p>
                 </div>
                 <div class="card-body">
                   <form role="form" class="text-start">
-                    <label>Email</label>
+                    <label>邮箱</label>
                     <soft-input
                         id="email"
                         type="email"
@@ -33,7 +22,7 @@
                         name="email"
                         v-model="userCredentials.email"
                     />
-                    <label>Password</label>
+                    <label>密码</label>
                     <soft-input
                         id="password"
                         type="password"
@@ -51,20 +40,10 @@
                           color="success"
                           full-width
                           @click.prevent="submitForm"
-                      >Sign in
+                      >登录
                       </soft-button>
                     </div>
                   </form>
-                </div>
-                <div class="px-1 pt-0 text-center card-footer px-lg-2">
-                  <p class="mx-auto mb-4 text-sm">
-                    Don't have an account?
-                    <router-link
-                        :to="{ name: 'Sign Up' }"
-                        class="text-success text-gradient font-weight-bold"
-                    >Sign up</router-link
-                    >
-                  </p>
                 </div>
               </div>
             </div>
@@ -88,7 +67,6 @@
       </div>
     </section>
   </main>
-  <app-footer />
 </template>
 
 <script>
