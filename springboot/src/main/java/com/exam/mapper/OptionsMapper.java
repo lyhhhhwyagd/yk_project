@@ -1,14 +1,15 @@
 package com.exam.mapper;
 
-        import org.apache.ibatis.annotations.*;
-        import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
-        import java.util.List;
+import java.util.List;
 
 @Mapper
 @Repository
 public interface OptionsMapper {
 
+    @Options(useGeneratedKeys = true, keyColumn = "question_id", keyProperty = "questionId")
     @Insert("insert into options(question_id,sequence,content) values(#{questionId},#{sequence},#{content})")
     int addOption(com.exam.Entity.Options Options);
 

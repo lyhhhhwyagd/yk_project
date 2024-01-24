@@ -15,6 +15,7 @@ public interface ClassmanageService {
     List<UserTask> userTodolistFinishedOrder(Integer userID, Integer type);
      */
     List<Classmanage> queryClassmanageByuserId(Integer userID);
+    List<Classmanage> queryClassmanageBystudentName(String studentName);
     Classmanage updateclassmanage(Integer id, String studentId, String studentName, Double attendanceRate, Integer dailyScore);
 
     String deleteStudentclassmanage(Integer id);

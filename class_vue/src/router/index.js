@@ -30,7 +30,15 @@ import ClassmanageStatistic from "@/examples/Charts/ClassmanageStatistic";
 import TasksStatistic from "@/examples/Charts/TasksStatistic";
 import AAAWeather from "@/AAA_Ding/Pages/AAAWeather.vue";
 import Activity from '@/views/Activity';
-
+import AfterSubmit from "../views/questionnaire/customer/afterSubmit/AfterSubmit";
+import Customer from "../views/questionnaire/customer/Customer";
+import Overview from "../views/questionnaire/editor/overview/Overview";
+import Create from "../views/questionnaire/editor/create/Create";
+import modify from "../views/questionnaire/editor/modify/modify";
+import Monitor from "../views/questionnaire/editor/monitor/Monitor";
+import PaperLink from "../views/questionnaire/editor/create/PaperLink";
+import questionnaireStatistic from "../examples/Charts/questionnaireStatistic";
+import TaskJSC from "../examples/Charts/TaskJSC";
 const routes = [
   {
     path: "/",
@@ -177,6 +185,53 @@ const routes = [
     path:"/TasksStatistic",
     name:"TasksStatistic",
     component:TasksStatistic,
+  },
+
+  {
+    path:"/questionnaireStatistic",
+    name:"questionnaireStatistic",
+    component:questionnaireStatistic,
+  },
+  {
+    path: '/customer/:paperId/complete',
+    name: 'complete',
+    component:AfterSubmit,
+  },
+  {
+    path: '/customer/:paperId',
+    name: 'customer',
+    component:Customer,
+  },
+  {
+    path: '/overview',
+    name: 'Overview',
+    component:Overview,
+  },
+  {
+    path: '/create/:paperId',
+    name: 'create',
+    component:Create,
+  },
+  {
+    path: '/modify/:paperId',
+    name: 'modify',
+    component:modify,
+  },
+
+  {
+    path: '/monitor/:paperId',
+    name: 'monitor',
+    component: Monitor,
+  },
+  {
+    path: '/paperlink/:paperId',
+    name: 'paperlink',
+    component: PaperLink,
+  },
+  {
+    path: '/taskJSC',
+    name: 'TaskJSC',
+    component: TaskJSC,
   },
   {
     path: "/CheckRoll",

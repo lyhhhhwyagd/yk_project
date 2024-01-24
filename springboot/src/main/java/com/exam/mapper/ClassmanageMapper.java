@@ -12,6 +12,9 @@ public interface ClassmanageMapper {
     @Select("SELECT * FROM classmanage WHERE userId=#{userId}")
     List<Classmanage> queryClassmanageByuserId(@Param("userId") Integer userId);
 
+    @Select("SELECT * FROM classmanage WHERE studentName=#{studentName}")
+    List<Classmanage> queryClassmanageBystudentName(@Param("studentName") String studentName);
+
     @Update("UPDATE classmanage SET studentId=#{studentId},studentName=#{studentName},attendanceRate=#{attendanceRate},dailyScore=#{dailyScore} WHERE classManageId=#{classManageId}")
     int updateclassmanage(@Param("classManageId") Integer classManageId,
                           @Param("studentId") String studentId,

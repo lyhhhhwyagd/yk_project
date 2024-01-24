@@ -30,7 +30,31 @@ public class ClassmanageController {
         String tokenId="1";
         Integer id = Integer.parseInt(tokenId);
         try{
-          List<Classmanage> classmanage = classmanageService.queryClassmanageByuserId(id);
+            List<Classmanage> classmanage = classmanageService.queryClassmanageByuserId(id);
+            System.out.println("classmanage=" + classmanage);
+            resultInfo.setResult(classmanage);
+        }catch(ParamsException p){
+            resultInfo.setCode(p.getCode());
+            resultInfo.setMsg(p.getMsg());
+            p.printStackTrace();
+        }catch (Exception e){
+            resultInfo.setCode(500);
+            resultInfo.setMsg("查找失败");
+        }
+        return resultInfo;
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/getclassmanageBystudentName")//finished
+    @ResponseBody
+    public ResultInfo classmanageBystudentName(@RequestParam("studentName") String studentName){
+        System.out.println("classmanageBystudentName studentName="+studentName);
+        ResultInfo resultInfo = new ResultInfo();
+        //String[] split = token.split("=");
+        //String tokenId="1";
+        //Integer id = Integer.parseInt(tokenId);
+        try{
+            List<Classmanage> classmanage = classmanageService.queryClassmanageBystudentName(studentName);
             System.out.println("classmanage=" + classmanage);
             resultInfo.setResult(classmanage);
         }catch(ParamsException p){

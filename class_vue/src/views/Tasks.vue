@@ -10,6 +10,10 @@
     <el-button @click="tasksSta" size="small" type="primary" style="background-color: rgb(128, 214, 22);">
       分析
     </el-button>
+    <el-date-picker v-model="taskDdl" type="date" placeholder="选择截止日期"></el-date-picker>
+    <el-button @click="selectTaskByDdl" size="small" type="primary" style="background-color: rgb(128, 214, 22);">查找</el-button>
+    <el-button @click="loadAllTasks" size="small" type="primary" style="background-color: rgb(128, 214, 22);">重置</el-button>
+    <el-button @click="JSC" size="small" type="primary" style="background-color: rgb(128, 214, 22);">驾驶舱</el-button>
 
     <el-row :gutter="10" style="width: 100%">
       <el-col :xs="{span:20,offset:2}" :sm="{span:20,offset:2}" :md="{span:20,offset:2}" style="width: 100%">
@@ -185,6 +189,7 @@
         finishedTasks: {},
         boxCardsWidth: 0,
         new_task: "",
+        UserID:0,
         taskDdl: null, // 截止日期
         taskText:"nihao",
         showAddTask: true,
@@ -195,12 +200,16 @@
     },
     mounted() {
       window.addEventListener('scroll', this.handleScroll, true);
+      //this.UserID = this.$route.query.userID;
+      //console.log("Tasks UserID=", this.UserID);
 
     },
     created() {
       this.$store.commit("SET_TOKEN", localStorage.getItem("userToken"));
       this.$store.commit("SET_FILTER", localStorage.getItem("filterPattern"));
       //this.$store.commit("LOGIN");
+      this.UserID = this.$route.query.userID;
+      console.log("Tasks UserID=", this.UserID);
       this.loadAllTasks();
     },
     /*
@@ -427,6 +436,7 @@
         //param.append("token", this.$store.state.token);
         param.append("token", "1=1");
         param.append("taskContent", this.new_task);
+        param.append("UserID",this.UserID)
         // 格式化日期
         const formattedDate = this.formatDate(this.taskDdl);
         param.append("taskDdl", formattedDate);
@@ -447,16 +457,56 @@
             this.new_task = ""}
         })
       },
-      formatDate(date) {
-        const formattedDate = new Date(date).toISOString().slice(0, 19).replace("T", " ");
-        return formattedDate;
+      selectTaskByDdl(){
+        let param = new FormData;
+        param.append("token", "1=1");
+        param.append("UserID",this.UserID)
+        //param.append("taskContent", this.new_task);
+        // 格式化日期
+        console.log("taskDdl=",this.taskDdl)
+        const formattedDate = this.formatDate(this.taskDdl);
+        console.log("selectTaskByDdl formattedDate=",formattedDate);
+        param.append("taskDdl", formattedDate);
+        axios.post("http://localhost:8080/zc/api/selectDdl", param).then(res => {
+          console.log("selectTaskByDdl res=", res);
+          if(res.data.msg == "success"){
+            this.tasks = res.data.result;
+            /*
+            this.$message({
+              type: 'success',
+              message: '添加成功'
+            });
+            this.showAddTask = true
+            this.new_task = ""*/
+          }
+        })
+
       },
+      formatDate(date) {
+        console.log("formatDate date=", date);
+
+        // 使用 toLocaleDateString 获取本地日期字符串
+        const localDateString = date.toLocaleDateString();
+
+        console.log("localDateString=", localDateString);
+
+        return localDateString;
+      },
+      JSC(){
+        this.$router.push({
+          name: 'TaskJSC',
+          query: { tasks: JSON.stringify(this.tasks) } });
+      },
+
+
       loadAllTasks() {
         //let pattern = this.$store.state.filterPattern;
         let param = new FormData;
         //后续需获取用户登录传递的用户id
         //param.append("token", this.$store.state.user.token)
         param.append("token", "1")
+        param.append("UserID",this.UserID)
+        console.log("loadAllTasks UserID",this.UserID);
         axios.post("http://localhost:8080/zc/api/tasks", param).then(res => {
           //this.tasks = Object.assign({},res.data.result)
           console.log("loadAllTasks res.data.result=",res.data.result);
@@ -479,8 +529,10 @@
         //后续需获取用户登录传递的用户id
         //param.append("token", this.$store.state.user.token)
         param.append("token", "1")
+        param.append("UserID",this.UserID)
         axios.post("http://localhost:8080/zc/api/ordertasks", param).then(res => {
           //this.tasks = Object.assign({},res.data.result)
+          console.log("loadAllTasksByOrder res.data.result",res.data.result);
           this.tasks = res.data.result
           this.refresh = Math.random(); //强制触发vue的diff重新渲染
         })
@@ -494,6 +546,7 @@
         //后续需获取用户登录传递的用户id
         //param.append("token", this.$store.state.user.token)
         param.append("token", "1")
+        param.append("UserID",this.UserID)
         axios.post("http://localhost:8080/zc/api/tasks", param).then(res => {
           this.tasks = res.data.result
         })
@@ -531,6 +584,7 @@
         param.append("token", "1=1");
         param.append("taskId", taskId);
         param.append("taskContent", this.taskText);
+        param.append("UserID",this.UserID)
         // console.log(param);
         axios.post("http://localhost:8080/zc/api/update", param).then(res=>{
           console.log(res);
@@ -565,6 +619,7 @@
           //param.append("token", this.$store.state.token);
           param.append("token", "1=1");
           param.append("taskId", taskId);
+          param.append("UserID",this.UserID)
           // eslint-disable-next-line no-unused-vars
           axios.post("http://localhost:8080/zc/api/delete", param).then(res => {
             this.loadAllTasks();//删除了再加载

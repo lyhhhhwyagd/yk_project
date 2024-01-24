@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface PaperMapper {
 
+    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     @Insert("insert into paper(user_id,title,description,start_time,end_time,status) values(#{userId},#{title},#{description},#{startTime},#{endTime},#{status})")
     int addPaper(Paper paper);
 

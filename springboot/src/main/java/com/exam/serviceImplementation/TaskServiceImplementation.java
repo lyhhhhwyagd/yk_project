@@ -22,55 +22,67 @@ public class TaskServiceImplementation implements TaskService {
         this.tasksMapper = tasksMapper;
     }
 
-    public List<UserTask> queryUserTodolistById(Integer userID, Integer type) {
-        List<UserTask> userTask = tasksMapper.queryUserTodolistById(userID, type);
+    public List<UserTask> queryUserTodolistById(Integer UserID, Integer type) {
+        List<UserTask> userTask = tasksMapper.queryUserTodolistById(UserID, type);
         nullOrNot.istrue(userTask == null, "未找到您的任务");//判断是否存在task
         System.out.println("正在执行查询");
         System.out.println("impl userTask="+userTask);
         return userTask;
     }
 
-    public List<UserTask> userTodolistOrder(Integer userID, Integer type) {
-        List<UserTask> userTask = tasksMapper.queryUserTodolistByIdOrder(userID, type);
+    public List<UserTask> queryUserTodolistByDdl(String taskDdl, Integer type, Integer UserID) {
+        List<UserTask> userTask = tasksMapper.queryUserTodolistByDdl(taskDdl, type, UserID);
+        nullOrNot.istrue(userTask == null, "未找到您的任务");//判断是否存在task
+        System.out.println("正在执行查询");
+        System.out.println("impl queryUserTodolistByDdl userTask="+userTask);
+        return userTask;
+    }
+
+    public List<UserTask> userTodolistOrder(Integer UserID, Integer type) {
+        List<UserTask> userTask = tasksMapper.queryUserTodolistByIdOrder(UserID, type);
         nullOrNot.istrue(userTask == null, "未找到您的任务");//判断是否存在task
         return userTask;
     }
 
-    public List<UserTask> userTodolistFinishedOrder(Integer userID, Integer type) {
-        List<UserTask> userTask = tasksMapper.queryUserTodolistFinishedByIdOrder(userID, type);
+    public List<UserTask> userTodolistFinishedOrder(Integer UserID, Integer type) {
+        List<UserTask> userTask = tasksMapper.queryUserTodolistFinishedByIdOrder(UserID, type);
         nullOrNot.istrue(userTask == null, "未找到您的任务");//判断是否存在task
         return userTask;
     }
 
 
     @Transactional
-    public UserTask updateTaskType(Integer taskUserId, Integer taskId, Integer taskType) {
-        UserTask userTask = tasksMapper.queryTask(taskUserId, taskId);
+    public UserTask updateTaskType( Integer taskId, Integer taskType) {
+        UserTask userTask = tasksMapper.queryTask(taskId);
         nullOrNot.istrue(userTask == null, "该任务不存在");
         if (taskType == 0) {
             LocalDateTime localDateTime = LocalDateTime.now();
-            tasksMapper.updateTaskType(taskUserId, taskId, 1, localDateTime);
+            tasksMapper.updateTaskType(taskId, 1, localDateTime);
         } else if (taskType == 1) {
-            tasksMapper.updateTaskType(taskUserId, taskId, 0, null);
+            tasksMapper.updateTaskType(taskId, 0, null);
         }
-        UserTask userTask1 = tasksMapper.queryTask(taskUserId, taskId);
+        UserTask userTask1 = tasksMapper.queryTask(taskId);
         return userTask1;
     }
 
     @Transactional
-    public List<UserTask> insertTask(Integer taskUserId, String taskContent, String taskDdl) {
+    public List<UserTask> insertTask(Integer UserID, String taskContent, String taskDdl) {
         nullOrNot.istrue(taskContent == null, "内容不能为空");
         System.out.println("------------------------------------------------------------------");
-        System.out.println("TaskServiceLmpl insertTask taskUserId=" + taskUserId);
+        System.out.println("TaskServiceLmpl insertTask taskUserId=" + UserID);
         System.out.println("TaskServiceLmpl insertTask taskContent=" + taskContent);
         System.out.println("TaskServiceImplementation insertTask taskDdl=" + taskDdl);
         System.out.println("------------------------------------------------------------------");
-        tasksMapper.insertTask(taskUserId, taskContent, taskDdl);
-        int rowsAffected = tasksMapper.insertTask(taskUserId, taskContent, taskDdl);
+        UserTask userTasknew = new UserTask();
+        userTasknew.setUserID(UserID);
+        userTasknew.setTaskContent(taskContent);
+        userTasknew.setTaskDdl(taskDdl);
+
+        int rowsAffected = tasksMapper.insertTask(userTasknew);
         System.out.println("rowsAffected="+rowsAffected);
         if (rowsAffected > 0) {
             System.out.println("rowsAffected="+rowsAffected);
-            List<UserTask> userTask = tasksMapper.queryUserTodolistById(taskUserId, 0);
+            List<UserTask> userTask = tasksMapper.queryUserTodolistById(UserID, 0);
             return userTask;
         } else {
             System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
@@ -80,18 +92,18 @@ public class TaskServiceImplementation implements TaskService {
     }
 
     @Transactional
-    public UserTask updateTask(Integer taskUserId, Integer taskId, String taskContent) {
+    public UserTask updateTask(Integer taskId, String taskContent) {
         nullOrNot.istrue(taskContent == null, "内容不能为空");
-        tasksMapper.updateTask(taskUserId, taskId, taskContent);
-        UserTask userTask = tasksMapper.queryTask(taskUserId, taskId);
+        tasksMapper.updateTask(taskId, taskContent);
+        UserTask userTask = tasksMapper.queryTask(taskId);
         return userTask;
     }
 
     @Transactional
-    public String deleteTask(Integer taskUserId, Integer taskId) {
-        UserTask userTask = tasksMapper.queryTask(taskUserId, taskId);
+    public String deleteTask(Integer taskId) {
+        UserTask userTask = tasksMapper.queryTask(taskId);
         nullOrNot.istrue(userTask == null, "该任务不存在");
-        tasksMapper.deleteTask(taskUserId, taskId);
+        tasksMapper.deleteTask(taskId);
         return "删除成功";
     }
 

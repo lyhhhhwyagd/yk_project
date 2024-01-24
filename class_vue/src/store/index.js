@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 // import { createStore } from "vuex";
 import bootstrap from "bootstrap/dist/js/bootstrap.min.js";
 import VuexPersistence from 'vuex-persist';
-
+import customer from './modules/customer'
+import paper from './modules/paper'
 
 
 const vuexLocal = new VuexPersistence({
@@ -94,8 +95,22 @@ const store = new Vuex.Store({
       commit("cardBackground", payload);
     },
   },
+  modules:{
+    customer,
+    paper,
+  },
   getters: {
     userID: state => state.userID,
+    customerPaper: state => state.customer.paper,
+    // Create 相关
+    createPaperVisible: state => state.paper.createPaperVisible,
+    paperInfo: state => state.paper.currentPaper.paperInfo,
+    questionList: state => state.paper.currentPaper.questionList,
+    // Monitor 相关
+    monitorPaper: state => state.customer.paperStatistic,
+    answers: state => state.customer.answers,
+    //Overview 相关
+    allPapers: state => state.paper.paperList
   },
 }) 
 

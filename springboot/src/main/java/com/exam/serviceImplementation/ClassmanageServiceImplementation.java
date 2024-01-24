@@ -29,6 +29,14 @@ public class ClassmanageServiceImplementation implements ClassmanageService {
         return classmanage;
     }
 
+    public List<Classmanage> queryClassmanageBystudentName(String studentName) {
+        List<Classmanage> classmanage = classmanageMapper.queryClassmanageBystudentName(studentName);
+        nullOrNot.istrue(classmanage == null, "未找到您的任务");//判断是否存在task
+        System.out.println("正在执行查询");
+        System.out.println("impl queryClassmanageBystudentName classmanage="+classmanage);
+        return classmanage;
+    }
+
     @Transactional
     public Classmanage updateclassmanage(Integer id, String studentId, String studentName, Double attendanceRate, Integer dailyScore) {
         nullOrNot.istrue(attendanceRate == null || dailyScore == null, "内容不能为空");
@@ -75,8 +83,8 @@ public class ClassmanageServiceImplementation implements ClassmanageService {
             System.out.println("构造的classmanagenew= "+classmanagenew);
             classmanageMapper.insertclassmanage(classmanagenew);
             Classmanage classmanage = classmanageMapper.queryClassmanageBystudentId(studentId);
-           System.out.println("添加之后查询学生 classmanage="+classmanage);
-           if(classmanage != null)
+            System.out.println("添加之后查询学生 classmanage="+classmanage);
+            if(classmanage != null)
                 return "添加学生成功";
             else
                 return "添加学生失败";

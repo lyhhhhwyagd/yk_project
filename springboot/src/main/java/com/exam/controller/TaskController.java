@@ -23,14 +23,42 @@ public class TaskController {
     @CrossOrigin(origins = "*")
     @PostMapping("/tasks")//finished
     @ResponseBody
-    public ResultInfo userTask(@RequestParam("token") String token){
+    public ResultInfo userTask(@RequestParam("token") String token,
+                               @RequestParam("UserID") Integer UserID){
         System.out.println("userTask token="+token);
         ResultInfo resultInfo = new ResultInfo();
         String[] split = token.split("=");
         String tokenId="1";
         Integer id = Integer.parseInt(tokenId);
         try{
-          List<UserTask> userTask = taskService.queryUserTodolistById(id, 0);
+            List<UserTask> userTask = taskService.queryUserTodolistById(UserID, 0);
+            System.out.println("userTask=" + userTask);
+            resultInfo.setResult(userTask);
+        }catch(ParamsException p){
+            resultInfo.setCode(p.getCode());
+            resultInfo.setMsg(p.getMsg());
+            p.printStackTrace();
+        }catch (Exception e){
+            resultInfo.setCode(500);
+            resultInfo.setMsg("查找失败");
+        }
+        return resultInfo;
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/selectDdl")//finished
+    @ResponseBody
+    public ResultInfo userTaskDdl(@RequestParam("token") String token,
+                                  @RequestParam("taskDdl") String taskDdl,
+                                  @RequestParam("UserID") Integer UserID){
+        System.out.println("userTaskDdl token="+token);
+        System.out.println("userTaskDdl taskDdl="+taskDdl);
+        ResultInfo resultInfo = new ResultInfo();
+        String[] split = token.split("=");
+        String tokenId="1";
+        Integer id = Integer.parseInt(tokenId);
+        try{
+            List<UserTask> userTask = taskService.queryUserTodolistByDdl(taskDdl, 0,UserID);
             System.out.println("userTask=" + userTask);
             resultInfo.setResult(userTask);
         }catch(ParamsException p){
@@ -47,15 +75,16 @@ public class TaskController {
     @CrossOrigin(origins = "*")
     @PostMapping("/ordertasks")//finished
     @ResponseBody
-    public ResultInfo userOrderTask(@RequestParam("token") String token){
+    public ResultInfo userOrderTask(@RequestParam("token") String token,
+                                    @RequestParam("UserID") Integer UserID){
         System.out.println("userTask"+token);
         ResultInfo resultInfo = new ResultInfo();
         String[] split = token.split("=");
         String tokenId="1";
         Integer id = Integer.parseInt(tokenId);
         try{
-            List<UserTask> userTask = taskService.userTodolistOrder(id,0);
-           resultInfo.setResult(userTask);
+            List<UserTask> userTask = taskService.userTodolistOrder(UserID,0);
+            resultInfo.setResult(userTask);
         }catch(ParamsException p){
             resultInfo.setCode(p.getCode());
             resultInfo.setMsg(p.getMsg());
@@ -70,7 +99,8 @@ public class TaskController {
     @CrossOrigin(origins = "*")
     @PostMapping("/finished")//finished
     @ResponseBody
-    public ResultInfo userFinished(@RequestParam("token") String token){
+    public ResultInfo userFinished(@RequestParam("token") String token,
+                                   @RequestParam("UserID") Integer UserID){
         System.out.println("userFinished"+token);
         ResultInfo resultInfo = new ResultInfo();
         String[] split = token.split("=");
@@ -78,7 +108,7 @@ public class TaskController {
         String tokenId="1";
         Integer id = Integer.parseInt(tokenId);
         try{
-            List<UserTask> userTask = taskService.queryUserTodolistById(id,1);
+            List<UserTask> userTask = taskService.queryUserTodolistById(UserID,1);
             resultInfo.setResult(userTask);
         }catch(ParamsException p){
             resultInfo.setCode(p.getCode());
@@ -94,7 +124,8 @@ public class TaskController {
     @CrossOrigin(origins = "*")
     @PostMapping("/orderfinished")//finished
     @ResponseBody
-    public ResultInfo userOrderFinished(@RequestParam("token") String token){
+    public ResultInfo userOrderFinished(@RequestParam("token") String token,
+                                        @RequestParam("UserID") Integer UserID){
         System.out.println("userFinished"+token);
         ResultInfo resultInfo = new ResultInfo();
         String[] split = token.split("=");
@@ -102,7 +133,7 @@ public class TaskController {
         String tokenId="1";
         Integer id = Integer.parseInt(tokenId);
         try{
-            List<UserTask> userTask = taskService.userTodolistFinishedOrder(id,1);
+            List<UserTask> userTask = taskService.userTodolistFinishedOrder(UserID,1);
             resultInfo.setResult(userTask);
         }catch(ParamsException p){
             resultInfo.setCode(p.getCode());
@@ -122,16 +153,16 @@ public class TaskController {
     public ResultInfo updateTaskTye(@RequestParam("token") String token
             ,@RequestParam("taskId") Integer taskId
             ,@RequestParam("taskType") Integer taskType
-            ){
+    ){
         System.out.println("updateTaskTye"+token);
         System.out.println("updateTaskTye taskType"+taskType);
         ResultInfo resultInfo = new ResultInfo();
         String[] split = token.split("=");
         String tokenId=split[1];
         Integer id = Integer.parseInt(tokenId);
-       // System.out.println(taskId);
+        // System.out.println(taskId);
         try{
-            UserTask userTask= taskService.updateTaskType(id,taskId,taskType);
+            UserTask userTask= taskService.updateTaskType(taskId,taskType);
             resultInfo.setResult(userTask);
         }catch (ParamsException p){
             resultInfo.setCode(p.getCode());
@@ -150,8 +181,9 @@ public class TaskController {
     @ResponseBody
     public ResultInfo insertTask(@RequestParam("token") String token,
                                  @RequestParam("taskContent") String taskContent,
-                                 @RequestParam("taskDdl") String taskDdl
-                                                                                    ){
+                                 @RequestParam("taskDdl") String taskDdl,
+                                 @RequestParam("UserID") Integer UserID
+    ){
         System.out.println("insertTask token="+token);
         System.out.println("insertTask taskContent="+taskContent);
         System.out.println("insertTask taskDdl="+taskDdl);
@@ -161,7 +193,7 @@ public class TaskController {
         String tokenId=split[1];
         Integer id = Integer.parseInt(tokenId);
         try{
-            List<UserTask> userTask= taskService.insertTask(id, taskContent, taskDdl);
+            List<UserTask> userTask= taskService.insertTask(UserID, taskContent, taskDdl);
             resultInfo.setResult(userTask);
         }catch (ParamsException p){
             resultInfo.setCode(p.getCode());
@@ -185,7 +217,7 @@ public class TaskController {
         String tokenId=split[1];
         Integer id = Integer.parseInt(tokenId);
         try{
-            UserTask userTask= taskService.updateTask(id,taskId,taskContent);
+            UserTask userTask= taskService.updateTask(taskId,taskContent);
             resultInfo.setResult(userTask);
         }catch (ParamsException p){
             resultInfo.setCode(p.getCode());
@@ -210,7 +242,7 @@ public class TaskController {
         String tokenId=split[1];
         Integer id = Integer.parseInt(tokenId);
         try{
-            String result= taskService.deleteTask(id,taskId);
+            String result= taskService.deleteTask(taskId);
             resultInfo.setResult(result);
         }catch (ParamsException p){
             resultInfo.setCode(p.getCode());

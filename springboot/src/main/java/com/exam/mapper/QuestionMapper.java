@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface QuestionMapper {
 
+    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     @Insert("insert into question(paper_id) values(#{paperId})")
     int addQuestion(Question question);
 
