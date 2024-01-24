@@ -29,6 +29,7 @@ import Classmanage from "@/views/Classmanage.vue";
 import ClassmanageStatistic from "@/examples/Charts/ClassmanageStatistic";
 import TasksStatistic from "@/examples/Charts/TasksStatistic";
 import AAAWeather from "@/AAA_Ding/Pages/AAAWeather.vue";
+import Activity from '@/views/Activity';
 
 const routes = [
   {
@@ -186,6 +187,11 @@ const routes = [
     path: "/Exam",
     name: "Exam",
     component: Exam,
+  },
+  {
+    path: "/Activity",
+    name: "Activity",
+    component: Activity,
   },
 ];
 

@@ -74,6 +74,13 @@
           </template>
         </sidenav-collapse>
       </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="活动管理" :to="{ name: 'Activity', query: { userID: this.userID }  }">
+          <template #icon>
+            <switches />
+          </template>
+        </sidenav-collapse>
+      </li>
       <li>
         <sidenav-collapse navText="作业管理" :to="{ name: 'Virtual Reality', query: { userID: this.userID } }">
           <template #icon>
