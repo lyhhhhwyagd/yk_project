@@ -110,21 +110,14 @@
           PAGES
         </h6>
       </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="论坛/天气/悬赏" :to="{ name: 'NavigationBar', query: { userID: this.userID }   }">
+          <template #icon>
+            <office />
+          </template>
+        </sidenav-collapse>
+      </li>
 
-      <li class="nav-item">
-        <sidenav-collapse navText="Sign In" :to="{ name: 'Sign In' }">
-          <template #icon>
-            <document />
-          </template>
-        </sidenav-collapse>
-      </li>
-      <li class="nav-item">
-        <sidenav-collapse navText="Sign Up" :to="{ name: 'Sign Up' }">
-          <template #icon>
-            <spaceship />
-          </template>
-        </sidenav-collapse>
-      </li>
     </ul>
   </div>
 </template>
