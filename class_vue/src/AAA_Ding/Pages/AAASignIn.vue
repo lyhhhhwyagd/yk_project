@@ -8,7 +8,7 @@
               <div class="mt-8 card card-plain">
                 <div class="pb-0 card-header text-start">
                   <h3 class="font-weight-bolder text-success text-gradient">
-                    欢迎回来
+                    移动互动课堂
                   </h3>
                   <p class="mb-0">输入邮箱和密码后进行登录</p>
                 </div>
