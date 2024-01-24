@@ -145,28 +145,33 @@ export default {
       });
     },
     async submitChanges() {  // 添加一个新的方法来处理提交
-      if(this.newReward.status==='未领取'){
-        this.newReward.receiverID='';
-        this.newReward.receiverName='';
+      if(this.newReward.title===''||this.newReward.description===''||this.newReward.rewardAmount===''||this.newReward.deadLine===''||this.newReward.status===''){
+        window.alert("存在空白信息，请重新输入");
+        event.preventDefault();
+      }else{
+        if(this.newReward.status==='未领取'){
+          this.newReward.receiverID='';
+          this.newReward.receiverName='';
+        }
+        console.log("正在发送对象");
+        const id = this.$route.params.id; // 获取页面的ID
+        axios.put(`http://localhost:8080/reward/${id}`,this.newReward, {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+            .then(response => {
+              if (response.data.code === 200) {
+                console.log('Update successful');
+                this.$router.push({ name: 'Rewards', query: { userID: this.$route.query.userID } });
+              } else {
+                console.error('Error updating reward: ' + response.data.message);
+              }
+            })
+            .catch(error => {
+              console.error(error);
+            });
       }
-      console.log("正在发送对象");
-      const id = this.$route.params.id; // 获取页面的ID
-      axios.put(`http://localhost:8080/reward/${id}`,this.newReward, {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-      .then(response => {
-        if (response.data.code === 200) {
-          console.log('Update successful');
-          this.$router.push({ name: 'Rewards', query: { userID: this.$route.query.userID } });
-        } else {
-          console.error('Error updating reward: ' + response.data.message);
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
     },
   },
 };

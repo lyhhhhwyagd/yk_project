@@ -183,7 +183,6 @@ export default {
       if(this.newReward.title===''||this.newReward.description===''||this.newReward.rewardAmount===''||this.newReward.deadLine===''){
         window.alert("存在空白信息，请重新输入");
         event.preventDefault();
-        
       }else{
         this.newReward.rewardsID=this.getRewardsID();
         this.newReward.postedTime=this.getPostedTime();
