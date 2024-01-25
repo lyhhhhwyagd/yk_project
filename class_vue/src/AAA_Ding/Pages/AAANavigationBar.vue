@@ -164,13 +164,13 @@ export default {
   },
   methods: {
     goToRewardsPage(){
-      this.$router.push({ name: 'Rewards', query: { userID: this.userID } });
+      this.$router.push({ name: '悬赏中心', query: { userID: this.userID } });
     },
     goToWeatherPage(){
-      this.$router.push({ name: 'Weather', query: { userID: this.userID } });
+      this.$router.push({ name: '天气组件', query: { userID: this.userID } });
     },
     goToPostsPage(){
-      this.$router.push({ name: 'Posts', query: { userID: this.userID } });
+      this.$router.push({ name: '论坛主页', query: { userID: this.userID } });
     },
     getAllData() {
       console.log("开始访问数据");
