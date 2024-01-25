@@ -38,7 +38,7 @@ import questionnaireStatistic from "../examples/Charts/questionnaireStatistic";
 import TaskJSC from "../examples/Charts/TaskJSC";
 import AAANavigationBar1 from "@/AAA_Ding/Pages/AAANavigationBar.vue";
 import NavigationBar2 from '@/views/驾驶舱';
-
+import NavigationBar0 from '@/views/NavigationBar0.vue'
 
 
 const routes = [
@@ -46,6 +46,11 @@ const routes = [
     path: "/",
     name: "/",
     redirect: "/sign-in",
+  },
+  {
+    path: "/navigationBar0",
+    name: "移动互动课堂",
+    component: NavigationBar0,
   },
   {
     path: "/navigationBar1",

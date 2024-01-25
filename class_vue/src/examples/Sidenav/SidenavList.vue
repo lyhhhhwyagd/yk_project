@@ -117,6 +117,14 @@
           PAGES
         </h6>
       </li>
+
+      <li class="nav-item">
+        <sidenav-collapse navText="移动互动课堂" :to="{ name: '移动互动课堂', query: { userID: this.userID }   }">
+          <template #icon>
+            <office />
+          </template>
+        </sidenav-collapse>
+      </li>
       <li class="nav-item">
         <sidenav-collapse navText="论坛/天气/悬赏" :to="{ name: '论坛/天气/悬赏', query: { userID: this.userID }   }">
           <template #icon>
