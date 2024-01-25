@@ -7,18 +7,18 @@ import java.util.List;
 
 @Mapper
 public interface ActivityMapper {
-    @Select("select * from activities")
+    @Select("select * from xm04_activities")
     List<Activity> selectList();
 
     @Options(useGeneratedKeys = true,keyProperty = "ActivityID")
-    @Insert("insert into activities(ActivityID,ActivityName,ActivityDate,ActivityDuration,ActivityContent,Remarks)" +
+    @Insert("insert into xm04_activities(ActivityID,ActivityName,ActivityDate,ActivityDuration,ActivityContent,Remarks)" +
             " values (#{ActivityID},#{ActivityName},#{ActivityDate},#{ActivityDuration},#{ActivityContent},#{Remarks})")
     void insert(Activity activity);
 
-    @Delete("delete  from activities where ActivityID=#{ActivityID}")
+    @Delete("delete  from xm04_activities where ActivityID=#{ActivityID}")
     void deleteById(String id);
 
-    @Update("update activities set ActivityName=#{ActivityName},ActivityDate=#{ActivityDate},ActivityDuration=#{ActivityDuration},ActivityContent=#{ActivityContent}," +
+    @Update("update xm04_activities set ActivityName=#{ActivityName},ActivityDate=#{ActivityDate},ActivityDuration=#{ActivityDuration},ActivityContent=#{ActivityContent}," +
             "Remarks=#{Remarks} where ActivityID=#{ActivityID}")
     void updateById(Activity activity);
 
@@ -26,7 +26,7 @@ public interface ActivityMapper {
             "    YEAR(ActivityDate) AS Year, " +
             "    COUNT(*) AS Times, " +
             "    SUM(ActivityDuration) AS Duration " +
-            "FROM activities " +
+            "FROM xm04_activities " +
             "GROUP BY YEAR(ActivityDate) " +
             "ORDER BY Year;")
     List<ActivityS> statistic();

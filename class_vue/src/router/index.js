@@ -236,17 +236,17 @@ const routes = [
     component: CheckRoll,
   },
   {
-    path: "/考试管理",
+    path: "/ExamManage",
     name: "考试管理",
     component: 考试管理,
   },
   {
-    path: "/活动管理",
+    path: "/Activity",
     name: "活动管理",
     component: 活动管理,
   },
   {
-    path: "/驾驶舱",
+    path: "/Cockpit",
     name: "驾驶舱",
     component: NavigationBar2,
   },
