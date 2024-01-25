@@ -117,7 +117,7 @@ $(function () {
             legend: {
                 x: 'center',
                 y: '2%',
-                data: ['车型一', '车型二', '车型三', '车型四'],
+                data: ['>90%', '80%-90%', '70%-80%', '<70%'],
                 icon: 'circle',
                 textStyle: {
                     color: '#fff',
@@ -142,7 +142,7 @@ $(function () {
                 label: {
                     normal: {
                         show: true,
-                        formatter: '{c}辆'
+                        formatter: '{c}'
                     },
                     emphasis: {
                         show: true
@@ -158,8 +158,8 @@ $(function () {
                     }
                 },
                 data: [{
-                    value: 600,
-                    name: '车型一',
+                    value: 4,
+                    name: '>90%',
                     itemStyle: {
                         normal: {
                             color: '#33b565'
@@ -167,8 +167,8 @@ $(function () {
                     }
                 },
                     {
-                        value: 1100,
-                        name: '车型二',
+                        value: 4,
+                        name: '80%-90%',
                         itemStyle: {
                             normal: {
                                 color: '#20cc98'
@@ -176,8 +176,8 @@ $(function () {
                         }
                     },
                     {
-                        value: 1200,
-                        name: '车型三',
+                        value: 3,
+                        name: '70%-80%',
                         itemStyle: {
                             normal: {
                                 color: '#2089cf'
@@ -185,8 +185,8 @@ $(function () {
                         }
                     },
                     {
-                        value: 1300,
-                        name: '车型四',
+                        value: 0,
+                        name: '<70%',
                         itemStyle: {
                             normal: {
                                 color: '#205bcf'
@@ -916,11 +916,11 @@ option = {
                     center : ['50%', '50%'],
                     roseType : 'area',
                     data:[
-                        {value:70, name:'NO.4'},
-                        {value:90, name:'NO.3'},
-                        {value:110, name:'NO.2'},
-                        {value:150, name:'NO.1'},
-                        {value:40, name:'NO.5'}
+                        {value:4, name:'2020'},
+                        {value:4, name:'2021'},
+                        {value:4, name:'2022'},
+                        {value:11, name:'2023'},
+                        {value:9, name:'2024'}
 
                     ]
                 }
@@ -939,12 +939,12 @@ option = {
         var myChart = echarts.init(document.getElementById('echarts_5'));
 
         var xData = function() {
-            var data = ['NO.1','NO.2','NO.3','NO.4','NO.5'];
+            var data = ['2020','2021','2022','2023','2024'];
 
             return data;
         }();
 
-        var data = [23, 22, 20, 30, 22]
+        var data = [20, 12.5, 16, 38, 37.5]
 
         option = {
             // backgroundColor: "#141f56",
@@ -957,7 +957,7 @@ option = {
                 // extraCssText: 'box-shadow: 0 0 3px rgba(255, 255, 255, 0.4);', //添加阴影
                 formatter: function(params) {
                     if (params.seriesName != "") {
-                        return params.name + ' ：  ' + params.value + ' 辆';
+                        return params.name + ' ：  ' + params.value + ' h';
                     }
                 },
 
