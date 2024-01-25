@@ -174,9 +174,6 @@ export default {
     },
     getAllData() {
       console.log("开始访问数据");
-
-      // 创建一个包含所有axios请求的Promise数组
-
       axios.get(`http://localhost:8080/post`) // 将ID添加到请求的URL中
           .then(response => {
             if (response.data.code === 200) {
@@ -203,7 +200,7 @@ export default {
       let length=[];
       for(let i=0;i<6;i++) length[i]=0;
       for(let i=0;i<6;i++) this.averageTemperature[i]=0;
-      for(let i=this.weather.length-1;i>=this.weather.length-2500;i--){
+      for(let i=this.weather.length-1;i>=this.weather.length-2500&&i>0;i--){
         if(this.weather[i].city==="成都"){
           length[0]++;
           this.averageTemperature[0]+=Number(this.weather[i].temperature);

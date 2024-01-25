@@ -7,6 +7,6 @@ import java.util.List;
 
 @Mapper
 public interface CheckRollMapper{
-    @Select("select student_id, student_name from teach_student")
+    @Select("select student_id, student_name from xm04_teach_student")
     List<CheckRoll> selectList();
 }
