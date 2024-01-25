@@ -10,6 +10,8 @@
         <el-button type="primary" style="margin-left :10px;background-color: #76dc30" @click="load">查询</el-button>
 
         <el-button type="info" @click="reset">重置</el-button>
+
+        <el-button type="info" @click="jump">驾驶舱</el-button>
       </div>
     </div>
 
@@ -252,5 +254,8 @@
       ],
       printable: data.tableData,
     });
+  }
+  const jump=()=>{
+    window.location.href="http://localhost:63342/yk_project/class_vue/src/dataM/index.html"
   }
 </script>
