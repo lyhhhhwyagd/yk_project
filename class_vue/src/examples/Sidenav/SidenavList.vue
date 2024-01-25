@@ -68,14 +68,14 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="考试管理" :to="{ name: 'Exam', query: { userID: this.userID }  }">
+        <sidenav-collapse navText="考试管理" :to="{ name: '考试管理', query: { userID: this.userID }  }">
           <template #icon>
             <switches />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="活动管理" :to="{ name: 'Activity', query: { userID: this.userID }  }">
+        <sidenav-collapse navText="活动管理" :to="{ name: '活动管理', query: { userID: this.userID }  }">
           <template #icon>
             <switches />
           </template>

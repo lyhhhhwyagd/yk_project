@@ -12,7 +12,7 @@
           href="#"
           >لوحات القيادة</a
         >
-        <a v-else :class="textWhite" class="opacity-8" href="#">Pages</a>
+        <a v-else :class="textWhite" class="opacity-8" href="#">页面</a>
       </li>
       <li
         class="text-sm breadcrumb-item active"

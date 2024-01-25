@@ -203,6 +203,27 @@ function echarts_5() {
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('echart5'));
 
+        $.ajax({
+            type:'GET', // 规定请求的类型（GET 或 POST）
+            url:'http://localhost:8080/exam/find_all', // 请求的url地址
+            dataType:'json', //预期的服务器响应的数据类型 
+            // data:{},//规定要发送到服务器的数据
+            beforeSend:function(){ //发送请求前运行的函数（发送之前就会进入这个函数）
+                // ....
+            },
+            success: function(result){ // 当请求成功时运行的函数
+                //...
+                console.log("111");
+                console.log(result)
+            },
+            error:function(result){ //失败的函数
+                //...
+            },
+            complete:function(){ //请求完成时运行的函数（在请求成功或失败之后均调用，即在 success 和 error 函数之后，不管成功还是失败 都会进这个函数）
+                // ...
+            }
+        });
+
        option = {
   //  backgroundColor: '#00265f',
     tooltip: {
@@ -522,7 +543,7 @@ option = {
 		}]
 	},
 		{
-		name: '重庆',
+		name: '计算机学院',
 		type: 'pie',
 		clockWise: false,
 		center: ['50%', '42%'],
@@ -540,7 +561,7 @@ option = {
 		}]
 	}, 
 		{
-		name: '云南',
+		name: '软件工程学院',
 		type: 'pie',
 		clockWise: false,
 		hoverAnimation: false,
@@ -558,7 +579,7 @@ option = {
 		}]
 	},
 		{
-		name: '广东',
+		name: '信息工程学院',
 		type: 'pie',
 		clockWise: false,
 		hoverAnimation: false,
@@ -576,7 +597,7 @@ option = {
 		}]
 	}, 
 		{
-		name: '河南',
+		name: '其他',
 		type: 'pie',
 		clockWise: false,
 		hoverAnimation: false,
@@ -607,7 +628,7 @@ function echarts_31() {
 option = {
    
 	    title: [{
-        text: '年龄分布',
+        text: '考试类型分布',
         left: 'center',
         textStyle: {
             color: '#fff',
@@ -627,7 +648,7 @@ position:function(p){   //其中p为当前鼠标的位置
 top:'70%',
        itemWidth: 10,
         itemHeight: 10,
-        data:['0岁以下','20-29岁','30-39岁','40-49岁','50岁以上'],
+        data:['其他','期末考试'],
                 textStyle: {
             color: 'rgba(255,255,255,.5)',
 			fontSize:'12',
@@ -635,7 +656,7 @@ top:'70%',
     },
     series: [
         {
-        	name:'用户年龄分布',
+        	name:'考试类型分布',
             type:'pie',
 			center: ['50%', '42%'],
             radius: ['40%', '60%'],
@@ -643,11 +664,9 @@ top:'70%',
             label: {show:false},
 			labelLine: {show:false},
             data:[
-                {value:1, name:'0岁以下'},
-                {value:4, name:'20-29岁'},
-                {value:2, name:'30-39岁'},
-                {value:2, name:'40-49岁'},
-                {value:1, name:'50岁以上'},
+                {value:1, name:'其他'},
+                {value:9, name:'期末考试'},
+                
             ]
         }
     ]
@@ -723,7 +742,7 @@ function echarts_33() {
         var myChart = echarts.init(document.getElementById('fb3'));
 option = {
 	    title: [{
-        text: '兴趣分布',
+        text: '活动时间分布',
         left: 'center',
         textStyle: {
             color: '#fff',
@@ -742,7 +761,7 @@ position:function(p){   //其中p为当前鼠标的位置
     top:'70%',
        itemWidth: 10,
         itemHeight: 10,
-        data:['汽车','旅游','财经','教育','软件','其他'],
+        data:['3小时以下','3小时','4小时','5小时','6小时','6小时'],
                 textStyle: {
             color: 'rgba(255,255,255,.5)',
 			fontSize:'12',
@@ -750,7 +769,7 @@ position:function(p){   //其中p为当前鼠标的位置
     },
     series: [
         {
-        	name:'兴趣分布',
+        	name:'时间分布',
             type:'pie',
 			center: ['50%', '42%'],
             radius: ['40%', '60%'],
@@ -758,12 +777,12 @@ position:function(p){   //其中p为当前鼠标的位置
             label: {show:false},
 			labelLine: {show:false},
             data:[
-                {value:2, name:'汽车'},
-                {value:3, name:'旅游'},
-                {value:1, name:'财经'},
-                {value:4, name:'教育'},
-                {value:8, name:'软件'},
-                {value:1, name:'其他'},
+                {value:2, name:'3小时以下'},
+                {value:3, name:'3小时'},
+                {value:1, name:'4小时'},
+                {value:4, name:'5小时'},
+                {value:8, name:'6小时'},
+                {value:1, name:'6小时'},
             ]
         }
     ]
@@ -775,8 +794,8 @@ position:function(p){   //其中p为当前鼠标的位置
             myChart.resize();
         });
     }
-				
-	
+
+      
 })
 
 

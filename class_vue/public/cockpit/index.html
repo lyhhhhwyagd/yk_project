@@ -1,10 +1,12 @@
 ﻿<!doctype html>
+
 <html>
 <head>
 <meta charset="utf-8">
 <title>index</title>
 <script type="text/javascript" src="js/jquery.js"></script>
 <link rel="stylesheet" href="css/comon0.css">
+
 </head>
 	<script>
 	$(window).load(function(){  
@@ -24,6 +26,7 @@ $(document).ready(function(){
 	<script type="text/javascript" src="js/echarts.min.js"></script> 
 	<script language="JavaScript" src="js/js.js"></script> 
 <body>
+  
 <div class="canvas" style="opacity: .2">
 	<iframe frameborder="0" src="js/index.html" style="width: 100%; height: 100%"></iframe>
 	</div>
@@ -83,14 +86,14 @@ var t = null;
       <div class="bar">
         <div class="barbox">
           <ul class="clearfix">
-            <li class="pulll_left counter">789</li>
-            <li class="pulll_left counter">410</li>
+            <li class="pulll_left counter" id="number1"></li></li>
+            <li class="pulll_left counter" id="number2"></li>
           </ul>
         </div>
         <div class="barbox2">
           <ul class="clearfix">
-            <li class="pulll_left">网站访问量 </li>
-            <li class="pulll_left">网站累计服务次数</li>
+            <li class="pulll_left">考试数量统计</li>
+            <li class="pulll_left">活动数量统计</li>
           </ul>
         </div>
       </div>
@@ -108,22 +111,82 @@ var t = null;
         <div class="boxfoot"></div>
       </div>
       <div class="boxall" style="height: 3.2rem">
-        <div class="alltitle">校园活动项目分布</div>
+        <div class="alltitle">校园活动类型分布</div>
         <div class="allnav" id="echart5"></div>
         <div class="boxfoot"></div>
       </div>
       <div class="boxall" style="height: 3rem">
-        <div class="alltitle">用户地区分布占比</div>
+        <div class="alltitle">考试学院分布占比</div>
         <div class="allnav" id="echart6"></div>
         <div class="boxfoot"></div>
       </div>
     </li>
   </ul>
 </div>
-<div class="back"></div>
 
+<script class="example">
+    window.addEventListener("message", function (event) {
+        var data = event.data;
+        // 然后就可以获得vue传过来的数据
+        console.log("从vue中获得的数据", data);
+    }, '*')
+</script>
+
+<script >
+  $(document).ready(function(){
+        var number1=10;
+        var number2=32;
+    $.ajax({
+      type:'GET', // 规定请求的类型（GET 或 POST）
+      url:'http://localhost:8080/exam/find_all', // 请求的url地址
+      dataType:'json', //预期的服务器响应的数据类型 
+      // data:{},//规定要发送到服务器的数据
+      beforeSend:function(){ //发送请求前运行的函数（发送之前就会进入这个函数）
+          // ....
+      },
+      success: function(result){ // 当请求成功时运行的函数
+          //...
+          console.log("111");
+          console.log(result);
+          number1 = result.length;
+          console.log("number1是",number1)
+      },
+      error:function(result){ //失败的函数
+          //...
+      },
+      complete:function(){ //请求完成时运行的函数（在请求成功或失败之后均调用，即在 success 和 error 函数之后，不管成功还是失败 都会进这个函数）
+          // ...
+      }
+    });
+    $.ajax({
+    type:'GET', // 规定请求的类型（GET 或 POST）
+    url:'http://localhost:8080/activity/find_all', // 请求的url地址
+    dataType:'json', //预期的服务器响应的数据类型 
+    // data:{},//规定要发送到服务器的数据
+    beforeSend:function(){ //发送请求前运行的函数（发送之前就会进入这个函数）
+        // ....
+    },
+    success: function(result){ // 当请求成功时运行的函数
+        //...
+        console.log("111");
+        console.log(result.length);
+        number2 = result.length;
+    },
+    error:function(result){ //失败的函数
+        //...
+    },
+    complete:function(){ //请求完成时运行的函数（在请求成功或失败之后均调用，即在 success 和 error 函数之后，不管成功还是失败 都会进这个函数）
+        // ...
+    }
+    });
+    console.log(number1)
+    document.getElementById("number1").textContent = number1;
+    document.getElementById("number2").textContent = number2;
+  })
+</script>
 
 <script type="text/javascript" src="js/china.js"></script> 
 <script type="text/javascript" src="js/area_echarts.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </body>
 </html>

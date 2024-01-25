@@ -10,7 +10,7 @@ import Rtl from "@/views/Rtl.vue";
 import SignIn from "@/AAA_Ding/Pages/AAASignIn.vue";
 import SignUp from "@/views/SignUp.vue";
 import CheckRoll from "@/views/CheckRoll.vue";
-import Exam from '@/views/Exam';
+import 考试管理 from '@/views/考试管理';
 import AAANavigationBar from "@/AAA_Ding/Pages/AAANavigationBar.vue";
 import AAAPosts from "@/AAA_Ding/Pages/AAAPosts.vue";
 import AAAPostList from "@/AAA_Ding/Components/AAAPostList.vue";
@@ -29,7 +29,7 @@ import Classmanage from "@/views/Classmanage.vue";
 import ClassmanageStatistic from "@/examples/Charts/ClassmanageStatistic";
 import TasksStatistic from "@/examples/Charts/TasksStatistic";
 import AAAWeather from "@/AAA_Ding/Pages/AAAWeather.vue";
-import Activity from '@/views/Activity';
+import 活动管理 from '@/views/活动管理';
 import AfterSubmit from "../views/questionnaire/customer/afterSubmit/AfterSubmit";
 import Customer from "../views/questionnaire/customer/Customer";
 import Overview from "../views/questionnaire/editor/overview/Overview";
@@ -39,6 +39,7 @@ import Monitor from "../views/questionnaire/editor/monitor/Monitor";
 import PaperLink from "../views/questionnaire/editor/create/PaperLink";
 import questionnaireStatistic from "../examples/Charts/questionnaireStatistic";
 import TaskJSC from "../examples/Charts/TaskJSC";
+import 驾驶舱 from '@/views/驾驶舱';
 const routes = [
   {
     path: "/",
@@ -239,14 +240,19 @@ const routes = [
     component: CheckRoll,
   },
   {
-    path: "/Exam",
-    name: "Exam",
-    component: Exam,
+    path: "/考试管理",
+    name: "考试管理",
+    component: 考试管理,
   },
   {
-    path: "/Activity",
-    name: "Activity",
-    component: Activity,
+    path: "/活动管理",
+    name: "活动管理",
+    component: 活动管理,
+  },
+  {
+    path: "/驾驶舱",
+    name: "驾驶舱",
+    component: 驾驶舱,
   },
 ];
 

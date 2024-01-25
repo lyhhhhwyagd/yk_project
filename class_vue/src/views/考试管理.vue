@@ -30,7 +30,7 @@
                 @click="dialogVisible2 = true"
                 >统计信息</el-button
                 >
-              <el-button
+              <el-button 
                 size="small"
                 type="success"
                 @click="jump()"
@@ -409,7 +409,18 @@
         return wbout;
     },
     jump(){
-      window.location.href = 'http://localhost:8080/015/index.html';
+      // window.location.href = 'http://localhost:8080/015/index.html';
+      // this.$router.push({
+      //   name: '驾驶舱',
+      //   params: { userID: this.userID } ,
+      // }
+      const userId = this.$route.query.userID;
+      this.$router.push({
+          path: '/驾驶舱',
+          query: {
+            userID: userId
+          }
+        })
     }
     },
     
