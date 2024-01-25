@@ -36,7 +36,7 @@ import Monitor from "../views/questionnaire/editor/monitor/Monitor";
 import PaperLink from "../views/questionnaire/editor/create/PaperLink";
 import questionnaireStatistic from "../examples/Charts/questionnaireStatistic";
 import TaskJSC from "../examples/Charts/TaskJSC";
-import NavigationBar1 from "@/AAA_Ding/Pages/AAANavigationBar.vue";
+import AAANavigationBar1 from "@/AAA_Ding/Pages/AAANavigationBar.vue";
 import NavigationBar2 from '@/views/驾驶舱';
 
 
@@ -49,12 +49,12 @@ const routes = [
   },
   {
     path: "/navigationBar1",
-    name: "驾驶舱（论坛/天气/悬赏）",
-    component: NavigationBar1,
+    name: "论坛/天气/悬赏",
+    component: AAANavigationBar1,
   },
   {
     path: "/navigationBar2",
-    name: "驾驶舱（点名/考试/活动）",
+    name: "点名/考试/活动",
     component: NavigationBar2,
   },
   {
