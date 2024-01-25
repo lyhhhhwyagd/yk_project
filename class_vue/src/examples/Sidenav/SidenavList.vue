@@ -33,7 +33,7 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="课程管理" :to="{ name: 'Tables', query: { userID: this.userID }  }">
+        <sidenav-collapse navText="课程管理" :to="{ name: '课程管理', query: { userID: this.userID }  }">
           <template #icon>
             <office />
           </template>
