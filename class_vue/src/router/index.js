@@ -11,7 +11,6 @@ import SignIn from "@/AAA_Ding/Pages/AAASignIn.vue";
 import SignUp from "@/views/SignUp.vue";
 import CheckRoll from "@/views/CheckRoll.vue";
 import 考试管理 from '@/views/考试管理';
-import AAANavigationBar from "@/AAA_Ding/Pages/AAANavigationBar.vue";
 import 论坛主页 from "@/AAA_Ding/Pages/AAAPosts.vue";
 import AAAPostAdd from "@/AAA_Ding/Components/AAAPostAdd.vue";
 import AAAPostLook from "@/AAA_Ding/Components/AAAPostLook.vue";
@@ -37,7 +36,11 @@ import Monitor from "../views/questionnaire/editor/monitor/Monitor";
 import PaperLink from "../views/questionnaire/editor/create/PaperLink";
 import questionnaireStatistic from "../examples/Charts/questionnaireStatistic";
 import TaskJSC from "../examples/Charts/TaskJSC";
-import 驾驶舱 from '@/views/驾驶舱';
+import NavigationBar1 from "@/AAA_Ding/Pages/AAANavigationBar.vue";
+import NavigationBar2 from '@/views/驾驶舱';
+
+
+
 const routes = [
   {
     path: "/",
@@ -45,9 +48,14 @@ const routes = [
     redirect: "/sign-in",
   },
   {
-    path: "/navigationBar",
-    name: "NavigationBar",
-    component: AAANavigationBar,
+    path: "/navigationBar1",
+    name: "驾驶舱（论坛/天气/悬赏）",
+    component: NavigationBar1,
+  },
+  {
+    path: "/navigationBar2",
+    name: "驾驶舱（点名/考试/活动）",
+    component: NavigationBar2,
   },
   {
     path: "/posts",
@@ -240,7 +248,7 @@ const routes = [
   {
     path: "/驾驶舱",
     name: "驾驶舱",
-    component: 驾驶舱,
+    component: NavigationBar2,
   },
 ];
 

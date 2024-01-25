@@ -118,7 +118,14 @@
         </h6>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="论坛/天气/悬赏" :to="{ name: 'NavigationBar', query: { userID: this.userID }   }">
+        <sidenav-collapse navText="论坛/天气/悬赏" :to="{ name: '驾驶舱（论坛/天气/悬赏）', query: { userID: this.userID }   }">
+          <template #icon>
+            <office />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="点名/考试/活动" :to="{ name: '驾驶舱（点名/考试/活动）', query: { userID: this.userID }   }">
           <template #icon>
             <office />
           </template>
