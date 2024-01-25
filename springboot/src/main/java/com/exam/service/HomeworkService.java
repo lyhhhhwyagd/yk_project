@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.exam.Entity.Homework;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,4 +27,7 @@ public interface HomeworkService extends IService<Homework> {
     String uploadFile(Long id, MultipartFile file);
         
     byte[] downloadHomework();
+
+  
+
 }

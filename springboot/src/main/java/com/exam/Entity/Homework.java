@@ -21,10 +21,11 @@ public class Homework {
     @Column(name = "description")
     private String description;
     @Column(name = "deadline")
-    private Timestamp deadline;
+    private java.sql.Timestamp deadline;
     @Column(name = "teacher")
     private String teacher;
     @Column(name = "if_submit")
     private Boolean ifSubmit;
     // 其他属性...
+    
 }
