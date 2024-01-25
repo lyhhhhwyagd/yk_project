@@ -130,7 +130,7 @@ export default {
       createPaperVisible:false,
       description: '',
       title: '',
-      userId: -1,
+      userID: -1,
       paperList:{},
       paperInfo: {},
       questionList: [],
@@ -142,6 +142,8 @@ export default {
   mounted() {
     // console.log('mounted')
     //this.getAllPapers()
+    this.UserID = this.$route.query.userID;
+    console.log("Questionnaire UserID=", this.UserID);
     this.getAllPapers2()
   },
   computed: {
@@ -155,7 +157,8 @@ export default {
     },
     getAllPapers2(){
       console.log("getAllPapers2 test");
-      const userId = 2;
+
+      const userId = this.UserID;
       console.log(`getAllPapers2 get paperList with userId: ${userId}`);
       axios.get(`http://localhost:8080/api/paper/${userId}/getUserPapers`).then(res => {
         //this.tasks = Object.assign({},res.data.result)
@@ -177,19 +180,19 @@ export default {
     },
     checkPaperDetail(paperId) {
       console.log(`check paper detail with paperId: ${paperId}`)
-      this.$router.push({ name: 'monitor', params: { paperId } })
+      this.$router.push({ name: '问卷管理', params: { paperId } })
     },
     modifyPaperDetail(paperId) {
       console.log(`check paper detail with paperId: ${paperId}`)
-      this.$router.push({ name: 'modify', params: { paperId } })
+      this.$router.push({ name: '问卷修改', params: { paperId } })
     },
     handleShare(paperId) {
-      this.$router.push({ name: 'paperlink', params: { paperId } })
+      this.$router.push({ name: '问卷发放', params: { paperId } })
     },
     editPaper(paperId) {
       this.editOldPaper(paperId).then(res => {
         if(res) {
-          this.$router.push({ name: 'create', params: { paperId } });
+          this.$router.push({ name: '问卷创建', params: { paperId } });
 
         } else {
           this.$notify.success({
@@ -237,7 +240,7 @@ export default {
       }
       console.log("submitcreatePaper paperInfo:",paperInfo);
       const paperForm = {
-        userId: 2,
+        userId: this.userID,
         status: 'INIT',
         ...paperInfo
       }
@@ -251,7 +254,7 @@ export default {
           console.log("新创建的paperId=", paperId);
           this.editOldPaper(paperId);
           //this.$router.push(`/editor/create/${paperId}`);
-          this.$router.push({ name: 'create', params: { paperId } })
+          this.$router.push({ name: '问卷创建', params: { paperId } })
           this.createPaperVisible = false;
           }else{
           console.log("提交失败，请检查网络状态");

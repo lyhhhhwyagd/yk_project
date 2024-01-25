@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "@/views/Dashboard.vue";
-import Tables from "@/views/Tables.vue";
+import 课程管理 from "@/views/课程管理";
 import Billing from "@/views/Billing.vue";
 import VirtualReality from "@/views/VirtualReality.vue";
 import Profile from "@/views/Profile.vue";
-import Practices from "../views/Practices.vue";
-import sp from "../views/sp.vue";
+import 习题管理 from "../views/习题管理";
+import 答题管理 from "../views/答题管理";
 import Rtl from "@/views/Rtl.vue";
 import SignIn from "@/AAA_Ding/Pages/AAASignIn.vue";
 import SignUp from "@/views/SignUp.vue";
@@ -118,24 +118,24 @@ const routes = [
     component: Dashboard,
   },
   {
-    path: "/tables",
-    name: "Tables",
-    component: Tables,
+    path: "/课程管理",
+    name: "课程管理",
+    component: 课程管理,
   },
   {
-    path: "/practices",
-    name: "Practices",
-    component: Practices,
+    path: "/习题管理",
+    name: "习题管理",
+    component: 习题管理,
   },
   {
-    path:"/sp",
-    name:"sp",
-    component:sp,
+    path:"/答题管理",
+    name:"答题管理",
+    component:答题管理,
   },
   {
     path:"/rtl",
     name:"rtl",
-    component:sp,
+    component:Rtl,
   },
   {
     path: "/billing",
@@ -152,7 +152,7 @@ const routes = [
     name: "Profile",
     component: Profile,
   },
-  
+
   {
     path: "/sign-in",
     name: "Sign In",
@@ -165,22 +165,22 @@ const routes = [
   },
   {
     path:"/tasks",
-    name:"Tasks",
+    name:"待办事项",
     component:Tasks,
   },
   {
     path:"/ClassManage",
-    name:"ClassManage",
+    name:"课堂管理",
     component:Classmanage,
   },
   {
     path:"/ClassmanageStatistic",
-    name:"ClassmanageStatistic",
+    name:"课堂数据分析",
     component:ClassmanageStatistic,
   },
   {
     path:"/TasksStatistic",
-    name:"TasksStatistic",
+    name:"待办事项数据分析",
     component:TasksStatistic,
   },
 
@@ -201,28 +201,28 @@ const routes = [
   },
   {
     path: '/overview',
-    name: 'Overview',
+    name: '问卷总览',
     component:Overview,
   },
   {
     path: '/create/:paperId',
-    name: 'create',
+    name: '问卷创建',
     component:Create,
   },
   {
     path: '/modify/:paperId',
-    name: 'modify',
+    name: '问卷修改',
     component:modify,
   },
 
   {
     path: '/monitor/:paperId',
-    name: 'monitor',
+    name: '问卷管理',
     component: Monitor,
   },
   {
     path: '/paperlink/:paperId',
-    name: 'paperlink',
+    name: '问卷发放',
     component: PaperLink,
   },
   {

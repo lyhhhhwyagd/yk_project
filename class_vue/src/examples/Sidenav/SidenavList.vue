@@ -33,21 +33,21 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="课程管理" :to="{ name: 'Tables', query: { userID: this.userID }  }">
+        <sidenav-collapse navText="课程管理" :to="{ name: '课程管理', query: { userID: this.userID }  }">
           <template #icon>
             <office />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="习题管理" :to="{ name: 'Practices', query: { userID: this.userID }  }">
+        <sidenav-collapse navText="习题管理" :to="{ name: '习题管理', query: { userID: this.userID }  }">
           <template #icon>
             <office />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="答题管理" :to="{ name: 'sp', query: { userID: this.userID }  }">
+        <sidenav-collapse navText="答题管理" :to="{ name: '答题管理', query: { userID: this.userID }  }">
           <template #icon>
             <office />
           </template>
@@ -89,21 +89,21 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="待办事项" :to="{ name: 'Tasks', query: { userID: this.userID }   }">
+        <sidenav-collapse navText="待办事项" :to="{ name: '待办事项', query: { userID: this.userID }   }">
           <template #icon>
             <office />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="课堂管理" :to="{ name: 'ClassManage', query: { userID: this.userID }   }">
+        <sidenav-collapse navText="课堂管理" :to="{ name: '课堂管理', query: { userID: this.userID }   }">
           <template #icon>
             <office />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="问卷调查" :to="{ name: 'Overview', query: { userID: this.userID }   }">
+        <sidenav-collapse navText="问卷调查" :to="{ name: '问卷总览', query: { userID: this.userID }   }">
           <template #icon>
             <office />
           </template>

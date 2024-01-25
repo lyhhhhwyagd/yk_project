@@ -23,14 +23,12 @@ public class ClassmanageController {
     @CrossOrigin(origins = "*")
     @PostMapping("/getclassmanage")//finished
     @ResponseBody
-    public ResultInfo classmanage(@RequestParam("token") String token){
-        System.out.println("userTask token="+token);
+    public ResultInfo classmanage(@RequestParam("userId") Integer userId){
         ResultInfo resultInfo = new ResultInfo();
-        String[] split = token.split("=");
-        String tokenId="1";
-        Integer id = Integer.parseInt(tokenId);
+        //String tokenId="1";
+        //Integer id = Integer.parseInt(tokenId);
         try{
-            List<Classmanage> classmanage = classmanageService.queryClassmanageByuserId(id);
+            List<Classmanage> classmanage = classmanageService.queryClassmanageByuserId(userId);
             System.out.println("classmanage=" + classmanage);
             resultInfo.setResult(classmanage);
         }catch(ParamsException p){

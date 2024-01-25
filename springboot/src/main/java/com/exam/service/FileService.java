@@ -33,7 +33,7 @@ public class FileService {
     @Autowired
     private FileMapper fileMapper;
     public List<com.exam.Entity.File> getAllFiles(){//数据库查询
-        return fileMapper.selectList(new QueryWrapper<>());
+        return fileMapper.selectAllFiles();
     }
     public String uploadFile(Integer courseId, MultipartFile file) {
         try {
@@ -79,13 +79,13 @@ public class FileService {
         
     private void saveFileToDatabase(Path fileUrl, String fileName, long fileSize, java.sql.Timestamp uploadTime, Integer courseId) {
         // JDBC连接配置
-        String jdbcUrl = "jdbc:mysql://43.139.101.228:3306/projects_yjykfsj2023";
-        String dbUsername = "public";
-        String dbPassword = "12345678";
+        String jdbcUrl = "jdbc:mysql://www.ylxteach.net:3366/yjykfsj2023";
+        String dbUsername = "Administrator";
+        String dbPassword = "XWClassroom20202023";
 
         try (Connection connection = DriverManager.getConnection(jdbcUrl, dbUsername, dbPassword)) {
             // 插入文件信息到数据库的 'file' 表
-            String sql = "INSERT INTO file (file_name, file_size, upload_time, course_id) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO xm04_file (file_name, file_size, upload_time, course_id) VALUES (?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 // 设置预处理语句的参数
                 preparedStatement.setString(1, fileName); // 设置文件名
