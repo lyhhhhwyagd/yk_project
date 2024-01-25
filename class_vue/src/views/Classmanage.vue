@@ -172,7 +172,7 @@ import jsPDF from "jspdf";
          },
          classmanageSta(){
             this.$router.push({
-               name: 'ClassmanageStatistic',
+               name: '课堂数据分析',
                query: { ClassManages: JSON.stringify(this.ClassManages) } });
          },
          handleEdit(row) {

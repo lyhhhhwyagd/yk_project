@@ -266,7 +266,7 @@
       },
       tasksSta(){
         this.$router.push({
-          name: 'TasksStatistic',
+          name: '待办事项数据分析',
           query: { tasks: JSON.stringify(this.tasks) } });
       },
       createChart(){
@@ -552,6 +552,9 @@
         })
       },
       changeTask(taskId,id){
+        this.taskText = this.tasks[id].taskContent;
+        console.log("changeTask id", id)
+        console.log("changeTask this.tasks[id].taskContent",this.tasks[id].taskContent)
         console.log("taskId", taskId);
         console.log("id", id);
         console.log("this.$refs.taskInput", this.$refs.taskInput);

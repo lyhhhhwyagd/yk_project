@@ -1,8 +1,8 @@
 <template>
   <div class='bg'>
     <div class='customer'>
-      <div style="margin-top: 30%" class="title">完成填写！</div>
-      <el-button type="text" @click="back()">再填一次</el-button>
+      <div style="margin-top: 20%" class="title">完成填写！</div>
+        <el-button  type="primary" style="background-color: rgb(128, 214, 22);margin-left: 50%" @click="back()">再填一次</el-button>
     </div>
   </div>
 </template>
@@ -19,9 +19,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .customer > .title {
   text-align: center;
-  font-size: 40px;
+  font-size: 100px;
 }
 </style>

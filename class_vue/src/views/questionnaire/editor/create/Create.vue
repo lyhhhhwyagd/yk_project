@@ -1,9 +1,4 @@
 <template>
-  <div>
-    <p>
-      ahhahahha
-    </p>
-  </div>
   <div class="create">
     <div class="header">
       标题：<el-input

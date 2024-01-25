@@ -11,21 +11,21 @@ import java.util.List;
 public interface QuestionMapper {
 
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
-    @Insert("insert into question(paper_id) values(#{paperId})")
+    @Insert("insert into xm04_question(paper_id) values(#{paperId})")
     int addQuestion(Question question);
 
-    @Update("update question set type=#{type},title=#{title} where id=#{id}")
+    @Update("update xm04_question set type=#{type},title=#{title} where id=#{id}")
     void updateQuestion(Question question);
 
-    @Select("select * from question where id=#{id}")
+    @Select("select * from xm04_question where id=#{id}")
     Question selectByQuestionId(int id);
 
-    @Delete("delete from question where id=#{questionId}")
+    @Delete("delete from xm04_question where id=#{questionId}")
     void deleteQuestion(int questionId);
 
-    @Delete("delete from question where paper_id=#{paperId}")
+    @Delete("delete from xm04_question where paper_id=#{paperId}")
     void deleteByPaperId(int paperId);
 
-    @Select("select * from question where paper_id=#{paperId} order by id")
+    @Select("select * from xm04_question where paper_id=#{paperId} order by id")
     List<Question> selectByPaperId(int paperId);
 }

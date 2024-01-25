@@ -165,22 +165,22 @@ const routes = [
   },
   {
     path:"/tasks",
-    name:"Tasks",
+    name:"待办事项",
     component:Tasks,
   },
   {
     path:"/ClassManage",
-    name:"ClassManage",
+    name:"课堂管理",
     component:Classmanage,
   },
   {
     path:"/ClassmanageStatistic",
-    name:"ClassmanageStatistic",
+    name:"课堂数据分析",
     component:ClassmanageStatistic,
   },
   {
     path:"/TasksStatistic",
-    name:"TasksStatistic",
+    name:"待办事项数据分析",
     component:TasksStatistic,
   },
 
@@ -201,28 +201,28 @@ const routes = [
   },
   {
     path: '/overview',
-    name: 'Overview',
+    name: '问卷总览',
     component:Overview,
   },
   {
     path: '/create/:paperId',
-    name: 'create',
+    name: '问卷创建',
     component:Create,
   },
   {
     path: '/modify/:paperId',
-    name: 'modify',
+    name: '问卷修改',
     component:modify,
   },
 
   {
     path: '/monitor/:paperId',
-    name: 'monitor',
+    name: '问卷管理',
     component: Monitor,
   },
   {
     path: '/paperlink/:paperId',
-    name: 'paperlink',
+    name: '问卷发放',
     component: PaperLink,
   },
   {
