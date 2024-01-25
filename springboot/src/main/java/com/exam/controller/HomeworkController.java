@@ -1,4 +1,5 @@
 package com.exam.controller;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -7,15 +8,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.exam.Entity.Homework;
 import com.exam.service.HomeworkService;
+import com.google.protobuf.Timestamp;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/homework")
+@MapperScan("com.exam.mapper")
 public class HomeworkController {
 
     @Autowired
@@ -40,6 +47,19 @@ public class HomeworkController {
         headers.setContentDispositionFormData("attachment", "files.xlsx");  // Specify the filename
 
         return new ResponseEntity<>(excelBytes, headers, HttpStatus.OK);
+    }
+    @GetMapping("/submitAndNotSubmitCount")
+    public Map<String, Long> getSubmitAndNotSubmitCount() {
+        List<Homework> allHomeworks = homeworkService.getAllHomeworks();
+
+        Long submitCount = allHomeworks.stream().filter(Homework::getIfSubmit).count();
+        Long notSubmitCount = allHomeworks.stream().filter(h -> !h.getIfSubmit()).count();
+
+        Map<String, Long> result = new HashMap<>();
+        result.put("submitCount", submitCount);
+        result.put("notSubmitCount", notSubmitCount);
+
+        return result;
     }
     @PostMapping("/add")
 public ResponseEntity<String> addHomework(@RequestBody Homework homework) {

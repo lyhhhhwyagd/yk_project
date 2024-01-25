@@ -7,6 +7,13 @@ Content-Type: application/json
   "userType": "学生"
 }
 ###
+GET http://localhost:8080/homework/submitAndNotSubmitCount
+
+###
+GET http://localhost:8080/file/countByCourseId
+###
+GET http://localhost:8080/user/countUserType
+###
 # Request to test the /all endpoint
 GET http://localhost:8080/files/all
 

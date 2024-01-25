@@ -64,6 +64,7 @@ public class FileService {
             return "文件上传失败：" + e.getMessage();
         }
     }
+    
     public List<String> getFileList() {//文件夹查询
         String uploadDir = "../static/files";
         File uploadFolder = new File(uploadDir);

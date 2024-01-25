@@ -11,7 +11,6 @@ public class ExamsystemApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ExamsystemApplication.class, args);
-
     }
 }
 

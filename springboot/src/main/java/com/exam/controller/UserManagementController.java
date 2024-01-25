@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
  @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/user")
@@ -53,6 +55,23 @@ public class UserManagementController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    @GetMapping("/countUserType")
+    public Map<String, Object> countUserType() {
+        // 查询user_zpq表中的user_type字段
+        List<User> userList = userService.userList();
+
+        // 统计不同权限的人数
+        Map<String, Integer> userTypeCount = new HashMap<>();
+        for (User userZpq : userList) {
+            String userType = userZpq.getUserType();
+            userTypeCount.put(userType, userTypeCount.getOrDefault(userType, 0) + 1);
+        }
+
+        // 将统计结果转换为JSON格式并返回
+        Map<String, Object> result = new HashMap<>();
+        result.put("userTypeCount", userTypeCount);
+        return result;
     }
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Integer id) {
