@@ -117,13 +117,8 @@ import jsPDF from "jspdf";
    export default{
       name: "Classmanage",
       data() {
-         this.taskInput = ref(null);
-         this.taskContent = ref(null);
-         this.task_input = ref(null);
          return {
-            courseName:"",
             studentName:"",
-            dep:"",
             ClassManages:{},
             total:0,
             pageSize:4,//当前最大个数
@@ -139,6 +134,7 @@ import jsPDF from "jspdf";
       created() {
          this.$store.commit("SET_TOKEN", localStorage.getItem("userToken"));
          this.$store.commit("SET_FILTER", localStorage.getItem("filterPattern"));
+         console.log("Questionnaire UserID=", this.UserID);
          //this.$store.commit("LOGIN");
          this.UserID = this.$route.query.userID;
          console.log("How to get userID",this.$route.query.userID);
@@ -160,7 +156,9 @@ import jsPDF from "jspdf";
             let param = new FormData;
             //后续需获取用户登录传递的用户id
             //param.append("token", this.$store.state.user.token)
-            param.append("token", "1")
+            const userId = this.UserID;
+            console.log("loadClassManage userId", userId);
+            param.append("userId", userId)
             axios.post("http://localhost:8080/Classmanage/getclassmanage", param).then(res => {
                //this.tasks = Object.assign({},res.data.result)
                //console.log("loadClassManage res=", res);
@@ -340,7 +338,8 @@ import jsPDF from "jspdf";
             param.append("studentName",this.form.studentName);
             param.append("attendanceRate",this.form.attendanceRate);
             param.append("dailyScore",this.form.dailyScore);
-            param.append("userId",1);
+            const userId = this.UserID;
+            param.append("userId",userId);
             console.log("param=", param);
             axios.post("http://localhost:8080/Classmanage/addclassmanage", param).then(res => {
                //this.tasks = Object.assign({},res.data.result)

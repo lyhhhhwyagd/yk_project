@@ -130,7 +130,7 @@ export default {
       createPaperVisible:false,
       description: '',
       title: '',
-      userId: -1,
+      userID: -1,
       paperList:{},
       paperInfo: {},
       questionList: [],
@@ -142,6 +142,8 @@ export default {
   mounted() {
     // console.log('mounted')
     //this.getAllPapers()
+    this.UserID = this.$route.query.userID;
+    console.log("Questionnaire UserID=", this.UserID);
     this.getAllPapers2()
   },
   computed: {
@@ -155,7 +157,8 @@ export default {
     },
     getAllPapers2(){
       console.log("getAllPapers2 test");
-      const userId = 2;
+
+      const userId = this.UserID;
       console.log(`getAllPapers2 get paperList with userId: ${userId}`);
       axios.get(`http://localhost:8080/api/paper/${userId}/getUserPapers`).then(res => {
         //this.tasks = Object.assign({},res.data.result)
@@ -237,7 +240,7 @@ export default {
       }
       console.log("submitcreatePaper paperInfo:",paperInfo);
       const paperForm = {
-        userId: 2,
+        userId: this.userID,
         status: 'INIT',
         ...paperInfo
       }
