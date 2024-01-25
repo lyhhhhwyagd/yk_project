@@ -11,7 +11,7 @@ import javax.persistence.Column;
 
 @Data
 
-@TableName("homework")
+@TableName("xm04_homework")
 public class Homework {
     @TableId(type = IdType.AUTO)
      @Column(name = "id")
