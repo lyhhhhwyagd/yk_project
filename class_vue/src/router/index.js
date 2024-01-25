@@ -36,7 +36,7 @@ import Monitor from "../views/questionnaire/editor/monitor/Monitor";
 import PaperLink from "../views/questionnaire/editor/create/PaperLink";
 import questionnaireStatistic from "../examples/Charts/questionnaireStatistic";
 import TaskJSC from "../examples/Charts/TaskJSC";
-import NavigationBar1 from "@/AAA_Ding/Pages/AAANavigationBar.vue";
+import AAANavigationBar1 from "@/AAA_Ding/Pages/AAANavigationBar.vue";
 import NavigationBar2 from '@/views/驾驶舱';
 
 
@@ -49,12 +49,12 @@ const routes = [
   },
   {
     path: "/navigationBar1",
-    name: "驾驶舱（论坛/天气/悬赏）",
-    component: NavigationBar1,
+    name: "论坛/天气/悬赏",
+    component: AAANavigationBar1,
   },
   {
     path: "/navigationBar2",
-    name: "驾驶舱（点名/考试/活动）",
+    name: "点名/考试/活动",
     component: NavigationBar2,
   },
   {
@@ -165,22 +165,22 @@ const routes = [
   },
   {
     path:"/tasks",
-    name:"Tasks",
+    name:"待办事项",
     component:Tasks,
   },
   {
     path:"/ClassManage",
-    name:"ClassManage",
+    name:"课堂管理",
     component:Classmanage,
   },
   {
     path:"/ClassmanageStatistic",
-    name:"ClassmanageStatistic",
+    name:"课堂数据分析",
     component:ClassmanageStatistic,
   },
   {
     path:"/TasksStatistic",
-    name:"TasksStatistic",
+    name:"待办事项数据分析",
     component:TasksStatistic,
   },
 
@@ -201,28 +201,28 @@ const routes = [
   },
   {
     path: '/overview',
-    name: 'Overview',
+    name: '问卷总览',
     component:Overview,
   },
   {
     path: '/create/:paperId',
-    name: 'create',
+    name: '问卷创建',
     component:Create,
   },
   {
     path: '/modify/:paperId',
-    name: 'modify',
+    name: '问卷修改',
     component:modify,
   },
 
   {
     path: '/monitor/:paperId',
-    name: 'monitor',
+    name: '问卷管理',
     component: Monitor,
   },
   {
     path: '/paperlink/:paperId',
-    name: 'paperlink',
+    name: '问卷发放',
     component: PaperLink,
   },
   {

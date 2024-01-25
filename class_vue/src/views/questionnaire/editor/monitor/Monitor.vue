@@ -202,7 +202,7 @@ export default {
       // 获取数据
       const paperId = this.$route.params.paperId
       this.$router.push({
-        name: 'questionnaireStatistic',
+        name: '问卷调查数据分析',
         params: { paperId } });
       console.log("createChart");
     },

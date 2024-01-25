@@ -1,5 +1,4 @@
 <template>
-    <p>hahah</p>
     <div class="canvas-container">
         <canvas id="myChart" class="custom-canvas" ></canvas>
     </div>

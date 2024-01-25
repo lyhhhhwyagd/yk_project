@@ -89,21 +89,21 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="待办事项" :to="{ name: 'Tasks', query: { userID: this.userID }   }">
+        <sidenav-collapse navText="待办事项" :to="{ name: '待办事项', query: { userID: this.userID }   }">
           <template #icon>
             <office />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="课堂管理" :to="{ name: 'ClassManage', query: { userID: this.userID }   }">
+        <sidenav-collapse navText="课堂管理" :to="{ name: '课堂管理', query: { userID: this.userID }   }">
           <template #icon>
             <office />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="问卷调查" :to="{ name: 'Overview', query: { userID: this.userID }   }">
+        <sidenav-collapse navText="问卷调查" :to="{ name: '问卷总览', query: { userID: this.userID }   }">
           <template #icon>
             <office />
           </template>
@@ -118,14 +118,14 @@
         </h6>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="论坛/天气/悬赏" :to="{ name: '驾驶舱（论坛/天气/悬赏）', query: { userID: this.userID }   }">
+        <sidenav-collapse navText="论坛/天气/悬赏" :to="{ name: '论坛/天气/悬赏', query: { userID: this.userID }   }">
           <template #icon>
             <office />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="点名/考试/活动" :to="{ name: '驾驶舱（点名/考试/活动）', query: { userID: this.userID }   }">
+        <sidenav-collapse navText="点名/考试/活动" :to="{ name: '点名/考试/活动', query: { userID: this.userID }   }">
           <template #icon>
             <office />
           </template>

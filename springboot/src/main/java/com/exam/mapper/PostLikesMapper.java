@@ -8,15 +8,15 @@ import java.util.List;
 @Mapper
 public interface PostLikesMapper {
     //update/insert/delete默认返回语句影响的行数的一个整数。
-    @Select("select * from post_likes")
+    @Select("select * from xm04_post_likes")
     List<PostLikes> selectAll();
 
     @Options(useGeneratedKeys = true,keyProperty = "commentID")
-    @Insert("insert into post_likes" +
+    @Insert("insert into xm04_post_likes" +
             "(id, authorID, postID, createTime) " +
             "values(#{ID}, #{authorID}, #{postID}, #{createTime})")
     int insert(PostLikes postLikes);
 
-    @Delete("delete from post_likes where authorID = #{authorID} and postID= #{postID}")
+    @Delete("delete from xm04_post_likes where authorID = #{authorID} and postID= #{postID}")
     int deleteByAuthorIDAndPostID(String authorID,String postID);
 }
