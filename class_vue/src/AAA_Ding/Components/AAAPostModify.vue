@@ -123,7 +123,7 @@ export default {
           .then(response => {
             if (response.data.code === 200) {
               console.log('Update successful');
-              this.$router.push({ name: 'Posts', query: { userID: this.$route.query.userID } });
+              this.$router.push({ name: '论坛主页', query: { userID: this.$route.query.userID } });
             } else {
               console.error('Error updating reward: ' + response.data.message);
             }

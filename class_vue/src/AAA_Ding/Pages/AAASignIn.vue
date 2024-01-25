@@ -31,7 +31,7 @@
                         v-model="userCredentials.password"
                     />
                     <soft-switch id="rememberMe" name="rememberMe" checked>
-                      Remember me
+                      记住账号密码
                     </soft-switch>
                     <div class="text-center">
                       <soft-button

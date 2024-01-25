@@ -365,7 +365,7 @@ export default {
       printWindow.document.close();
     },
     Statistics(){
-      this.$router.push({ name: 'RewardsStatistics', query: { userID: this.userID } });
+      this.$router.push({ name: '统计悬赏', query: { userID: this.userID } });
     },
     sortByPostTime(){
       if(this.arrowState_postedTime===0){
@@ -488,7 +488,7 @@ export default {
       });
     },
     goToAddRewardPage() {
-      this.$router.push({ name: 'RewardsAdd', query: { userID: this.userID } });
+      this.$router.push({ name: '添加悬赏', query: { userID: this.userID } });
     },
     openDeleteConfirm(rewardsID) {
       if (window.confirm("是否删除？")) {

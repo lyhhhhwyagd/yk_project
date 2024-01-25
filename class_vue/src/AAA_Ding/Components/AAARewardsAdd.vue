@@ -183,7 +183,10 @@ export default {
       if(this.newReward.title===''||this.newReward.description===''||this.newReward.rewardAmount===''||this.newReward.deadLine===''){
         window.alert("存在空白信息，请重新输入");
         event.preventDefault();
-      }else{
+      }else if(this.newReward.title.length>18){
+        window.alert("标题过长");
+        event.preventDefault();
+      } else{
         this.newReward.rewardsID=this.getRewardsID();
         this.newReward.postedTime=this.getPostedTime();
         console.log("正在发送对象");
@@ -196,7 +199,7 @@ export default {
         })
             .then(response => {
               if (response.data.code === 200) {
-                console.log('Update successful');
+                console.log('发布成功');
               } else {
                 console.error('Error updating reward: ' + response.data.message);
               }
@@ -204,7 +207,7 @@ export default {
             .catch(error => {
               console.error(error);
             });
-        this.$router.push({ name: 'Rewards', query: { userID: this.newReward.postedByUserID } });
+        this.$router.push({ name: '悬赏中心', query: { userID: this.newReward.postedByUserID } });
       }
     },
   },

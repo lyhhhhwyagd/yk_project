@@ -12,14 +12,12 @@ import SignUp from "@/views/SignUp.vue";
 import CheckRoll from "@/views/CheckRoll.vue";
 import 考试管理 from '@/views/考试管理';
 import AAANavigationBar from "@/AAA_Ding/Pages/AAANavigationBar.vue";
-import AAAPosts from "@/AAA_Ding/Pages/AAAPosts.vue";
-import AAAPostList from "@/AAA_Ding/Components/AAAPostList.vue";
+import 论坛主页 from "@/AAA_Ding/Pages/AAAPosts.vue";
 import AAAPostAdd from "@/AAA_Ding/Components/AAAPostAdd.vue";
 import AAAPostLook from "@/AAA_Ding/Components/AAAPostLook.vue";
 import AAAPostModify from "@/AAA_Ding/Components/AAAPostModify.vue";
 import AAAPostsStatistics from "@/AAA_Ding/Components/AAAPostStatistics.vue";
 import AAARewards from "@/AAA_Ding/Pages/AAARewards.vue";
-import AAARewardsList from "@/AAA_Ding/Components/AAARewardsList.vue";
 import AAARewardsAdd from "@/AAA_Ding/Components/AAARewardsAdd.vue";
 import AAARewardsModify from "@/AAA_Ding/Components/AAARewardsModify.vue";
 import AAARewardsLook from "@/AAA_Ding/Components/AAARewardsLook.vue";
@@ -53,67 +51,57 @@ const routes = [
   },
   {
     path: "/posts",
-    name: "Posts",
-    component: AAAPosts,
-  },
-  {
-    path: "/posts/list",
-    name: "PostsList",
-    component: AAAPostList,
+    name: "论坛主页",
+    component: 论坛主页,
   },
   {
     path: "/posts/add",
-    name: "PostsAdd",
+    name: "新增帖子",
     component: AAAPostAdd,
   },
   {
     path: '/posts/look/:id',
-    name: 'PostsLook',
+    name: '查看帖子',
     component: AAAPostLook,
   },
   {
     path: '/posts/modify/:id',
-    name: 'PostsModify',
+    name: '修改帖子',
     component: AAAPostModify,
   },
   {
     path: '/posts/statistics',
-    name: 'PostsStatistics',
+    name: '统计帖子',
     component: AAAPostsStatistics,
   },
   {
     path: "/rewards",
-    name: "Rewards",
+    name: "悬赏中心",
     component: AAARewards,
   },
   {
-    path: "/rewards/list",
-    name: "RewardsList",
-    component: AAARewardsList,
-  },
-  {
     path: '/rewards/modify/:id',
-    name: 'RewardsModify',
+    name: '修改悬赏',
     component: AAARewardsModify,
   },
   {
     path: '/rewards/add',
-    name: 'RewardsAdd',
+    name: '添加悬赏',
     component: AAARewardsAdd,
   },
   {
     path: '/rewards/look/:id',
-    name: 'RewardsLook',
+    name: '查看悬赏',
     component: AAARewardsLook,
   },
   {
     path: '/rewards/statistics',
-    name: 'RewardsStatistics',
+    name: '统计悬赏',
     component: AAARewardsStatistics,
   },
   {
     path: '/weather',
-    name: 'Weather',
+    name: '天气组件',
     component: AAAWeather,
   },
   {

@@ -123,7 +123,7 @@ export default {
             .catch(error => {
               console.error(error);
             });
-        this.$router.push({ name: 'Posts', query: { userID: this.$route.query.userID } });
+        this.$router.push({ name: '论坛主页', query: { userID: this.$route.query.userID } });
       }
     },
   }

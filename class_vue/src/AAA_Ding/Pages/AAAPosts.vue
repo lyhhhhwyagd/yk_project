@@ -163,7 +163,7 @@ export default {
   },
   methods: {
     navigateToPostAdd() {
-      this.$router.push({ name: 'PostsAdd', query: { userID: this.$store.state.userID } });
+      this.$router.push({ name: '新增帖子', query: { userID: this.$store.state.userID } });
     },
     async getPostsData() {
       console.log("开始访问数据");

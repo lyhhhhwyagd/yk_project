@@ -163,7 +163,7 @@ export default {
             .then(response => {
               if (response.data.code === 200) {
                 console.log('Update successful');
-                this.$router.push({ name: 'Rewards', query: { userID: this.$route.query.userID } });
+                this.$router.push({ name: '悬赏中心', query: { userID: this.$route.query.userID } });
               } else {
                 console.error('Error updating reward: ' + response.data.message);
               }

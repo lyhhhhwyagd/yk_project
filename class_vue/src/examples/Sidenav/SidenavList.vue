@@ -5,21 +5,21 @@
   >
     <ul class="navbar-nav">
       <li class="nav-item">
-        <sidenav-collapse navText="论坛主页" :to="{ name: 'Posts', query: { userID: this.userID }  }">
+        <sidenav-collapse navText="论坛主页" :to="{ name: '论坛主页', query: { userID: this.userID }  }">
           <template #icon>
             <shop />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="天气组件" :to="{ name: 'Weather', query: { userID: this.userID }  }">
+        <sidenav-collapse navText="天气组件" :to="{ name: '天气组件', query: { userID: this.userID }  }">
           <template #icon>
             <shop />
           </template>
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="悬赏中心" :to="{ name: 'Rewards', query: { userID: this.userID }  }">
+        <sidenav-collapse navText="悬赏中心" :to="{ name: '悬赏中心', query: { userID: this.userID }  }">
           <template #icon>
             <shop />
           </template>

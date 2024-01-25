@@ -178,10 +178,10 @@
         }
       },
       postLook(id){
-        this.$router.push({ name: 'PostsLook', params: { id: id }, query: { userID: this.$route.query.userID } });
+        this.$router.push({ name: '查看帖子', params: { id: id }, query: { userID: this.$route.query.userID } });
       },
       postModify(id){
-        this.$router.push({ name: 'PostsModify', params: { id: id }, query: { userID: this.$route.query.userID } });
+        this.$router.push({ name: '修改帖子', params: { id: id }, query: { userID: this.$route.query.userID } });
       },
       judgeIsLiked(id){
         let authorID=this.$route.query.userID;
@@ -372,7 +372,7 @@
         }
       },
       Statistics(){
-        this.$router.push({ name: 'PostsStatistics', query: { userID: this.$route.query.userID } });
+        this.$router.push({ name: '统计帖子', query: { userID: this.$route.query.userID } });
       },
       search() {
         this.BillsToShow = [];
