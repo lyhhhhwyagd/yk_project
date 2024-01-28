@@ -26,6 +26,7 @@ import Classmanage from "@/views/Classmanage.vue";
 import ClassmanageStatistic from "@/examples/Charts/ClassmanageStatistic";
 import TasksStatistic from "@/examples/Charts/TasksStatistic";
 import AAAWeather from "@/AAA_Ding/Pages/AAAWeather.vue";
+import AAAWeatherModify from "@/AAA_Ding/Components/AAAWeatherModify.vue"
 import 活动管理 from '@/views/活动管理';
 import AfterSubmit from "../views/questionnaire/customer/afterSubmit/AfterSubmit";
 import Customer from "../views/questionnaire/customer/Customer";
@@ -116,6 +117,11 @@ const routes = [
     path: '/weather',
     name: '天气组件',
     component: AAAWeather,
+  },
+  {
+    path: '/weather/modify/:id',
+    name: '修改天气',
+    component: AAAWeatherModify,
   },
   {
     path: "/dashboard",

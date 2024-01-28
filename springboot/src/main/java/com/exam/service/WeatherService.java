@@ -9,6 +9,10 @@ public interface WeatherService {
 
     List<Weather> selectByCity(String City);
 
+    Weather selectByWeatherID(String id);
+
+    int modifyByWeatherID(String id, Weather weather);
+
     List<Weather> selectByCityAndDate(String City,String Data);
 
     int deleteById(String id);

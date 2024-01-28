@@ -26,6 +26,14 @@ public class WeatherServiceImplementation implements WeatherService{
         return weatherMapper.selectByCity(City);
     }
 
+    public Weather selectByWeatherID(String id) {
+        return weatherMapper.selectByWeatherID(id);
+    }
+
+    public int modifyByWeatherID(String id, Weather weather) {
+        return weatherMapper.modifyByWeatherID(id,weather);
+    }
+
     public List<Weather> selectByCityAndDate(String City,String Date){
         return weatherMapper.selectByCityAndDate(City,Date);
     }

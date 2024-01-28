@@ -1,5 +1,6 @@
 package com.exam.mapper;
 
+import com.exam.Entity.Post;
 import com.exam.Entity.Weather;
 import org.apache.ibatis.annotations.*;
 
@@ -13,6 +14,16 @@ public interface WeatherMapper {
 
     @Select("SELECT * FROM xm04_weather WHERE City = #{City}")
     List<Weather> selectByCity(@Param("City") String City);
+
+    @Select("SELECT * FROM xm04_weather WHERE id = #{id}")
+    Weather selectByWeatherID(String id);
+
+    @Update("update xm04_weather set " +
+            "temperature = #{weather.temperature}, humidity = #{weather.humidity}, windSpeed = #{weather.windSpeed}, " +
+            "windDirection = #{weather.windDirection}, weatherCondition = #{weather.weatherCondition}, " +
+            "pressure = #{weather.pressure}, visibility = #{weather.visibility}, city = #{weather.city} " +
+            "where id = #{id}")
+    int modifyByWeatherID(String id, Weather weather);
 
     @Select("SELECT * FROM xm04_weather WHERE City = #{City} AND SUBSTRING(obsTime, 1, 10) = #{Date}")
     List<Weather> selectByCityAndDate(@Param("City") String City, @Param("Data") String Date);

@@ -3,6 +3,7 @@ package com.exam.controller;
 
 import com.exam.Entity.Post;
 import com.exam.Entity.ApiResult;
+import com.exam.Entity.Weather;
 import com.exam.service.WeatherService;
 import com.exam.util.ApiResultHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,21 @@ public class WeatherController {
     public ApiResult selectAll(){
         System.out.println("查询全部天气数据");
         return ApiResultHandler.success(weatherService.selectAll());
+    }
+
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/weather/{id}")
+    public ApiResult selectByWeatherID(@PathVariable("id") String id){
+        System.out.println("查询指定天气数据");
+        return ApiResultHandler.success(weatherService.selectByWeatherID(id));
+    }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping("/weather/{id}")
+    public ApiResult modifyByWeatherID(@PathVariable("id") String id, @RequestBody Weather weather){
+        System.out.println("查询指定天气数据");
+        return ApiResultHandler.success(weatherService.modifyByWeatherID(id,weather));
     }
 
     @CrossOrigin(origins = "*")

@@ -265,6 +265,7 @@
                       <span class="text-secondary text-xs font-weight-bold">{{ data.obsTime }}</span>
                     </td>
                     <td class="align-middle">
+                      <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user" @click="modify(data.id)">修改 </a>
                       <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user" @click="deleteConfirm(data.id)">删除 </a>
                     </td>
                   </tr>
@@ -416,7 +417,6 @@ export default {
             if (response.data.code === 200) {
               this.allCityWeatherData=response.data.data;
               this.selectedWeatherData=this.allCityWeatherData;
-              console.log(this.selectedWeatherData);
             }
           })
     },
@@ -544,6 +544,9 @@ export default {
       else{
         return require("@/AAA_Ding/images/阴.png");
       }
+    },
+    modify(id){
+      this.$router.push({ name: '修改天气', params: { id: id }, query: { userID: this.$route.query.userID } });
     },
     deleteConfirm(id) {
       if (window.confirm("是否删除？")) {
